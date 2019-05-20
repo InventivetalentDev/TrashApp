@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TrashApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <string name="tab_text_compass">Compass</string>
+    <string name="tab_text_map">Map</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="searching_cans">Looking for Trashcans nearby…</string>
+    <string name="description_map_edit">Add a new trashcan</string>
+    <string name="description_settings">App Settings</string>
+    <string name="err_no_trashcans">Couldn\'t find any trashcans near you :(</string>
+    <string name="distance_format">%dm</string>
+    <string name="shrug" translatable="false">¯\\_(ツ)_/¯</string>
+</resources>

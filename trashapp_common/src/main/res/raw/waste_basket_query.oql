@@ -1,0 +1,13 @@
+[out:json][timeout:30][bbox:{{bbox}}];
+(
+  node["amenity"="waste_basket"];
+  way["amenity"="waste_basket"];
+  relation["amenity"="waste_basket"];
+
+  node["bin"="yes"]({{bbox}});
+  way["bin"="yes"]({{bbox}});
+  relation["bin"="yes"]({{bbox}});
+);
+out body;
+>;
+out skel qt;
