@@ -1,7 +1,6 @@
 package org.inventivetalent.trashapp;
 
 import android.Manifest;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.*;
@@ -10,13 +9,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
+import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
@@ -43,6 +43,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
+	boolean initialSearchCompleted=false;
 	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
 	public static OverpassResponse.Element       closestTrashCan;
 
@@ -169,7 +170,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 			ViewModelProviders.of(this).get(PageViewModel.class).mLocation.setValue(location);
 
-			updateClosestTrashcan();
+			if (!initialSearchCompleted) {
+				lookForTrashCans();
+			}
+			updateClosestTrashcan(nearbyTrashCans);
 		}
 	}
 
@@ -197,22 +201,22 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
 				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
-		Log.i("TrashApp", "Trying to get last known location from providers");
-		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (location == null) {
-			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		}else{
-			Log.i("TrashApp","got last known location from gps provider");
-		}
-		if (location == null) {
-			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-		}else{
-			Log.i("TrashApp","got last known location from network provider");
-		}
-		setLastKnownLocation(location);
-		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
+//		Log.i("TrashApp", "Trying to get last known location from providers");
+//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//		if (location == null) {
+//			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//		} else {
+//			Log.i("TrashApp", "got last known location from gps provider");
+//		}
+//		if (location == null) {
+//			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+//		} else {
+//			Log.i("TrashApp", "got last known location from network provider");
+//		}
+//		setLastKnownLocation(location);
+//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
-		mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, mLocationListener, null);
+		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
 
 		return true;
 	}
@@ -238,20 +242,13 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public void handleTrashCanLocations(OverpassResponse response) {
-		Log.i("TrashApp","Got trashcan locations");
+		Log.i("TrashApp", "Got trashcan locations");
 		Log.i("TrashApp", response.toString());
 
-		List<OverpassResponse.Element> elements =response.elements;
+		initialSearchCompleted= true;
+
+		List<OverpassResponse.Element> elements = response.elements;
 		elements = convertElementsToPoints(elements);
-		elements = elementsSortedByDistanceFrom(elements, lastKnownLocation);
-		nearbyTrashCans.clear();
-		nearbyTrashCans.addAll(elements);
-
-
-		int i=0;
-		for (OverpassResponse.Element element : elements) {
-			Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
-		}
 
 		if (elements.isEmpty()) {
 			Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
@@ -260,20 +257,30 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			if (DEFAULT_SEARCH_RADIUS + SEARCH_STEP * searchItaration < MAX_SEARCH_RADIUS) {
 				// still below max radius, keep looking
 				lookForTrashCans();
-			}else{
+			} else {
 				// reset
 				searchItaration = 0;
 			}
 		}
-		updateClosestTrashcan();
+		updateClosestTrashcan(elements);
 	}
 
-	public void updateClosestTrashcan() {
-		if (nearbyTrashCans.isEmpty()) {
+	public void updateClosestTrashcan(List<OverpassResponse.Element> elements) {
+		if (elements.isEmpty()) {
 			closestTrashCan = null;
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(null);
-		}else{
-			OverpassResponse.Element closest = nearbyTrashCans.get(0);
+		} else {
+			elements = elementsSortedByDistanceFrom(elements, lastKnownLocation);
+			// no need to convert to points again
+			nearbyTrashCans.clear();
+			nearbyTrashCans.addAll(elements);
+
+			int i = 0;
+			for (OverpassResponse.Element element : elements) {
+				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
+			}
+
+			OverpassResponse.Element closest = elements.get(0);
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(closest);
 			closestTrashCan = closest;
 
@@ -293,8 +300,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			}
 		}
 	}
-
-
 
 	void exitApp() {
 		Intent homeIntent = new Intent(Intent.ACTION_MAIN);
