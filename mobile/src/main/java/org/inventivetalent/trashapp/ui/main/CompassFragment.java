@@ -1,12 +1,9 @@
 package org.inventivetalent.trashapp.ui.main;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,12 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.*;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import org.inventivetalent.trashapp.R;
+import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OverpassResponse;
 
@@ -86,8 +88,7 @@ public class CompassFragment extends Fragment {
 		settingsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO
-				Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+				openSettings();
 			}
 		});
 
@@ -175,7 +176,10 @@ public class CompassFragment extends Fragment {
 
 
 
-
+	void openSettings() {
+		Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+		startActivity(settingsIntent);
+	}
 
 	@Override
 	public void onAttach(Context context) {

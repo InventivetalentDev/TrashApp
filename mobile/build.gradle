@@ -12,7 +12,7 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
         }
         release {
@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation project(':trashapp_common')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.preference:preference:1.1.0-alpha05'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'

@@ -294,6 +294,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 	}
 
+
+
 	void exitApp() {
 		Intent homeIntent = new Intent(Intent.ACTION_MAIN);
 		homeIntent.addCategory(Intent.CATEGORY_HOME);
