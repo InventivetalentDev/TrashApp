@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.*;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -20,10 +21,9 @@ import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OverpassResponse;
+import org.inventivetalent.trashapp.common.TrashcanUpdater;
 
 public class CompassFragment extends Fragment {
-
-
 
 	private TextView distanceTextView;
 	private TextView statusTextView;
@@ -37,22 +37,21 @@ public class CompassFragment extends Fragment {
 	private ProgressBar searchProgress;
 
 	private ImageView pointerView;
+	private ImageView trashCanView;
 
 	private float lastPointerRotation;
 
+	private TrashcanUpdater trashcanUpdater;
 
 	public CompassFragment() {
 		// Required empty public constructor
 	}
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 		}
-
-
 
 		//		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		//		fab.setOnClickListener(new View.OnClickListener() {
@@ -63,20 +62,14 @@ public class CompassFragment extends Fragment {
 		//			}
 		//		});
 
-
-
-
-
 		Log.i("TrashApp", "Hello Info World 5!");
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View view =  inflater.inflate(R.layout.fragment_compass, container, false);
-
+		View view = inflater.inflate(R.layout.fragment_compass, container, false);
 
 		distanceTextView = view.findViewById(R.id.distanceTextView);
 		statusTextView = view.findViewById(R.id.statusTextView);
@@ -89,6 +82,13 @@ public class CompassFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				openSettings();
+			}
+		});
+		trashCanView = view.findViewById(R.id.trashCanImageView);
+		trashCanView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				trashcanUpdater.lookForTrashCans();
 			}
 		});
 
@@ -116,13 +116,12 @@ public class CompassFragment extends Fragment {
 		return view;
 	}
 
-
 	void updatePointer() {
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		OverpassResponse.Element closestTrashCan = viewModel.mClosestCan.getValue();
 		Location lastKnownLocation = viewModel.mLocation.getValue();
 
-		if (closestTrashCan == null||lastKnownLocation==null) {
+		if (closestTrashCan == null || lastKnownLocation == null) {
 			searchProgress.setVisibility(View.VISIBLE);
 			pointerView.setVisibility(View.INVISIBLE);
 			statusTextView.setText(R.string.searching_cans);
@@ -134,7 +133,7 @@ public class CompassFragment extends Fragment {
 		statusTextView.setText("");
 
 		double distance = lastKnownLocation.distanceTo(closestTrashCan.toLocation());
-			distanceTextView.setText(getResources().getString(R.string.distance_format, (int) Math.round(distance)));
+		distanceTextView.setText(getResources().getString(R.string.distance_format, (int) Math.round(distance)));
 
 		//		double heading = (Math.toDegrees(lastKnownRotation[0]) + 360) % 360;
 		//		if (geoField != null) {
@@ -153,7 +152,7 @@ public class CompassFragment extends Fragment {
 		if (TabActivity.geoField != null) {
 			azimuth += TabActivity.geoField.getDeclination();
 		}
-		float angle = (float) (azimuth-bearing);
+		float angle = (float) (azimuth - bearing);
 		if (angle < 0) { angle += 360f; }
 
 		//double canAngle =Math.toDegrees(angleTo(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.lat, closestTrashCan.lon))%360;
@@ -174,22 +173,20 @@ public class CompassFragment extends Fragment {
 		lastPointerRotation = imageRotation;
 	}
 
-
-
 	void openSettings() {
 		Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
 		startActivity(settingsIntent);
 	}
 
 	@Override
-	public void onAttach(Context context) {
+	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
-//		if (context instanceof OnFragmentInteractionListener) {
-//			mListener = (OnFragmentInteractionListener) context;
-//		} else {
-//			throw new RuntimeException(context.toString()
-//					+ " must implement OnFragmentInteractionListener");
-//		}
+		if (context instanceof TrashcanUpdater) {
+			trashcanUpdater = (TrashcanUpdater) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement TrashcanUpdater");
+		}
 	}
 
 	@Override

@@ -28,7 +28,7 @@ import static org.inventivetalent.trashapp.common.Constants.*;
 import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
-public class TabActivity extends AppCompatActivity implements TrashCanResultHandler {
+public class TabActivity extends AppCompatActivity implements TrashCanResultHandler,TrashcanUpdater {
 
 	private       LocationManager  mLocationManager;
 	public static Location         lastKnownLocation;
@@ -221,7 +221,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		return true;
 	}
 
-	void lookForTrashCans() {
+	@Override
+	public void lookForTrashCans() {
 		if (lastKnownLocation == null) {
 			return;
 		}
