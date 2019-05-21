@@ -1,42 +1,65 @@
 package org.inventivetalent.trashapp.ui.main;
 
-import android.Manifest;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OsmAndHelper;
 import org.inventivetalent.trashapp.common.OverpassResponse;
-import org.inventivetalent.trashapp.common.Util;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment {
+
+
+	public static final OnlineTileSourceBase WIKIMAPS = new XYTileSource("WikimediaMaps",
+			0, 19, 256, ".png", new String[] {
+			"https://maps.wikimedia.org/osm-intl/"},"© OpenStreetMap contributors",
+			new TileSourcePolicy(2,
+					TileSourcePolicy.FLAG_NO_BULK
+							| TileSourcePolicy.FLAG_NO_PREVENTIVE
+							| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
+							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
+			));
 
 	private MapView     mapView;
 	private ImageButton editButton;
 
-	private GoogleMap map;
-	private Marker    lastMarker;
+	private IMapController mapController;
 
+	//	private GoogleMap map;
+	//	private Marker    lastMarker;
+
+	private boolean zoomedToSelf = false;
+
+	private Marker      selfMarker;
+	private Marker      clostestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
+	private Polyline polyline;
 
 	private OsmAndHelper osmAndHelper;
 
@@ -61,12 +84,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		Configuration.getInstance().load(getActivity(), PreferenceManager.getDefaultSharedPreferences(getActivity()));
+
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-		mapView = view.findViewById(R.id.mapView);
-		mapView.onCreate(savedInstanceState);
-		mapView.getMapAsync(this);
+		mapView = view.findViewById(R.id.map);
+		mapView.setTileSource(WIKIMAPS);
+		mapView.setMultiTouchControls(true);
+		mapController = mapView.getController();
+		mapController.setZoom(15f);
+
+		//		mapView.onCreate(savedInstanceState);
+		//		mapView.getMapAsync(this);
 
 		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 
@@ -98,81 +129,125 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 	}
 
 	void moveMap(Location location) {
-		if (map != null && location != null) {
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15f));
+		if (mapController != null && location != null) {
+			mapController.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
+			//			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15f));
 		}
 	}
 
 	void setMarkers(OverpassResponse.Element closestElement) {
-		if (map != null && closestElement != null) {
-			for (Marker marker : canMarkers) {
-				marker.remove();
-			}
-			map.clear();
+		if (mapController != null && closestElement != null) {
+			//			for (Marker marker : canMarkers) {
+			//				marker.remove();
+			//			}
+			//			map.clear();
 
 			final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 			Location lastLocation = viewModel.mLocation.getValue();
 
 			if (lastLocation != null) {
 				// add self marker
-				MarkerOptions markerOptions = new MarkerOptions()
-						.icon(BitmapDescriptorFactory.fromBitmap(Util.getBitmapFromVectorDrawable(getActivity(), R.drawable.ic_person_pin_circle_black_24dp)))
-						.anchor(.5f, 1f)
-						.alpha(0.9f)
-						.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
-				Marker marker = map.addMarker(markerOptions);
-				canMarkers.add(marker);
+				if (selfMarker == null) {
+					selfMarker = new org.osmdroid.views.overlay.Marker(mapView);
+					selfMarker.setIcon(getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp));
+					selfMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
+					mapView.getOverlays().add(selfMarker);
+				}
+				GeoPoint selfPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
+				selfMarker.setPosition(selfPoint);
+				if (!zoomedToSelf) {
+					mapController.setCenter(selfPoint);
+					zoomedToSelf = true;
+				}
 
-				PolylineOptions polylineOptions = new PolylineOptions()
-						.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
-						.add(new LatLng(closestElement.lat, closestElement.lon));
-				map.addPolyline(polylineOptions);
+				if (polyline == null) {
+					polyline = new Polyline(mapView);
+					mapView.getOverlays().add(polyline);
+				}
+
+				//				MarkerOptions markerOptions = new MarkerOptions()
+				//						.icon(BitmapDescriptorFactory.fromBitmap(Util.getBitmapFromVectorDrawable(getActivity(), R.drawable.ic_person_pin_circle_black_24dp)))
+				//						.anchor(.5f, 1f)
+				//						.alpha(0.9f)
+				//						.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+				//				Marker marker = map.addMarker(markerOptions);
+				//				canMarkers.add(marker);
+
+				//				PolylineOptions polylineOptions = new PolylineOptions()
+				//						.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
+				//						.add(new LatLng(closestElement.lat, closestElement.lon));
+				//				map.addPolyline(polylineOptions);
+
 			}
 
 			// add closest marker
-			MarkerOptions markerOptions = new MarkerOptions()
-					.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
-					.anchor(.5f, 1f)
-					.alpha(0.9f)
-					.position(new LatLng(closestElement.lat, closestElement.lon));
-			Marker marker = map.addMarker(markerOptions);
-			canMarkers.add(marker);
+			if (clostestCanMarker == null) {
+				clostestCanMarker = new Marker(mapView);
+				clostestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan));
+				clostestCanMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_CENTER);
+				mapView.getOverlays().add(clostestCanMarker);
+			}
+			clostestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
+
+			//			MarkerOptions markerOptions = new MarkerOptions()
+			//					.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
+			//					.anchor(.5f, 1f)
+			//					.alpha(0.9f)
+			//					.position(new LatLng(closestElement.lat, closestElement.lon));
+			//			Marker marker = map.addMarker(markerOptions);
+			//			canMarkers.add(marker);
+
+			if (selfMarker != null && clostestCanMarker != null) {
+				polyline.setPoints(Arrays.asList(selfMarker.getPosition(),clostestCanMarker.getPosition()));
+			}
 
 			// add other markers
+			for (Marker oldMarker : canMarkers) {
+				mapView.getOverlays().remove(oldMarker);
+			}
+			canMarkers.clear();
 			for (OverpassResponse.Element element : TabActivity.nearbyTrashCans) {
 				if (element.id == closestElement.id) {
 					continue;// don't add twice
 				}
 
-				markerOptions = new MarkerOptions()
-						.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
-						.anchor(.5f, 1f)
-						.alpha(0.5f)
-						.position(new LatLng(element.lat, element.lon));
-				marker = map.addMarker(markerOptions);
+				Marker marker = new Marker(mapView);
+				marker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan));
+				marker.setAlpha(.5f);
+				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
+				marker.setPosition(new GeoPoint(element.lat, element.lon));
 				canMarkers.add(marker);
+				mapView.getOverlays().add(marker);
+
+				//				markerOptions = new MarkerOptions()
+				//						.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
+				//						.anchor(.5f, 1f)
+				//						.alpha(0.5f)
+				//						.position(new LatLng(element.lat, element.lon));
+				//				marker = map.addMarker(markerOptions);
+				//				canMarkers.add(marker);
 			}
 		}
 	}
 
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		map = googleMap;
-		if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-			map.setMyLocationEnabled(true);
-			UiSettings settings = map.getUiSettings();
-		}
-
-		//		map.getUiSettings().setMyLocationButtonEnabled(false);
-		//		map.setMyLocationEnabled(true);
-
-		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
-		OverpassResponse.Element closestTrashCan = viewModel.mClosestCan.getValue();
-		Location lastKnownLocation = viewModel.mLocation.getValue();
-
-		moveMap(lastKnownLocation);
-		setMarkers(closestTrashCan);
-	}
+	//	@Override
+	//	public void onMapReady(GoogleMap googleMap) {
+	//		map = googleMap;
+	//		if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+	//			map.setMyLocationEnabled(true);
+	//			UiSettings settings = map.getUiSettings();
+	//		}
+	//
+	//		//		map.getUiSettings().setMyLocationButtonEnabled(false);
+	//		//		map.setMyLocationEnabled(true);
+	//
+	//		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
+	//		OverpassResponse.Element closestTrashCan = viewModel.mClosestCan.getValue();
+	//		Location lastKnownLocation = viewModel.mLocation.getValue();
+	//
+	//		moveMap(lastKnownLocation);
+	//		setMarkers(closestTrashCan);
+	//	}
 
 	@Override
 	public void onAttach(Context context) {
@@ -199,13 +274,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mapView.onDestroy();
+		//		mapView.onDestroy();
 	}
 
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
-		mapView.onLowMemory();
+		//		mapView.onLowMemory();
 	}
 
 	void showLocationInOsm(double lat, double lon) {
