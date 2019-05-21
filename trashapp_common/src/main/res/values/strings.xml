@@ -35,4 +35,10 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="settings_info_header">Info</string>
     <string name="settings_about_title">About</string>
+    <string name="settings_search_header">Search</string>
+    <string name="settings_search_radius_title">Search Radius (m)</string>
+    <string name="settings_search_radius_max_title">Maximum Search Radius (m)</string>
+    <string name="settings_advanced_header">Advanced</string>
+    <string name="settings_disable_cache_title">Disable Cache</string>
+    <string name="settings_debug_title">Enable Debug</string>
 </resources>
