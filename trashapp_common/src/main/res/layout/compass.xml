@@ -9,7 +9,7 @@
             android:text="@string/searching_cans"
             android:layout_width="300dp"
             android:layout_height="0dp" android:id="@+id/distanceTextView"
-            android:textAlignment="center" app:layout_constraintStart_toStartOf="@+id/progressBar" app:layout_constraintEnd_toEndOf="@+id/progressBar" app:layout_constraintHorizontal_bias="0.489" app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+            android:textAlignment="center" app:layout_constraintStart_toStartOf="@+id/progressBar" app:layout_constraintEnd_toEndOf="@+id/progressBar" app:layout_constraintHorizontal_bias="0.489" app:layout_constraintTop_toBottomOf="@+id/trashCanImageView"/>
 
     <ProgressBar
             style="?android:attr/progressBarStyle"
