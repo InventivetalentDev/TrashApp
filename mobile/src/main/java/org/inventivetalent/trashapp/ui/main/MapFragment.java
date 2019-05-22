@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OsmAndHelper;
@@ -23,6 +23,7 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
@@ -35,10 +36,9 @@ import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
 public class MapFragment extends Fragment {
 
-
 	public static final OnlineTileSourceBase WIKIMAPS = new XYTileSource("WikimediaMaps",
 			0, 19, 256, ".png", new String[] {
-			"https://maps.wikimedia.org/osm-intl/"},"© OpenStreetMap contributors",
+			"https://maps.wikimedia.org/osm-intl/" }, "© OpenStreetMap contributors",
 			new TileSourcePolicy(2,
 					TileSourcePolicy.FLAG_NO_BULK
 							| TileSourcePolicy.FLAG_NO_PREVENTIVE
@@ -46,8 +46,9 @@ public class MapFragment extends Fragment {
 							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
 			));
 
-	private MapView     mapView;
-	private ImageButton editButton;
+	private MapView              mapView;
+	private FloatingActionButton addButton;
+	private FloatingActionButton myLocationButton;
 
 	private IMapController mapController;
 
@@ -59,7 +60,7 @@ public class MapFragment extends Fragment {
 	private Marker      selfMarker;
 	private Marker      clostestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
-	private Polyline polyline;
+	private Polyline    polyline;
 
 	private OsmAndHelper osmAndHelper;
 
@@ -93,6 +94,7 @@ public class MapFragment extends Fragment {
 		mapView = view.findViewById(R.id.map);
 		mapView.setTileSource(WIKIMAPS);
 		mapView.setMultiTouchControls(true);
+		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
 
@@ -101,14 +103,21 @@ public class MapFragment extends Fragment {
 
 		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 
-		editButton = view.findViewById(R.id.addButton);
-		editButton.setOnClickListener(new View.OnClickListener() {
+		addButton = view.findViewById(R.id.addButton);
+		addButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Location location = viewModel.mLocation.getValue();
 				if (location != null) {
 					showLocationInOsm(location.getLatitude(), location.getLongitude());
 				}
+			}
+		});
+		myLocationButton = view.findViewById(R.id.myLocationButton);
+		myLocationButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveToSelfLocation();
 			}
 		});
 
@@ -128,9 +137,26 @@ public class MapFragment extends Fragment {
 		return view;
 	}
 
-	void moveMap(Location location) {
+	void moveToSelfLocation() {
+		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
+		Location location = viewModel.mLocation.getValue();
+		if (location != null) {
+			moveMap(location, 19);
+		}
+	}
+
+	void focusOnSelfAndClosest() {
+		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
+		Location location = viewModel.mLocation.getValue();
+		OverpassResponse.Element closest =viewModel.mClosestCan.getValue();
+		if (location != null&&closest!=null) {
+			//TODO
+		}
+	}
+
+	void moveMap(Location location, double zoom) {
 		if (mapController != null && location != null) {
-			mapController.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
+			mapController.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()), zoom, 1000L);
 			//			map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15f));
 		}
 	}
@@ -156,7 +182,7 @@ public class MapFragment extends Fragment {
 				GeoPoint selfPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
 				selfMarker.setPosition(selfPoint);
 				if (!zoomedToSelf) {
-					mapController.setCenter(selfPoint);
+					moveToSelfLocation();
 					zoomedToSelf = true;
 				}
 
@@ -198,7 +224,7 @@ public class MapFragment extends Fragment {
 			//			canMarkers.add(marker);
 
 			if (selfMarker != null && clostestCanMarker != null) {
-				polyline.setPoints(Arrays.asList(selfMarker.getPosition(),clostestCanMarker.getPosition()));
+				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), clostestCanMarker.getPosition()));
 			}
 
 			// add other markers
