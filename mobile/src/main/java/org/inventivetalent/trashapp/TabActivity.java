@@ -2,6 +2,7 @@ package org.inventivetalent.trashapp;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.*;
 import android.location.Location;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
@@ -23,12 +25,16 @@ import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
 import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
-public class TabActivity extends AppCompatActivity implements TrashCanResultHandler,TrashcanUpdater {
+public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater {
+
+	private SharedPreferences sharedPreferences;
+	private boolean           debug;
 
 	private       LocationManager  mLocationManager;
 	public static Location         lastKnownLocation;
@@ -43,7 +49,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
-	boolean initialSearchCompleted=false;
+	boolean initialSearchCompleted = false;
 	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
 	public static OverpassResponse.Element       closestTrashCan;
 
@@ -103,6 +109,13 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+			System.out.println(entry.getKey()+": "+entry.getValue()+" ("+entry.getValue().getClass()+")");
+		}
+		debug = sharedPreferences.getBoolean("enable_debug", false);
+
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 		ViewPager viewPager = findViewById(R.id.view_pager);
@@ -201,20 +214,20 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
 				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
-//		Log.i("TrashApp", "Trying to get last known location from providers");
-//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//		if (location == null) {
-//			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//		} else {
-//			Log.i("TrashApp", "got last known location from gps provider");
-//		}
-//		if (location == null) {
-//			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-//		} else {
-//			Log.i("TrashApp", "got last known location from network provider");
-//		}
-//		setLastKnownLocation(location);
-//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
+		//		Log.i("TrashApp", "Trying to get last known location from providers");
+		//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		//		if (location == null) {
+		//			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		//		} else {
+		//			Log.i("TrashApp", "got last known location from gps provider");
+		//		}
+		//		if (location == null) {
+		//			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		//		} else {
+		//			Log.i("TrashApp", "got last known location from network provider");
+		//		}
+		//		setLastKnownLocation(location);
+		//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
 		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
 
@@ -227,7 +240,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			return;
 		}
 		Log.i("TrashApp", "Looking for trash cans");
-		double searchRadius = DEFAULT_SEARCH_RADIUS + SEARCH_STEP * searchItaration;// meters
+		double searchRadius = sharedPreferences.getInt("search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
 		//TODO: might need to steadily increase the radius if we can't find anything closer
 		double searchRadiusDeg = searchRadius * ONE_METER_DEG;
 
@@ -246,7 +259,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "Got trashcan locations");
 		Log.i("TrashApp", response.toString());
 
-		initialSearchCompleted= true;
+		initialSearchCompleted = true;
 
 		List<OverpassResponse.Element> elements = response.elements;
 		elements = convertElementsToPoints(elements);
@@ -255,7 +268,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
 
 			searchItaration++;
-			if (DEFAULT_SEARCH_RADIUS + SEARCH_STEP * searchItaration < MAX_SEARCH_RADIUS) {
+			if (sharedPreferences.getInt("search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < sharedPreferences.getInt("search_radius_max", MAX_SEARCH_RADIUS)) {
 				// still below max radius, keep looking
 				lookForTrashCans();
 			} else {
