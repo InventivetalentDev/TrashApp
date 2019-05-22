@@ -8,8 +8,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import org.inventivetalent.trashapp.common.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -272,6 +273,18 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
 		return true;
+	}
+
+	@Override
+	public boolean shouldCacheResults() {
+		//TODO
+		return false;
+	}
+
+	@Override
+	public File getCacheFile() {
+		//TODO
+		return null;
 	}
 
 	void lookForTrashCans() {
