@@ -2,6 +2,7 @@ package org.inventivetalent.trashapp.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +12,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
@@ -24,6 +29,9 @@ import org.inventivetalent.trashapp.common.OverpassResponse;
 import org.inventivetalent.trashapp.common.TrashcanUpdater;
 
 public class CompassFragment extends Fragment {
+
+	private SharedPreferences sharedPreferences;
+	private boolean debug;
 
 	private TextView distanceTextView;
 	private TextView statusTextView;
@@ -52,6 +60,8 @@ public class CompassFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 		}
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		debug = sharedPreferences.getBoolean("enable_debug", false);
 
 		//		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		//		fab.setOnClickListener(new View.OnClickListener() {
@@ -62,21 +72,27 @@ public class CompassFragment extends Fragment {
 		//			}
 		//		});
 
-		Log.i("TrashApp", "Hello Info World 5!");
+		Log.i("TrashApp", "CompassFragment onCreate");
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i("TrashApp", "CompassFragment onCreateView");
+
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.fragment_compass, container, false);
 
+		// debugging stuff
+		rotationTextView = view.findViewById(R.id.rotationView);
+		rotationTextView.setVisibility(debug ? View.VISIBLE : View.INVISIBLE);
+		coordTextView = view.findViewById(R.id.coordTextView);
+		coordTextView.setVisibility(debug ? View.VISIBLE : View.INVISIBLE);
+
 		distanceTextView = view.findViewById(R.id.distanceTextView);
 		statusTextView = view.findViewById(R.id.statusTextView);
-		coordTextView = view.findViewById(R.id.coordTextView);
 		pointerView = view.findViewById(R.id.pointer);
 		searchProgress = view.findViewById(R.id.progressBar);
-		rotationTextView = view.findViewById(R.id.rotationView);
 		settingsButton = view.findViewById(R.id.settingsButton);
 		settingsButton.setOnClickListener(new View.OnClickListener() {
 			@Override

@@ -36,13 +36,13 @@
             app:title="@string/settings_advanced_header">
 
         <SwitchPreference
-                android:title="@string/settings_disable_cache_title"
+                android:title="@string/settings_cache_title"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:defaultValue="false"
-                android:key="disable_cache"/>
+                android:defaultValue="true"
+                android:key="cache_data"/>
 
-        <EditTextPreference
+        <SwitchPreference
                 android:title="@string/settings_debug_title"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"

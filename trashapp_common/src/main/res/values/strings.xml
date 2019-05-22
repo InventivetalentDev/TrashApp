@@ -39,6 +39,6 @@
     <string name="settings_search_radius_title">Search Radius (m)</string>
     <string name="settings_search_radius_max_title">Maximum Search Radius (m)</string>
     <string name="settings_advanced_header">Advanced</string>
-    <string name="settings_disable_cache_title">Disable Cache</string>
-    <string name="settings_debug_title">Enable Debug</string>
+    <string name="settings_cache_title">Disable Cache</string>
+    <string name="settings_debug_title">Cache Data</string>
 </resources>
