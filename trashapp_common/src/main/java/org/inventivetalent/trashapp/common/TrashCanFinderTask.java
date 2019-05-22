@@ -13,7 +13,7 @@ public  class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ov
 		private OverpassQuery query;
 		private TrashCanResultHandler handler;
 
-		public TrashCanFinderTask(Activity activity,TrashCanResultHandler handler) {
+		public   TrashCanFinderTask(Activity activity,TrashCanResultHandler handler) {
 			this.query = new OverpassQuery(activity, R.raw.waste_basket_query);
 			this.handler = handler;
 		}

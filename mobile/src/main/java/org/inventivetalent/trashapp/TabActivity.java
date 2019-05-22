@@ -23,6 +23,7 @@ import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -252,6 +253,17 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
 		Log.i("TrashApp", boundingBox.toCoordString());
 		new TrashCanFinderTask(this, this).execute(boundingBox);
+	}
+
+	@Override
+	public boolean shouldCacheResults() {
+		return sharedPreferences.getBoolean("cache_data", true);
+	}
+
+	@Override
+	public File getCacheFile() {
+		//TODO
+		return null;
 	}
 
 	@Override
