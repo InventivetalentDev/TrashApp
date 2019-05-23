@@ -27,6 +27,7 @@ import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OverpassResponse;
 import org.inventivetalent.trashapp.common.TrashcanUpdater;
+import org.inventivetalent.trashapp.common.Util;
 
 public class CompassFragment extends Fragment {
 
@@ -61,7 +62,7 @@ public class CompassFragment extends Fragment {
 		if (getArguments() != null) {
 		}
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		debug = sharedPreferences.getBoolean("enable_debug", false);
+		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		//		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		//		fab.setOnClickListener(new View.OnClickListener() {

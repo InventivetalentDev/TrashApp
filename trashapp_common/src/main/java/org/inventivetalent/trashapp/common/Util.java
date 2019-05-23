@@ -1,6 +1,7 @@
 package org.inventivetalent.trashapp.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -85,5 +86,46 @@ public class Util {
 				latAvg,
 				lonAvg };
 	}
+
+	public static int getInt(SharedPreferences preferences, String key, int def) {
+		int i = def;
+		try {
+			i = preferences.getInt(key, def);
+		} catch (ClassCastException ignored) {
+			try {
+				i = Integer.parseInt(preferences.getString(key, String.valueOf(def)));
+			} catch (ClassCastException ignored1) {
+			}
+		}
+		return i;
+	}
+
+
+	public static float getFloat(SharedPreferences preferences, String key, float def) {
+		float f = def;
+		try {
+			f = preferences.getFloat(key, def);
+		} catch (ClassCastException ignored) {
+			try {
+				f = Float.parseFloat(preferences.getString(key, String.valueOf(def)));
+			} catch (ClassCastException ignored1) {
+			}
+		}
+		return f;
+	}
+
+	public static boolean getBoolean(SharedPreferences preferences, String key, boolean def) {
+		boolean b = def;
+		try {
+			b = preferences.getBoolean(key, def);
+		} catch (ClassCastException ignored) {
+			try {
+				b = Boolean.parseBoolean(preferences.getString(key, String.valueOf(def)));
+			} catch (ClassCastException ignored1) {
+			}
+		}
+		return b;
+	}
+
 
 }

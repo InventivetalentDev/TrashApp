@@ -115,7 +115,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
 			System.out.println(entry.getKey()+": "+entry.getValue()+" ("+entry.getValue().getClass()+")");
 		}
-		debug = sharedPreferences.getBoolean("enable_debug", false);
+		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -241,7 +241,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			return;
 		}
 		Log.i("TrashApp", "Looking for trash cans");
-		double searchRadius = sharedPreferences.getInt("search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
+		double searchRadius = Util.getInt(sharedPreferences,"search_radius_start",DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
 		//TODO: might need to steadily increase the radius if we can't find anything closer
 		double searchRadiusDeg = searchRadius * ONE_METER_DEG;
 
@@ -280,7 +280,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
 
 			searchItaration++;
-			if (sharedPreferences.getInt("search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < sharedPreferences.getInt("search_radius_max", MAX_SEARCH_RADIUS)) {
+			if (Util.getInt(sharedPreferences,"search_radius_start",DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences,"search_radius_max",MAX_SEARCH_RADIUS)) {
 				// still below max radius, keep looking
 				lookForTrashCans();
 			} else {
