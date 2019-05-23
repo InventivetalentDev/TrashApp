@@ -276,15 +276,15 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		elements = convertElementsToPoints(elements);
 
 		if (elements.isEmpty()) {
-			Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
-
-			searchItaration++;
-			if (Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences, "search_radius_max", MAX_SEARCH_RADIUS)) {
+			if (!isCached && Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences, "search_radius_max", MAX_SEARCH_RADIUS)) {
 				// still below max radius, keep looking
+				searchItaration++;
 				lookForTrashCans();
 			} else {
 				// reset
 				searchItaration = 0;
+
+				Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
 			}
 		}
 		updateClosestTrashcan(elements);
