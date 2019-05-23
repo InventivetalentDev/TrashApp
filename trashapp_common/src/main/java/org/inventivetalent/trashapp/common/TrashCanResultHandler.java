@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface TrashCanResultHandler {
 
-	void handleTrashCanLocations(OverpassResponse response);
+	void handleTrashCanLocations(OverpassResponse response, boolean isCached);
 
 	boolean shouldCacheResults();
 

@@ -307,7 +307,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	}
 
 	@Override
-	public void handleTrashCanLocations(OverpassResponse response) {
+	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
 		Log.i("TrashApp", response.toString());
 		List<OverpassResponse.Element> elements = response.elementsSortedByDistanceFrom(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 		nearbyTrashCans.clear();

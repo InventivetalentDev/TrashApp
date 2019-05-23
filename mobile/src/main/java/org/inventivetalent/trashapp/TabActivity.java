@@ -113,7 +113,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
-			System.out.println(entry.getKey()+": "+entry.getValue()+" ("+entry.getValue().getClass()+")");
+			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
 		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
@@ -241,7 +241,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			return;
 		}
 		Log.i("TrashApp", "Looking for trash cans");
-		double searchRadius = Util.getInt(sharedPreferences,"search_radius_start",DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
+		double searchRadius = Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
 		//TODO: might need to steadily increase the radius if we can't find anything closer
 		double searchRadiusDeg = searchRadius * ONE_METER_DEG;
 
@@ -262,13 +262,12 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public File getCacheFile() {
-		//TODO
-		return null;
+		return new File(getFilesDir(), "last_osm_query.json");
 	}
 
 	@Override
-	public void handleTrashCanLocations(OverpassResponse response) {
-		Log.i("TrashApp", "Got trashcan locations");
+	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
+		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
 		Log.i("TrashApp", response.toString());
 
 		initialSearchCompleted = true;
@@ -280,7 +279,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
 
 			searchItaration++;
-			if (Util.getInt(sharedPreferences,"search_radius_start",DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences,"search_radius_max",MAX_SEARCH_RADIUS)) {
+			if (Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences, "search_radius_max", MAX_SEARCH_RADIUS)) {
 				// still below max radius, keep looking
 				lookForTrashCans();
 			} else {
