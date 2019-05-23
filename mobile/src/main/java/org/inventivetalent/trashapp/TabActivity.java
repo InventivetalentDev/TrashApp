@@ -270,7 +270,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
 		Log.i("TrashApp", response.toString());
 
-		initialSearchCompleted = true;
+		if (!isCached) { initialSearchCompleted = true; }
 
 		List<OverpassResponse.Element> elements = response.elements;
 		elements = convertElementsToPoints(elements);
