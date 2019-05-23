@@ -6,7 +6,7 @@ public class RotationBuffer {
 
     private static final byte COS             = (byte) 0;
     private static final byte SIN             = (byte) 1;
-    private static final int  BUFFER_SIZE     = 10;
+    private static final int  BUFFER_SIZE     = 16;
     public float[]           data            = new float[BUFFER_SIZE];
     private int               numberOfEntries = 0;
     public float[][]         unitVector      = ((float[][]) Array.newInstance(Float.TYPE, new int[]{BUFFER_SIZE, 3}));
