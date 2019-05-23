@@ -119,6 +119,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		pointerView = findViewById(R.id.pointer);
 		searchProgress = findViewById(R.id.progressBar);
 
+		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer));
+
 		// Enables Always-on
 		setAmbientEnabled();
 	}
