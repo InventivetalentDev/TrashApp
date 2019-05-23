@@ -6,7 +6,7 @@ android {
         applicationId "org.inventivetalent.trashapp"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode rootProject.ext.appVersionId
+        versionCode rootProject.ext.appVersionId + 8
         versionName rootProject.ext.appVersionName
         vectorDrawables.useSupportLibrary = true
     }
