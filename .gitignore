@@ -6,6 +6,8 @@
 /.idea/*.xml
 .DS_Store
 */build
+/release
+/debug
 /captures
 .externalNativeBuild
 /gradle/wrapper
