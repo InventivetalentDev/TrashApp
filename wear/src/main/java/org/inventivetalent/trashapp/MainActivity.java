@@ -99,10 +99,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	};
 
 
-	private TextView statusTextView;
-	private TextView coordTextView;
+	private TextView distanceTextView;
 	private TextView rangeTextView;
-	private TextView rotationTextView;
 
 
 	private ProgressBar searchProgress;
@@ -117,7 +115,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		statusTextView = findViewById(R.id.distanceTextView);
+		distanceTextView = findViewById(R.id.distanceTextView);
 		pointerView = findViewById(R.id.pointer);
 		searchProgress = findViewById(R.id.progressBar);
 
@@ -158,14 +156,14 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		if (closestTrashCan == null) {
 			searchProgress.setVisibility(View.VISIBLE);
 			pointerView.setVisibility(View.INVISIBLE);
-			statusTextView.setText(R.string.searching_cans);
+//			distanceTextView.setText(R.string.searching_cans);
 			return;
 		}
 		searchProgress.setVisibility(View.INVISIBLE);
 		pointerView.setVisibility(View.VISIBLE);
 
 		double distance = distance(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.lat, closestTrashCan.lon) / ONE_METER_DEG;
-		statusTextView.setText(Math.round(distance) + "m");
+		distanceTextView.setText(Math.round(distance) + "m");
 
 		//		double heading = (Math.toDegrees(lastKnownRotation[0]) + 360) % 360;
 		//		if (geoField != null) {
@@ -190,8 +188,6 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		//double canAngle =Math.toDegrees(angleTo(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.lat, closestTrashCan.lon))%360;
 		//
 		//		double angle = (-nortRotation)%360;
-
-		rotationTextView.setText("" + azimuth + " / " + (angle));
 
 		float imageRotation = -angle;
 		RotateAnimation animation = new RotateAnimation(lastPointerRotation, imageRotation, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
