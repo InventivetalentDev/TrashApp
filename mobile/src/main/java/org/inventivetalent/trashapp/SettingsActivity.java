@@ -1,7 +1,7 @@
 package org.inventivetalent.trashapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
@@ -33,11 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
 				aboutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_SHORT).show();
-						return false;
+						showAbout();
+						return true;
 					}
 				});
 			}
 		}
+
+		void showAbout() {
+			Intent settingsIntent = new Intent(getActivity(), AboutActivity.class);
+			startActivity(settingsIntent);
+		}
 	}
+
 }
