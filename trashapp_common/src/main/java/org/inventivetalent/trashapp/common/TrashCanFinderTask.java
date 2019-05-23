@@ -39,6 +39,7 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 				return overpassAPI.query(this.query, overpassBoundingBoxes[0]);
 			} catch (IOException e) {
 				Log.e("TrashCanFinderTask", "Overpass Query failed", e);
+				e.printStackTrace();
 			}
 		}
 		return null;
