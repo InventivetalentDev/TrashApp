@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:visibility="visible" android:contentDescription="TODO"
-            android:visibility="invisible" android:background="@drawable/ic_pointer"/>
+            android:visibility="invisible"/>
     <ImageView
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"

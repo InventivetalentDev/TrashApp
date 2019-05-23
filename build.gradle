@@ -25,6 +25,11 @@ allprojects {
 }
 
 ext{
+    // type major minor patch
+    // type 1 = dev
+    // type 2 = alpha
+    // type 3 = beta
+    // type 4 = release
     appVersionId = "1006"
     appVersionName = "dev-0.0.6"
 }
