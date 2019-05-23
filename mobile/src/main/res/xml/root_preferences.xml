@@ -4,10 +4,7 @@
             app:title="@string/settings_info_header">
 
 
-        <EditTextPreference
-                android:defaultValue=""
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
+        <Preference
                 android:title="@string/settings_about_title" android:key="dummy_about"/>
 
 

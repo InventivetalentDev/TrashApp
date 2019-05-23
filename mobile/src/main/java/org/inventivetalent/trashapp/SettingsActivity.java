@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -29,7 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
 		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 			setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-			EditTextPreference aboutPreference = findPreference("dummy_about");
+			Preference aboutPreference = findPreference("dummy_about");
 			if (aboutPreference != null) {
 				aboutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
