@@ -22,7 +22,7 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 	@Override
 	protected void onPreExecute() {
 		File cacheFile = handler.getCacheFile();
-		if (cacheFile.exists()) {
+		if (cacheFile!=null&&cacheFile.exists()) {
 			try (Reader reader = new FileReader(cacheFile)) {
 				OverpassResponse response = new Gson().fromJson(reader, OverpassResponse.class);
 				handler.handleTrashCanLocations(response, true);
@@ -52,10 +52,12 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 
 			if (handler.shouldCacheResults()) {
 				File cacheFile = handler.getCacheFile();
-				try (Writer writer = new FileWriter(cacheFile)) {
-					new Gson().toJson(overpassResponse, writer);
-				} catch (IOException e) {
-					Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
+				if(cacheFile!=null) {
+					try (Writer writer = new FileWriter(cacheFile)) {
+						new Gson().toJson(overpassResponse, writer);
+					} catch (IOException e) {
+						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
+					}
 				}
 			}
 		}
