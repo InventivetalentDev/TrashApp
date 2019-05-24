@@ -30,8 +30,8 @@ ext{
     // type 2 = alpha
     // type 3 = beta
     // type 4 = release
-    appVersionId = "1009"
-    appVersionName = "dev-0.0.9"
+    appVersionId = "2010"
+    appVersionName = "alpha-0.1.0"
 }
 
 task clean(type: Delete) {
