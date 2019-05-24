@@ -46,4 +46,9 @@ public class AboutActivity extends AppCompatActivity {
 			}
 		});
 	}
+
+	void openWebView(String uri) {
+		//TODO
+	}
+
 }
