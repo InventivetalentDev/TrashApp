@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AboutActivity extends AppCompatActivity {
 
 	private TextView versionTextView;
+	private TextView versionCodeTextView;
 	private Button button;
 
 	@Override
@@ -29,7 +30,9 @@ public class AboutActivity extends AppCompatActivity {
 			PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 
 			versionTextView = findViewById(R.id.versionTextView);
-			versionTextView.setText(getResources().getString(R.string.about_version, pInfo.versionName, pInfo.versionCode));
+			versionTextView.setText(getResources().getString(R.string.about_version, pInfo.versionName));
+			versionCodeTextView = findViewById(R.id.versionCodeTextView);
+			versionCodeTextView.setText(String.valueOf(pInfo.versionCode));
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 			Log.d("MyApp", "PackageManager Catch : " + e.toString());

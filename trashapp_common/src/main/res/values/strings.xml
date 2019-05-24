@@ -41,7 +41,7 @@
     <string name="settings_advanced_header">Advanced</string>
     <string name="settings_cache_title">Cache Data</string>
     <string name="settings_debug_title">Enable Debug</string>
-    <string name="about_version">Version %s (%d)</string>
+    <string name="about_version">Version %s</string>
     <string name="about_osm_description">Map and Location data from OpenStreetMap</string>
     <string name="about_osm_link">https://openstreetmap.org</string>
     <string name="about_wikimaps_description">Map tiles from wikimedia maps</string>
