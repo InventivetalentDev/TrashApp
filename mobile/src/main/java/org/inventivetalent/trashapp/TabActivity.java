@@ -270,10 +270,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
 		Log.i("TrashApp", response.toString());
 
-		if (!isCached) { initialSearchCompleted = true; }
+		 initialSearchCompleted = true;
 
 		List<OverpassResponse.Element> elements = response.elements;
 		elements = convertElementsToPoints(elements);
+		Log.i("TrashApp", elements.toString());
 
 		if (elements.isEmpty()) {
 			if (!isCached && Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration < Util.getInt(sharedPreferences, "search_radius_max", MAX_SEARCH_RADIUS)) {

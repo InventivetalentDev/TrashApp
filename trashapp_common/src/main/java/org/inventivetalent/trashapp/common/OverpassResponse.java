@@ -3,13 +3,17 @@ package org.inventivetalent.trashapp.common;
 import android.location.Location;
 import android.util.Log;
 import android.util.LongSparseArray;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.*;
 
 public class OverpassResponse {
 
+	@SerializedName("version")
 	public double        version;
+	@SerializedName("generator")
 	public String        generator;
+	@SerializedName("elements")
 	public List<Element> elements = new ArrayList<>();
 
 	@Deprecated
@@ -55,7 +59,7 @@ public class OverpassResponse {
 				}
 			} else if ("way".equals(element.type)) {
 				// handle below
-			}else{
+			} else {
 				Log.w("OverpassResponse", "Unhandled element type: " + element.type);
 			}
 		}
@@ -83,13 +87,28 @@ public class OverpassResponse {
 		return pointElements;
 	}
 
+	@Override
+	public String toString() {
+		return "OverpassResponse{" +
+				"version=" + version +
+				", generator='" + generator + '\'' +
+				", elements=" + elements +
+				'}';
+	}
+
 	public static class Element {
 
+		@SerializedName("type")
 		public String type;
+		@SerializedName("id")
 		public long   id;
+		@SerializedName("lat")
 		public double lat;
+		@SerializedName("lon")
 		public double lon;
+		@SerializedName("nodes")
 		List<Long>          nodes = new ArrayList<>();
+		@SerializedName("tags")
 		Map<String, String> tags  = new HashMap<>();
 
 		private Location location;
