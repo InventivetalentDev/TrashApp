@@ -16,11 +16,12 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".HtmlActivity">
+        <activity android:name=".HtmlActivity"
+                  android:parentActivityName=".SettingsActivity">
         </activity>
         <activity
                 android:name=".AboutActivity"
-                android:parentActivityName=".TabActivity">
+                android:parentActivityName=".SettingsActivity">
         </activity>
         <activity
                 android:name=".SettingsActivity"

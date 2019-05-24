@@ -38,11 +38,29 @@ public class SettingsActivity extends AppCompatActivity {
 					}
 				});
 			}
+
+			Preference osmPreference = findPreference("dummy_osm_info");
+			if (osmPreference != null) {
+				osmPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						openWebView("file:///android_asset/about_osm_info.html");
+						return true;
+					}
+				});
+			}
 		}
 
 		void showAbout() {
 			Intent settingsIntent = new Intent(getActivity(), AboutActivity.class);
 			startActivity(settingsIntent);
+		}
+
+		void openWebView(String uri) {
+			Intent intent = new Intent(getActivity(), HtmlActivity.class);
+			intent.setAction(Intent.ACTION_VIEW);
+			intent.putExtra("uri", uri);
+			startActivity(intent);
 		}
 	}
 
