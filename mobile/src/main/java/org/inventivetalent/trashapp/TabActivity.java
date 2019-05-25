@@ -18,21 +18,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.SkuDetails;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
 import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
-public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater {
+public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler,  BillingManager.BillingUpdatesListener {
 
 	private SharedPreferences sharedPreferences;
 	private boolean           debug;
@@ -53,6 +55,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	boolean initialSearchCompleted = false;
 	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
 	public static OverpassResponse.Element       closestTrashCan;
+
+
+	private BillingManager billingManager;
+	private Set<String>    purchasedSkus=new HashSet<>();
 
 	private int searchItaration = 0;
 
@@ -132,6 +138,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Log.i("TrashApp", data != null ? data.toString() : "n/a");
 		}
 
+		billingManager = new BillingManager(this, this);
+
 		//		FloatingActionButton fab = findViewById(R.id.fab);
 		//
 		//		fab.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +170,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		if (requestLocationUpdates(true)) {
 			lookForTrashCans();
 		}
+
+		if (billingManager != null
+				&& billingManager.getBillingClientResponseCode() == BillingClient.BillingResponseCode.OK) {
+			billingManager.queryPurchases();
+		}
 	}
 
 	@Override
@@ -170,6 +183,14 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		mSensorManager.unregisterListener(mSensorListener);
 		mLocationManager.removeUpdates(mLocationListener);
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (billingManager != null) {
+			billingManager.destroy();
+		}
+		super.onDestroy();
 	}
 
 	void setLastKnownLocation(Location location) {
@@ -327,11 +348,48 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 	}
 
+
+	@Override
+	public void launchBilling(SkuDetails skuDetails) {
+		if (billingManager != null) {
+			billingManager.initiatePurchaseFlow(skuDetails);
+		}
+	}
+
+	@Override
+	public boolean isPurchased(String sku) {
+		return purchasedSkus.contains(sku);
+	}
+
+	@Override
+	public void onBillingClientSetupFinished() {
+		Log.i("TrashApp", "onBillingClientSetupFinished");
+	}
+
+	@Override
+	public void onConsumeFinished(String token, BillingResult billingResult) {
+		Log.i("TrashApp", "onConsumeFinished");
+		Log.i("TrashApp", "token: " + token);
+		Log.i("TrashApp", "result: " + billingResult);
+	}
+
+	@Override
+	public void onPurchasesUpdated(List<Purchase> purchases) {
+		Log.i("TrashApp", "onPurchasesUpdated");
+		Log.i("TrashApp", "purchases("+purchases.size()+"): " +purchases);
+
+		for (Purchase purchase : purchases) {
+			Log.i("TrashApp", purchase.getSku() + ": " + purchase.getPurchaseState());
+			purchasedSkus.add(purchase.getSku());
+		}
+	}
+
 	void exitApp() {
 		Intent homeIntent = new Intent(Intent.ACTION_MAIN);
 		homeIntent.addCategory(Intent.CATEGORY_HOME);
 		homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(homeIntent);
 	}
+
 
 }
