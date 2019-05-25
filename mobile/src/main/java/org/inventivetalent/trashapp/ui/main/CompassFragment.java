@@ -128,6 +128,8 @@ public class CompassFragment extends Fragment {
 						adView1.setVisibility(View.GONE);
 						adView2.setVisibility(View.GONE);
 					}else{
+						adView1.setVisibility(View.VISIBLE);
+						adView2.setVisibility(View.VISIBLE);
 						adView1.loadAd(new AdRequest.Builder().build());
 						adView2.loadAd(new AdRequest.Builder().build());
 					}
