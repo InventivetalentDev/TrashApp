@@ -14,11 +14,17 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            buildConfigField('String', "PlayApiKey", PlayApiKey)
+            resValue('string', "admob_unit_1", "ca-app-pub-3940256099942544/6300978111")
+            resValue('string', "admob_unit_2", "ca-app-pub-3940256099942544/6300978111")
         }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField('String', "PlayApiKey", PlayApiKey)
+            resValue('string', "admob_unit_1", AdMobUnit1)
+            resValue('string', "admob_unit_2", AdMobUnit2)
         }
     }
 }

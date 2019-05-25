@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_osm_info">Add new Trashcans</string>
+    <string name="settings_remove_ads">Remove Ads</string>
 </resources>

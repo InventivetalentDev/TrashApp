@@ -1,4 +1,4 @@
-package org.inventivetalent.trashapp.common;
+package org.inventivetalent.trashapp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,7 @@ import com.android.billingclient.api.*;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.SkuType;
 import com.android.billingclient.api.Purchase.PurchasesResult;
+import org.inventivetalent.trashapp.common.Security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class BillingManager implements PurchasesUpdatedListener {
      * want to make it easy for an attacker to replace the public key with one
      * of their own and then fake messages from the server.
      */
-    private static final String BASE_64_ENCODED_PUBLIC_KEY = "CONSTRUCT_YOUR_KEY_AND_PLACE_IT_HERE";
+    private static final String BASE_64_ENCODED_PUBLIC_KEY = BuildConfig.PlayApiKey;
 
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {

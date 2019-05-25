@@ -18,10 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
@@ -35,7 +32,9 @@ import static org.inventivetalent.trashapp.common.Constants.*;
 import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
-public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler,  BillingManager.BillingUpdatesListener {
+public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler, BillingManager.BillingUpdatesListener {
+
+	protected static TabActivity instance;
 
 	private SharedPreferences sharedPreferences;
 	private boolean           debug;
@@ -57,9 +56,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
 	public static OverpassResponse.Element       closestTrashCan;
 
-
 	private BillingManager billingManager;
-	private Set<String>    purchasedSkus=new HashSet<>();
+	private Set<String>    purchasedSkus = new HashSet<>();
+	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
+
+	protected static SkuInfo SKU_INFO_PREMIUM;
 
 	private int searchItaration = 0;
 
@@ -117,6 +118,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		instance = this;
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
@@ -140,6 +142,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		billingManager = new BillingManager(this, this);
+
 
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
@@ -190,6 +193,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	protected void onDestroy() {
+		instance = null;
 		if (billingManager != null) {
 			billingManager.destroy();
 		}
@@ -294,7 +298,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
 		Log.i("TrashApp", response.toString());
 
-		 initialSearchCompleted = true;
+		initialSearchCompleted = true;
 
 		List<OverpassResponse.Element> elements = response.elements;
 		elements = convertElementsToPoints(elements);
@@ -351,7 +355,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 	}
 
-
 	@Override
 	public void launchBilling(SkuDetails skuDetails) {
 		if (billingManager != null) {
@@ -367,6 +370,39 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	public void onBillingClientSetupFinished() {
 		Log.i("TrashApp", "onBillingClientSetupFinished");
+
+		Log.i("TrashApp", "Querying Sku Details...");
+		billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, Arrays.asList(BillingConstants.IN_APP_SKUS), new SkuDetailsResponseListener() {
+			@Override
+			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+				Log.i("TrashApp", "onSkuDetailsResponse");
+				Log.i("TrashApp", "result: " + billingResult);
+				Log.i("TrashApp", "list(" + (skuDetailsList != null ? skuDetailsList.size() : 0) + "): " + skuDetailsList);
+
+				if (skuDetailsList != null && skuDetailsList.size() > 0) {
+					for (SkuDetails details : skuDetailsList) {
+						switch (details.getSku()) {
+							case BillingConstants.SKU_PREMIUM:
+								SKU_INFO_PREMIUM = new SkuInfo(details, TabActivity.this);
+								break;
+							default:
+								Log.w("TabActivity", "Unhandled SkuDetails: " + details.getSku());
+								break;
+						}
+					}
+
+					for (PaymentReadyListener listener : paymentReadyListeners) {
+						listener.ready();
+					}
+					paymentReadyListeners.clear();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void waitForManager(PaymentReadyListener listener) {
+		paymentReadyListeners.add(listener);
 	}
 
 	@Override
@@ -379,7 +415,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	public void onPurchasesUpdated(List<Purchase> purchases) {
 		Log.i("TrashApp", "onPurchasesUpdated");
-		Log.i("TrashApp", "purchases("+purchases.size()+"): " +purchases);
+		Log.i("TrashApp", "purchases(" + purchases.size() + "): " + purchases);
 
 		for (Purchase purchase : purchases) {
 			Log.i("TrashApp", purchase.getSku() + ": " + purchase.getPurchaseState());
@@ -393,6 +429,5 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(homeIntent);
 	}
-
 
 }

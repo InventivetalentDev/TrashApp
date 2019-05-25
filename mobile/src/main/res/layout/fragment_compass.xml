@@ -15,7 +15,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:adUnitId="@string/admob_unit_1"
             ads:layout_constraintEnd_toEndOf="parent" ads:layout_constraintStart_toStartOf="parent" ads:layout_constraintTop_toTopOf="parent">
     </com.google.android.gms.ads.AdView>
 
@@ -48,7 +48,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:adUnitId="@string/admob_unit_2"
             ads:layout_constraintEnd_toEndOf="parent" ads:layout_constraintStart_toStartOf="parent" tools:layout_editor_absoluteY="642dp">
     </com.google.android.gms.ads.AdView>
 

@@ -2,6 +2,7 @@ package org.inventivetalent.trashapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
@@ -45,6 +46,21 @@ public class SettingsActivity extends AppCompatActivity {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						openWebView("file:///android_asset/about_osm_info.html");
+						return true;
+					}
+				});
+			}
+
+			Preference adsPreference = findPreference("dummy_remove_ads");
+			if (adsPreference != null) {
+				adsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						if (TabActivity.SKU_INFO_PREMIUM != null) {
+							TabActivity.SKU_INFO_PREMIUM.launchBilling();
+						}else{
+							Toast.makeText(getActivity(),"Product not ready!",Toast.LENGTH_SHORT).show();
+						}
 						return true;
 					}
 				});

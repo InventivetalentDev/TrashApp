@@ -27,9 +27,7 @@ import com.google.android.gms.ads.AdView;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.OverpassResponse;
-import org.inventivetalent.trashapp.common.TrashcanUpdater;
-import org.inventivetalent.trashapp.common.Util;
+import org.inventivetalent.trashapp.common.*;
 
 public class CompassFragment extends Fragment {
 
@@ -53,6 +51,7 @@ public class CompassFragment extends Fragment {
 	private float lastPointerRotation;
 
 	private TrashcanUpdater trashcanUpdater;
+	private PaymentHandler paymentHandler;
 
 	public CompassFragment() {
 		// Required empty public constructor
@@ -116,11 +115,24 @@ public class CompassFragment extends Fragment {
 			}
 		});
 
-		AdView adView1 = view.findViewById(R.id.compassAdView1);
-		AdView adView2 = view.findViewById(R.id.compassAdView2);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView1.loadAd(adRequest);
-		adView2.loadAd(adRequest);
+
+			final AdView adView1 = view.findViewById(R.id.compassAdView1);
+			final AdView adView2 = view.findViewById(R.id.compassAdView2);
+			paymentHandler.waitForManager(new PaymentReadyListener() {
+				@Override
+				public void ready() {
+					boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+					Log.i("CompassFragment", "hasPremium: " + hasPremium);
+
+					if (hasPremium) {
+						adView1.setVisibility(View.GONE);
+						adView2.setVisibility(View.GONE);
+					}else{
+						adView1.loadAd(new AdRequest.Builder().build());
+						adView2.loadAd(new AdRequest.Builder().build());
+					}
+				}
+			});
 
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		viewModel.mLocation.observe(this, new Observer<Location>() {
@@ -216,6 +228,12 @@ public class CompassFragment extends Fragment {
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement TrashcanUpdater");
+		}
+		if (context instanceof PaymentHandler) {
+			paymentHandler = (PaymentHandler) context;
+		}else{
+			throw new RuntimeException(context.toString()
+					+ " must implement PaymentHandler");
 		}
 	}
 

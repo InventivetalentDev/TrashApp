@@ -15,7 +15,7 @@ public class AboutActivity extends AppCompatActivity {
 
 	private TextView versionTextView;
 	private TextView versionCodeTextView;
-	private Button button;
+	private Button   button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,11 @@ public class AboutActivity extends AppCompatActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO
-				Toast.makeText(AboutActivity.this, "paypal@inventivetalent.org", Toast.LENGTH_LONG).show();
+				if (TabActivity.SKU_INFO_PREMIUM != null) {
+					TabActivity.SKU_INFO_PREMIUM.launchBilling();
+				} else {
+					Toast.makeText(AboutActivity.this, "Product not ready!", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 	}

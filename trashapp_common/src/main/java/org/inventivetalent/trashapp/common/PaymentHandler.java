@@ -8,4 +8,6 @@ public interface PaymentHandler {
 
 	boolean isPurchased(String sku);
 
+	void waitForManager(PaymentReadyListener listener);
+
 }
