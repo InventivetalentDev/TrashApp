@@ -50,4 +50,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/settings_premium_title">
+
+        <SwitchPreference
+                android:title="@string/settings_dark_theme_title"
+                android:defaultValue="false"
+                android:enabled="false"
+                android:key="dark_theme"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
