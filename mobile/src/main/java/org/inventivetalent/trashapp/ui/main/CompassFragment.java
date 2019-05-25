@@ -117,7 +117,7 @@ public class CompassFragment extends Fragment {
 
 
 			final AdView adView1 = view.findViewById(R.id.compassAdView1);
-			final AdView adView2 = view.findViewById(R.id.compassAdView2);
+//			final AdView adView2 = view.findViewById(R.id.compassAdView2);
 			paymentHandler.waitForManager(new PaymentReadyListener() {
 				@Override
 				public void ready() {
@@ -126,12 +126,12 @@ public class CompassFragment extends Fragment {
 
 					if (hasPremium) {
 						adView1.setVisibility(View.GONE);
-						adView2.setVisibility(View.GONE);
+//						adView2.setVisibility(View.GONE);
 					}else{
 						adView1.setVisibility(View.VISIBLE);
-						adView2.setVisibility(View.VISIBLE);
+//						adView2.setVisibility(View.VISIBLE);
 						adView1.loadAd(new AdRequest.Builder().build());
-						adView2.loadAd(new AdRequest.Builder().build());
+//						adView2.loadAd(new AdRequest.Builder().build());
 					}
 				}
 			});
