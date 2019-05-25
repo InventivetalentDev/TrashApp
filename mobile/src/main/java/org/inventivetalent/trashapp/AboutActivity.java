@@ -42,6 +42,7 @@ public class AboutActivity extends AppCompatActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//TODO
 				Toast.makeText(AboutActivity.this, "paypal@inventivetalent.org", Toast.LENGTH_LONG).show();
 			}
 		});

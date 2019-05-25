@@ -7,6 +7,18 @@
         android:layout_height="match_parent"
              tools:context=".ui.main.CompassFragment">
 
+    <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/compassAdView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:layout_constraintEnd_toEndOf="parent" ads:layout_constraintStart_toStartOf="parent" ads:layout_constraintTop_toTopOf="parent">
+    </com.google.android.gms.ads.AdView>
+
     <include layout="@layout/compass" android:id="@+id/include"/>
 
 
@@ -21,11 +33,23 @@
     <ImageButton
             app:srcCompat="@drawable/ic_settings_black_32dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/settingsButton" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:background="#00FFFFFF" android:tint="@color/colorGray" android:contentDescription="@string/description_settings"/>
+            android:layout_height="wrap_content" android:id="@+id/settingsButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:background="#00FFFFFF" android:tint="@color/colorGray" android:contentDescription="@string/description_settings" android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/compassAdView2"/>
     <TextView
             android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/statusTextView" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="32dp"/>
 
+
+    <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/compassAdView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:layout_constraintEnd_toEndOf="parent" ads:layout_constraintStart_toStartOf="parent" tools:layout_editor_absoluteY="642dp">
+    </com.google.android.gms.ads.AdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

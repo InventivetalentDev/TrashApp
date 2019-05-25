@@ -45,6 +45,9 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyB1kPiXaa4ZCVlyXJXu2f3bwbRpKAtZAss"/>
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-2604356629473365~4556622372"/>
 
         <activity
                 android:name=".TabActivity"

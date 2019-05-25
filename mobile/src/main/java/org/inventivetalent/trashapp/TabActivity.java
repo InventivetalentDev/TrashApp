@@ -22,6 +22,7 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
@@ -139,6 +140,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		billingManager = new BillingManager(this, this);
+
+		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
 		//		FloatingActionButton fab = findViewById(R.id.fab);
 		//

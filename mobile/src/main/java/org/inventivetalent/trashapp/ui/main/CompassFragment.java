@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
@@ -113,6 +115,12 @@ public class CompassFragment extends Fragment {
 				trashcanUpdater.lookForTrashCans();
 			}
 		});
+
+		AdView adView1 = view.findViewById(R.id.compassAdView1);
+		AdView adView2 = view.findViewById(R.id.compassAdView2);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView1.loadAd(adRequest);
+		adView2.loadAd(adRequest);
 
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		viewModel.mLocation.observe(this, new Observer<Location>() {
