@@ -209,7 +209,7 @@ public class MapFragment extends Fragment {
 			// add closest marker
 			if (clostestCanMarker == null) {
 				clostestCanMarker = new Marker(mapView);
-				clostestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan));
+				clostestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan_64dp));
 				clostestCanMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_CENTER);
 				mapView.getOverlays().add(clostestCanMarker);
 			}
@@ -238,7 +238,7 @@ public class MapFragment extends Fragment {
 				}
 
 				Marker marker = new Marker(mapView);
-				marker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan));
+				marker.setIcon(getResources().getDrawable(R.drawable.ic_trashcan_64dp));
 				marker.setAlpha(.5f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 				marker.setPosition(new GeoPoint(element.lat, element.lon));

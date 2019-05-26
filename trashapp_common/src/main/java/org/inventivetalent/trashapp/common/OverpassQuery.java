@@ -1,6 +1,6 @@
 package org.inventivetalent.trashapp.common;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ public class OverpassQuery {
 
 	protected final String queryFormat;
 
-	public OverpassQuery(Activity activity, int resourceId) {
+	public OverpassQuery(Context activity, int resourceId) {
 		queryFormat = loadRawResText(activity, resourceId);
 	}
 
@@ -20,7 +20,7 @@ public class OverpassQuery {
 		return this.queryFormat.replaceAll(Pattern.quote("{{bbox}}"), boundingBox.toCoordString());
 	}
 
-	private static String loadRawResText(Activity activity, int resourceId) {
+	private static String loadRawResText(Context activity, int resourceId) {
 		StringBuilder builder = new StringBuilder();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(activity.getResources().openRawResource(resourceId)))) {
 			String line;

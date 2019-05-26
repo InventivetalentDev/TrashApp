@@ -1,6 +1,7 @@
 package org.inventivetalent.trashapp.common;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
@@ -14,7 +15,7 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 	private OverpassQuery         query;
 	private TrashCanResultHandler handler;
 
-	public TrashCanFinderTask(Activity activity, TrashCanResultHandler handler) {
+	public TrashCanFinderTask(Context activity, TrashCanResultHandler handler) {
 		this.query = new OverpassQuery(activity, R.raw.waste_basket_query);
 		this.handler = handler;
 	}
