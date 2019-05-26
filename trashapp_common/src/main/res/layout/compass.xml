@@ -51,6 +51,6 @@
             android:layout_marginRight="64dp"
             android:layout_marginTop="64dp"
             android:layout_marginLeft="64dp"
-            android:layout_marginBottom="64dp" android:scaleType="fitCenter" android:background="@drawable/ic_trashcan_64dp" android:visibility="visible"/>
+            android:layout_marginBottom="64dp" android:scaleType="fitCenter" android:background="@drawable/ic_trashcan_64dp" android:visibility="visible" android:contentDescription="@string/description_trashcan"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,4 +53,6 @@
     <string name="buy_dev_coffee">Buy the developer a coffee!</string>
     <string name="about_dev_description">Developed by inventivetalent</string>
     <string name="about_dev_link">https://inventivetalent.org</string>
+    <string name="description_trashcan">Trashcan</string>
+    <string name="description_map_my_location">Show my Location</string>
 </resources>
