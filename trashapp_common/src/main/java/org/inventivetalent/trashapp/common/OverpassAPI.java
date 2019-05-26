@@ -10,7 +10,7 @@ import java.util.zip.GZIPInputStream;
 
 public class OverpassAPI {
 
-	private static final String OVERPASS_URL = "http://www.overpass-api.de/api/interpreter";
+	private static final String OVERPASS_URL = "https://www.overpass-api.de/api/interpreter";
 
 	private Gson gson = new Gson();
 
