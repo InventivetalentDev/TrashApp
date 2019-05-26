@@ -103,7 +103,8 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 
 		// Construct the RemoteViews object
 		RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.compass_widget);
-		views.setOnClickPendingIntent(R.id.button, pendingIntent);
+		views.setOnClickPendingIntent(R.id.trashCanImage, pendingIntent);
+		views.setOnClickPendingIntent(R.id.pointerImage, pendingIntent);
 		views.setImageViewBitmap(R.id.trashCanImage, Util.getBitmapFromVectorDrawable(context, R.drawable.ic_trashcan_64dp));
 		Log.i("CompassWidget", "res: " + pointerResId);
 		if (pointerResId != -1) { views.setImageViewBitmap(R.id.pointerImage, Util.getBitmapFromVectorDrawable(context, pointerResId)); }
