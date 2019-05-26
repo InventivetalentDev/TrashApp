@@ -18,6 +18,7 @@ import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OsmAndHelper;
 import org.inventivetalent.trashapp.common.OverpassResponse;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
@@ -62,6 +63,8 @@ public class MapFragment extends Fragment {
 	private Set<Marker> canMarkers = new HashSet<>();
 	private Polyline    polyline;
 
+	private RadiusMarkerClusterer markerClusterer;
+
 	private OsmAndHelper osmAndHelper;
 
 	public MapFragment() {
@@ -97,6 +100,8 @@ public class MapFragment extends Fragment {
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
+
+		markerClusterer = new RadiusMarkerClusterer(getActivity());
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -227,11 +232,13 @@ public class MapFragment extends Fragment {
 				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), clostestCanMarker.getPosition()));
 			}
 
+
 			// add other markers
-			for (Marker oldMarker : canMarkers) {
-				mapView.getOverlays().remove(oldMarker);
-			}
-			canMarkers.clear();
+//			for (Marker oldMarker : canMarkers) {
+//				mapView.getOverlays().remove(oldMarker);
+//			}
+//			canMarkers.clear();
+			markerClusterer.getItems().clear();
 			for (OverpassResponse.Element element : TabActivity.nearbyTrashCans) {
 				if (element.id == closestElement.id) {
 					continue;// don't add twice
@@ -242,8 +249,9 @@ public class MapFragment extends Fragment {
 				marker.setAlpha(.5f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 				marker.setPosition(new GeoPoint(element.lat, element.lon));
-				canMarkers.add(marker);
-				mapView.getOverlays().add(marker);
+//				canMarkers.add(marker);
+//				mapView.getOverlays().add(marker);
+				markerClusterer.add(marker);
 
 				//				markerOptions = new MarkerOptions()
 				//						.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
@@ -253,6 +261,7 @@ public class MapFragment extends Fragment {
 				//				marker = map.addMarker(markerOptions);
 				//				canMarkers.add(marker);
 			}
+			mapView.getOverlays().add(markerClusterer);
 		}
 	}
 
