@@ -190,8 +190,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		updateWidget();
 
-		mSensorManager.unregisterListener(mSensorListener);
-		mLocationManager.removeUpdates(mLocationListener);
+		if (mSensorManager != null) { mSensorManager.unregisterListener(mSensorListener); }
+		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
 	}
 
 	@Override
@@ -440,7 +440,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		float angle = (float) (azimuth - bearing);
 		if (angle < 0) { angle += 360f; }
 
-		int rounded = ((int)Math.round(angle / 45)) * 45;
+		int rounded = ((int) Math.round(angle / 45)) * 45;
 		Log.i("CompassWidget", "rounded: " + rounded);
 		int resId = -1;
 		switch (rounded) {
@@ -473,8 +473,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		CompassWidget.pointerResId = resId;
-
-
 
 		Intent intent = new Intent(this, CompassWidget.class);
 		intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
