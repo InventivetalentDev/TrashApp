@@ -101,7 +101,6 @@ public class MapFragment extends Fragment {
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
 
-		markerClusterer = new RadiusMarkerClusterer(getActivity());
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -238,6 +237,10 @@ public class MapFragment extends Fragment {
 //				mapView.getOverlays().remove(oldMarker);
 //			}
 //			canMarkers.clear();
+			if (markerClusterer == null) {
+				markerClusterer = new RadiusMarkerClusterer(getActivity());
+				mapView.getOverlays().add(markerClusterer);
+			}
 			markerClusterer.getItems().clear();
 			for (OverpassResponse.Element element : TabActivity.nearbyTrashCans) {
 				if (element.id == closestElement.id) {
@@ -261,7 +264,7 @@ public class MapFragment extends Fragment {
 				//				marker = map.addMarker(markerOptions);
 				//				canMarkers.add(marker);
 			}
-			mapView.getOverlays().add(markerClusterer);
+			markerClusterer.invalidate();
 		}
 	}
 
