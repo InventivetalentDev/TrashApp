@@ -32,7 +32,7 @@ public class AboutActivity extends AppCompatActivity {
 			versionTextView = findViewById(R.id.versionTextView);
 			versionTextView.setText(getResources().getString(R.string.about_version, pInfo.versionName));
 			versionCodeTextView = findViewById(R.id.versionCodeTextView);
-			versionCodeTextView.setText(String.valueOf(pInfo.versionCode));
+			versionCodeTextView.setText(String.valueOf(pInfo.versionCode) + " (" + (BuildConfig.DEBUG ? "debug" : "release") + ")");
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 			Log.d("MyApp", "PackageManager Catch : " + e.toString());
