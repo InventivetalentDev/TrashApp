@@ -30,7 +30,6 @@ import static org.inventivetalent.trashapp.common.Constants.*;
 
 public class MainActivity extends WearableActivity implements TrashCanResultHandler {
 
-
 	private       LocationManager  mLocationManager;
 	public static Location         lastKnownLocation;
 	public static GeomagneticField geoField;
@@ -98,17 +97,14 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		}
 	};
 
-
 	private TextView distanceTextView;
 	private TextView rangeTextView;
-
 
 	private ProgressBar searchProgress;
 
 	private ImageView pointerView;
 
 	private float lastPointerRotation;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +115,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		pointerView = findViewById(R.id.pointer);
 		searchProgress = findViewById(R.id.progressBar);
 
-		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer));
+		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer_24dp));
 
 		// Enables Always-on
 		setAmbientEnabled();
@@ -158,7 +154,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		if (closestTrashCan == null) {
 			searchProgress.setVisibility(View.VISIBLE);
 			pointerView.setVisibility(View.INVISIBLE);
-//			distanceTextView.setText(R.string.searching_cans);
+			//			distanceTextView.setText(R.string.searching_cans);
 			return;
 		}
 		searchProgress.setVisibility(View.INVISIBLE);
@@ -184,7 +180,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		if (geoField != null) {
 			azimuth += geoField.getDeclination();
 		}
-		float angle = (float) (azimuth-bearing);
+		float angle = (float) (azimuth - bearing);
 		if (angle < 0) { angle += 360f; }
 
 		//double canAngle =Math.toDegrees(angleTo(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.lat, closestTrashCan.lon))%360;
@@ -275,14 +271,12 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	@Override
 	public boolean shouldCacheResults() {
-		//TODO
-		return false;
+		return true;
 	}
 
 	@Override
 	public File getCacheFile() {
-		//TODO
-		return null;
+		return new File(getFilesDir(), "last_osm_query.json");
 	}
 
 	void lookForTrashCans() {
