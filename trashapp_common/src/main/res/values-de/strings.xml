@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TrashApp</string>
+    <string name="app_name">MüllApp</string>
     <string name="tab_text_compass">Kompass</string>
     <string name="tab_text_map">Karte</string>
     <string name="searching_cans">Suche nach Mülleimern…</string>
     <string name="action_settings">Einstellungen</string>
     <string name="distance_format">%dm</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="settings_search_header">Suche</string>
+    <string name="settings_remove_ads">Werbung entfernen</string>
+    <string name="settings_premium_title">Premium</string>
+    <string name="settings_osm_info">Mülleimer hinzufügen</string>
+    <string name="settings_advanced_header">Erweitert</string>
+    <string name="settings_about_title">Über</string>
+    <string name="description_trashcan">Mülleimer</string>
+    <string name="about_version">Version %s</string>
+    <string name="settings_info_header">Info</string>
 </resources>
