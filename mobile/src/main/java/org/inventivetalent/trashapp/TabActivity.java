@@ -429,6 +429,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	void updateWidget() {
+		if(closestTrashCan==null)return;
+		if(lastKnownLocation==null)return;
+
 		Location canLocation = closestTrashCan.toLocation();
 		float bearing = lastKnownLocation.bearingTo(canLocation);
 		//		float angle = (float) (bearing - heading)*-1;
