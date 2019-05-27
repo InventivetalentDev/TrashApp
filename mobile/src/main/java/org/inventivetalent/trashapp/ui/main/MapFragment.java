@@ -181,6 +181,7 @@ public class MapFragment extends Fragment {
 					selfMarker = new org.osmdroid.views.overlay.Marker(mapView);
 					selfMarker.setIcon(getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp));
 					selfMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
+					selfMarker.setInfoWindow(null);
 					mapView.getOverlays().add(selfMarker);
 				}
 				GeoPoint selfPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
@@ -214,6 +215,7 @@ public class MapFragment extends Fragment {
 			if (clostestCanMarker == null) {
 				clostestCanMarker = new Marker(mapView);
 				clostestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
+				clostestCanMarker.setInfoWindow(null);
 				clostestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 				mapView.getOverlays().add(clostestCanMarker);
 			}
@@ -249,6 +251,7 @@ public class MapFragment extends Fragment {
 
 				Marker marker = new Marker(mapView);
 				marker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
+				marker.setInfoWindow(null);
 				marker.setAlpha(.8f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 				marker.setPosition(new GeoPoint(element.lat, element.lon));
