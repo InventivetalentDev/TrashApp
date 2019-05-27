@@ -59,7 +59,7 @@ public class MapFragment extends Fragment {
 	private boolean zoomedToSelf = false;
 
 	private Marker      selfMarker;
-	private Marker      clostestCanMarker;
+	private Marker      closestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
 	private Polyline    polyline;
 
@@ -212,14 +212,14 @@ public class MapFragment extends Fragment {
 			}
 
 			// add closest marker
-			if (clostestCanMarker == null) {
-				clostestCanMarker = new Marker(mapView);
-				clostestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
-				clostestCanMarker.setInfoWindow(null);
-				clostestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-				mapView.getOverlays().add(clostestCanMarker);
+			if (closestCanMarker == null) {
+				closestCanMarker = new Marker(mapView);
+				closestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
+				closestCanMarker.setInfoWindow(null);
+				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+				mapView.getOverlays().add(closestCanMarker);
 			}
-			clostestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
+			closestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
 
 			//			MarkerOptions markerOptions = new MarkerOptions()
 			//					.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
@@ -229,8 +229,8 @@ public class MapFragment extends Fragment {
 			//			Marker marker = map.addMarker(markerOptions);
 			//			canMarkers.add(marker);
 
-			if (selfMarker != null && clostestCanMarker != null) {
-				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), clostestCanMarker.getPosition()));
+			if (selfMarker != null && closestCanMarker != null) {
+				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), closestCanMarker.getPosition()));
 			}
 
 
