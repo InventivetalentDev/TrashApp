@@ -52,11 +52,12 @@
 
     <PreferenceCategory app:title="@string/settings_premium_title">
 
-        <SwitchPreference
-                android:title="@string/settings_dark_theme_title"
-                android:defaultValue="false"
-                android:enabled="false"
-                android:key="dark_theme"/>
+        <ListPreference
+                android:title="@string/settings_themes_title"
+                android:entries="@array/theme_entries"
+                android:entryValues="@array/theme_values"
+                android:enabled="true"
+                android:key="app_theme"/>
 
     </PreferenceCategory>
 

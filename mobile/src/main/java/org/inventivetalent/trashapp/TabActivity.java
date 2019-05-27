@@ -58,6 +58,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static OverpassResponse.Element       closestTrashCan;
 
 	private BillingManager            billingManager;
+	private boolean billingManagerReady;
 	private Set<String>               purchasedSkus         = new HashSet<>();
 	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
 
@@ -126,6 +127,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
 		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
+
+		Util.applyTheme(this, sharedPreferences);
 
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -396,6 +399,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 						}
 					}
 
+					billingManagerReady = true;
 					for (PaymentReadyListener listener : paymentReadyListeners) {
 						listener.ready();
 					}
@@ -407,6 +411,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public void waitForManager(PaymentReadyListener listener) {
+		if (billingManagerReady) {
+			listener.ready();
+			return;
+		}
 		paymentReadyListeners.add(listener);
 	}
 

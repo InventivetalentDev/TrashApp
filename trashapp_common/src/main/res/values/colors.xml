@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorGray">#808080</color>
+
+    <!-- default -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorGray">#808080</color>
+
+    <!-- grass -->
+    <color name="grassPrimary">#283593</color>
+    <color name="grassPrimaryLight">#5f5fc4</color>
+    <color name="grassPrimaryDark">#001064</color>
+    <color name="grassSecondary">#689f38</color>
+    <color name="grassSecondaryLight">#99d066</color>
+    <color name="grassSecondaryDark">#387002</color>
+
+
+
+
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
 </resources>

@@ -25,7 +25,7 @@
     <TextView
             android:text=""
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/statusTextView" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" app:layout_constraintBottom_toTopOf="@+id/compassAdView1" android:layout_marginBottom="32dp"/>
+            android:layout_height="wrap_content" android:id="@+id/statusTextView" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" app:layout_constraintBottom_toTopOf="@+id/compassAdView" android:layout_marginBottom="32dp"/>
 
 
     <com.google.android.gms.ads.AdView

@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:visibility="visible" android:contentDescription="TODO"
-            android:visibility="invisible"/>
+            android:visibility="invisible" android:tint="?attr/colorAccent"/>
     <ImageView
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
@@ -51,6 +51,7 @@
             android:layout_marginRight="64dp"
             android:layout_marginTop="64dp"
             android:layout_marginLeft="64dp"
+            android:tint="?attr/colorPrimary"
             android:layout_marginBottom="64dp" android:scaleType="fitCenter" android:background="@drawable/ic_trashcan_64dp" android:visibility="visible" android:contentDescription="@string/description_trashcan"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

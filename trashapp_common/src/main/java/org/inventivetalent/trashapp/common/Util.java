@@ -2,10 +2,14 @@ package org.inventivetalent.trashapp.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.TypedValue;
+import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -126,6 +130,35 @@ public class Util {
 		}
 		return b;
 	}
+
+	@ColorInt
+	public static int getAttrColor(Context context, int attr) {
+		TypedValue typedValue = new TypedValue();
+		Resources.Theme theme = context.getTheme();
+		theme.resolveAttribute(attr, typedValue, true);
+		return typedValue.data;
+	}
+
+	public static void applyTheme(Context context) {
+		applyTheme(context, PreferenceManager.getDefaultSharedPreferences(context));
+	}
+
+	public static void applyTheme(Context context, SharedPreferences preferences) {
+		String themeKey = preferences.getString("app_theme", "");
+		if (themeKey == null) { themeKey = ""; }
+		int rId;
+		switch (themeKey) {
+			//TODO
+			case "grass":
+				rId = R.style.GrassTheme;
+				break;
+			default:
+				rId = R.style.AppTheme;
+				break;
+		}
+		context.setTheme(rId);
+	}
+
 
 
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import org.inventivetalent.trashapp.common.Util;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -20,6 +21,9 @@ public class AboutActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Util.applyTheme(this);
+
 		setContentView(R.layout.activity_about);
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {

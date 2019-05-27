@@ -2,17 +2,26 @@ package org.inventivetalent.trashapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import org.inventivetalent.trashapp.common.BillingConstants;
+import org.inventivetalent.trashapp.common.PaymentHandler;
+import org.inventivetalent.trashapp.common.PaymentReadyListener;
+import org.inventivetalent.trashapp.common.Util;
 
 public class SettingsActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Util.applyTheme(this);
+
 		setContentView(R.layout.settings_activity);
 		getSupportFragmentManager()
 				.beginTransaction()
@@ -51,20 +60,44 @@ public class SettingsActivity extends AppCompatActivity {
 				});
 			}
 
-			Preference adsPreference = findPreference("dummy_remove_ads");
+			final Preference adsPreference = findPreference("dummy_remove_ads");
 			if (adsPreference != null) {
 				adsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						if (TabActivity.SKU_INFO_PREMIUM != null) {
 							TabActivity.SKU_INFO_PREMIUM.launchBilling();
-						}else{
-							Toast.makeText(getActivity(),"Product not ready!",Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 						}
 						return true;
 					}
 				});
 			}
+
+			final ListPreference themePreference = findPreference("app_theme");
+			if (themePreference != null) {
+				themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+					@Override
+					public boolean onPreferenceChange(Preference preference, Object newValue) {
+						//TODO: refresh theme
+						return true;
+					}
+				});
+			}
+
+			final PaymentHandler paymentHandler = TabActivity.instance;
+			paymentHandler.waitForManager(new PaymentReadyListener() {
+				@Override
+				public void ready() {
+					boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+					Log.i("SettingsActivity", "hasPremium: " + hasPremium);
+
+					if (adsPreference != null) { adsPreference.setEnabled(!hasPremium); }
+					if (themePreference != null) { themePreference.setEnabled(hasPremium); }
+				}
+			});
+
 		}
 
 		void showAbout() {

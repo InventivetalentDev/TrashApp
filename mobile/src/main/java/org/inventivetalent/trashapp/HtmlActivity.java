@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import org.inventivetalent.trashapp.common.Util;
 
 public class HtmlActivity extends AppCompatActivity {
 
@@ -13,6 +14,9 @@ public class HtmlActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Util.applyTheme(this);
+
 		setContentView(R.layout.activity_html);
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {

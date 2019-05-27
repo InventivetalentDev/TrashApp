@@ -1,6 +1,8 @@
 package org.inventivetalent.trashapp.ui.main;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.OsmAndHelper;
 import org.inventivetalent.trashapp.common.OverpassResponse;
 import org.inventivetalent.trashapp.common.PaymentHandler;
+import org.inventivetalent.trashapp.common.Util;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
@@ -200,7 +203,8 @@ public class MapFragment extends Fragment {
 				// add self marker
 				if (selfMarker == null) {
 					selfMarker = new org.osmdroid.views.overlay.Marker(mapView);
-					selfMarker.setIcon(getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp));
+					Drawable drawable = getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp);
+					selfMarker.setIcon(drawable);
 					selfMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 					selfMarker.setInfoWindow(null);
 					mapView.getOverlays().add(selfMarker);
@@ -235,7 +239,9 @@ public class MapFragment extends Fragment {
 			// add closest marker
 			if (closestCanMarker == null) {
 				closestCanMarker = new Marker(mapView);
-				closestCanMarker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
+				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
+				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+				closestCanMarker.setIcon(drawable);
 				closestCanMarker.setInfoWindow(null);
 				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 				mapView.getOverlays().add(closestCanMarker);
@@ -271,7 +277,9 @@ public class MapFragment extends Fragment {
 				}
 
 				Marker marker = new Marker(mapView);
-				marker.setIcon(getResources().getDrawable(R.drawable.ic_marker_32dp));
+				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
+				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+				marker.setIcon(drawable);
 				marker.setInfoWindow(null);
 				marker.setAlpha(.8f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
