@@ -8,15 +8,6 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent" android:id="@+id/mapView" android:padding="5dp"/>-->
 
-    <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/mapAdView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="@string/admob_unit_2"
-            ads:layout_constraintEnd_toEndOf="parent" ads:layout_constraintStart_toStartOf="parent" ads:layout_constraintBottom_toBottomOf="parent"/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             app:srcCompat="@drawable/ic_edit_location_black_64dp"
             android:layout_width="wrap_content"
