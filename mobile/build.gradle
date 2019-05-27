@@ -10,6 +10,7 @@ android {
         versionName rootProject.ext.appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -50,6 +51,7 @@ dependencies {
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
     implementation "androidx.room:room-runtime:2.1.0-alpha07"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha07" // For Kotlin use kapt instead of annotationProcessor
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 configurations.all {
