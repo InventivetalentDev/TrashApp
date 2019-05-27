@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
-import androidx.viewpager.widget.ViewPager;
 import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
@@ -130,10 +129,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-		ViewPager viewPager = findViewById(R.id.view_pager);
+		CustomViewPager viewPager = findViewById(R.id.view_pager);
 		viewPager.setAdapter(sectionsPagerAdapter);
 		TabLayout tabs = findViewById(R.id.tabs);
 		tabs.setupWithViewPager(viewPager);
+
 
 		Intent intent = getIntent();
 		if (intent != null) {
