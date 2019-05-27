@@ -20,10 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
+import androidx.room.Room;
 import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
@@ -66,6 +68,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	protected static SkuInfo SKU_INFO_PREMIUM;
 
 	private int searchItaration = 0;
+	private AppDatabase appDatabase;
 
 	private final LocationListener    mLocationListener = new LocationListener() {
 		@Override
@@ -154,6 +157,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		billingManager = new BillingManager(this, this);
 
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
+
+		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
 
 		//		FloatingActionButton fab = findViewById(R.id.fab);
 		//
@@ -302,6 +307,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	public File getCacheFile() {
 		return new File(getFilesDir(), "last_osm_query.json");
+	}
+
+	@Override
+	public AppDatabase getDatabase() {
+		return appDatabase;
 	}
 
 	@Override

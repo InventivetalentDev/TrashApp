@@ -1,10 +1,10 @@
 package org.inventivetalent.trashapp.common;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
+import org.inventivetalent.trashapp.common.db.AppDatabase;
 
 import java.io.*;
 
@@ -59,6 +59,11 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 					} catch (IOException e) {
 						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
 					}
+				}
+
+				AppDatabase appDatabase = handler.getDatabase();
+				if (appDatabase != null) {
+					//TODO
 				}
 			}
 		}

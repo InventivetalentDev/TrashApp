@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.db.AppDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -309,5 +310,10 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 		return null;
 	}
 
+	@Override
+	public AppDatabase getDatabase() {
+		//TODO
+		return null;
+	}
 }
 

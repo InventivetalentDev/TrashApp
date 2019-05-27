@@ -48,6 +48,8 @@ dependencies {
     implementation 'com.android.billingclient:billing:2.0.0'
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
+    implementation "androidx.room:room-runtime:2.1.0-alpha07"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha07" // For Kotlin use kapt instead of annotationProcessor
 }
 
 configurations.all {

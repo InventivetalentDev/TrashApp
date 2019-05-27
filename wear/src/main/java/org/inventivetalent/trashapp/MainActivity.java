@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.db.AppDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -277,6 +278,12 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	@Override
 	public File getCacheFile() {
 		return new File(getFilesDir(), "last_osm_query.json");
+	}
+
+	@Override
+	public AppDatabase getDatabase() {
+		//TODO
+		return null;
 	}
 
 	void lookForTrashCans() {
