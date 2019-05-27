@@ -150,11 +150,12 @@ public class Util {
 		switch (themeKey) {
 			//TODO
 			case "grass":
+			default:
 				rId = R.style.GrassTheme;
 				break;
-			default:
-				rId = R.style.AppTheme;
-				break;
+//			default:
+//				rId = R.style.AppTheme;
+//				break;
 		}
 		context.setTheme(rId);
 	}
