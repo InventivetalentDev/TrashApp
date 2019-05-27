@@ -7,13 +7,16 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
     <style name="GrassTheme" parent="AppTheme">
         <item name="colorPrimary">@color/grassPrimary</item>
         <item name="colorPrimaryDark">@color/grassPrimaryDark</item>
         <item name="colorAccent">@color/grassSecondary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

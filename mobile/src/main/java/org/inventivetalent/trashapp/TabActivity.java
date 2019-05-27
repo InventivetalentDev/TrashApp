@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
@@ -137,6 +138,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		TabLayout tabs = findViewById(R.id.tabs);
 		tabs.setupWithViewPager(viewPager);
 
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.hide();
+		}
 
 		Intent intent = getIntent();
 		if (intent != null) {
