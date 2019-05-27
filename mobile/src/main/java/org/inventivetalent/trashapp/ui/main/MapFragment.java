@@ -3,6 +3,7 @@ package org.inventivetalent.trashapp.ui.main;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.OsmAndHelper;
-import org.inventivetalent.trashapp.common.OverpassResponse;
+import org.inventivetalent.trashapp.common.*;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
@@ -66,6 +68,8 @@ public class MapFragment extends Fragment {
 	private RadiusMarkerClusterer markerClusterer;
 
 	private OsmAndHelper osmAndHelper;
+
+	private PaymentHandler paymentHandler;
 
 	public MapFragment() {
 		// Required empty public constructor
@@ -135,6 +139,24 @@ public class MapFragment extends Fragment {
 			@Override
 			public void onChanged(@Nullable OverpassResponse.Element element) {
 				setMarkers(element);
+			}
+		});
+
+
+
+		final AdView adView = view.findViewById(R.id.mapAdView);
+		paymentHandler.waitForManager(new PaymentReadyListener() {
+			@Override
+			public void ready() {
+				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+				Log.i("MapFragment", "hasPremium: " + hasPremium);
+
+				if (hasPremium) {
+					adView.setVisibility(View.GONE);
+				}else{
+					adView.setVisibility(View.VISIBLE);
+					adView.loadAd(new AdRequest.Builder().build());
+				}
 			}
 		});
 
@@ -293,6 +315,12 @@ public class MapFragment extends Fragment {
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
+		if (context instanceof PaymentHandler) {
+			paymentHandler = (PaymentHandler) context;
+		}else{
+			throw new RuntimeException(context.toString()
+					+ " must implement PaymentHandler");
+		}
 	}
 
 	@Override

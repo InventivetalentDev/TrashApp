@@ -116,7 +116,7 @@ public class CompassFragment extends Fragment {
 		});
 
 
-			final AdView adView1 = view.findViewById(R.id.compassAdView1);
+			final AdView adView1 = view.findViewById(R.id.compassAdView);
 //			final AdView adView2 = view.findViewById(R.id.compassAdView2);
 			paymentHandler.waitForManager(new PaymentReadyListener() {
 				@Override
