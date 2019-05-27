@@ -237,16 +237,16 @@ public class MapFragment extends Fragment {
 			}
 
 			// add closest marker
-			if (closestCanMarker == null) {
-				closestCanMarker = new Marker(mapView);
-				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
-				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
-				closestCanMarker.setIcon(drawable);
-				closestCanMarker.setInfoWindow(null);
-				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-				mapView.getOverlays().add(closestCanMarker);
-			}
-			closestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
+//			if (closestCanMarker == null) {
+//				closestCanMarker = new Marker(mapView);
+//				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
+//				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+//				closestCanMarker.setIcon(drawable);
+//				closestCanMarker.setInfoWindow(null);
+//				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+//				mapView.getOverlays().add(closestCanMarker);
+//			}
+//			closestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
 
 			//			MarkerOptions markerOptions = new MarkerOptions()
 			//					.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
@@ -256,8 +256,8 @@ public class MapFragment extends Fragment {
 			//			Marker marker = map.addMarker(markerOptions);
 			//			canMarkers.add(marker);
 
-			if (selfMarker != null && closestCanMarker != null) {
-				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), closestCanMarker.getPosition()));
+			if (selfMarker != null /*&& closestCanMarker != null*/) {
+				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.lat, closestElement.lon)));
 			}
 
 
@@ -272,16 +272,16 @@ public class MapFragment extends Fragment {
 			}
 			markerClusterer.getItems().clear();
 			for (OverpassResponse.Element element : TabActivity.nearbyTrashCans) {
-				if (element.id == closestElement.id) {
-					continue;// don't add twice
-				}
+//				if (element.id == closestElement.id) {
+//					continue;// don't add twice
+//				}
 
 				Marker marker = new Marker(mapView);
 				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
 				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
 				marker.setIcon(drawable);
 				marker.setInfoWindow(null);
-				marker.setAlpha(.8f);
+				marker.setAlpha(.9f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 				marker.setPosition(new GeoPoint(element.lat, element.lon));
 //				canMarkers.add(marker);
