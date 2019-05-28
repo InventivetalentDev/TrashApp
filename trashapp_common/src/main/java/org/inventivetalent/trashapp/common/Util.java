@@ -153,13 +153,13 @@ public class Util {
 		int rId;
 		switch (themeKey) {
 			//TODO
+			case "classic":
+				rId = R.style.AppTheme;
+				break;
 			case "grass":
 			default:
 				rId = R.style.GrassTheme;
 				break;
-//			default:
-//				rId = R.style.AppTheme;
-//				break;
 		}
 		context.setTheme(rId);
 	}

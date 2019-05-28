@@ -2,9 +2,11 @@
     <!-- Reply Preference -->
     <string-array name="theme_entries">
         <item>Grass</item>
+        <item>Classic</item>
     </string-array>
 
     <string-array name="theme_values">
         <item>grass</item>
+        <item>classic</item>
     </string-array>
 </resources>
