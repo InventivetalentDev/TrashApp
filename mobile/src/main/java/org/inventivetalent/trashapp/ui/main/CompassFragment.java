@@ -150,9 +150,9 @@ public class CompassFragment extends Fragment {
 				updatePointer();
 			}
 		});
-		viewModel.mClosestCan.observe(this, new Observer<OverpassResponse.Element>() {
+		viewModel.mClosestCan.observe(this, new Observer<LatLon>() {
 			@Override
-			public void onChanged(@Nullable OverpassResponse.Element element) {
+			public void onChanged(@Nullable LatLon element) {
 				updatePointer();
 			}
 		});
@@ -162,7 +162,7 @@ public class CompassFragment extends Fragment {
 
 	void updatePointer() {
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
-		OverpassResponse.Element closestTrashCan = viewModel.mClosestCan.getValue();
+		LatLon closestTrashCan = viewModel.mClosestCan.getValue();
 		Location lastKnownLocation = viewModel.mLocation.getValue();
 
 		if (closestTrashCan == null || lastKnownLocation == null) {

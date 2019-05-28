@@ -33,7 +33,6 @@ import java.io.File;
 import java.util.*;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
-import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
 public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler, BillingManager.BillingUpdatesListener {
@@ -57,8 +56,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
 	boolean initialSearchCompleted = false;
-	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
-	public static OverpassResponse.Element       closestTrashCan;
+	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
+	public static LatLon       closestTrashCan;
 
 	private BillingManager            billingManager;
 	private boolean billingManagerReady;
@@ -297,6 +296,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
 		Log.i("TrashApp", boundingBox.toCoordString());
+
+		//TODO: make this more efficient, i.e. don't run both
+		new DbTrashcanQueryTask(this).execute(boundingBox);
 		new TrashCanFinderTask(this, this).execute(boundingBox);
 	}
 
@@ -316,14 +318,12 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	@Override
-	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
+	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
 		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
-		Log.i("TrashApp", response.toString());
 
 		initialSearchCompleted = true;
 
-		List<OverpassResponse.Element> elements = response.elements;
-		elements = convertElementsToPoints(elements);
+//		elements = convertElementsToPoints(elements);
 		Log.i("TrashApp", elements.toString());
 
 		if (elements.isEmpty()) {
@@ -343,7 +343,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		updateClosestTrashcan(elements);
 	}
 
-	public void updateClosestTrashcan(List<OverpassResponse.Element> elements) {
+	public void updateClosestTrashcan(List<? extends LatLon> elements) {
 		if (elements.isEmpty()) {
 			closestTrashCan = null;
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(null);
@@ -354,11 +354,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			nearbyTrashCans.addAll(elements);
 
 			int i = 0;
-			for (OverpassResponse.Element element : elements) {
-				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
-			}
+//			for (OverpassResponse.Element element : elements) {
+//				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
+//			}
 
-			OverpassResponse.Element closest = elements.get(0);
+			LatLon closest = elements.get(0);
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(closest);
 			closestTrashCan = closest;
 

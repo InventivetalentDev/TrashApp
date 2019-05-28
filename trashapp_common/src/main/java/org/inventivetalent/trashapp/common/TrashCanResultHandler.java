@@ -3,10 +3,11 @@ package org.inventivetalent.trashapp.common;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
 import java.io.File;
+import java.util.List;
 
 public interface TrashCanResultHandler {
 
-	void handleTrashCanLocations(OverpassResponse response, boolean isCached);
+	void handleTrashCanLocations(List<? extends LatLon> locations, boolean isCached);
 
 	boolean shouldCacheResults();
 

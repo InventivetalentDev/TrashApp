@@ -39,8 +39,8 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
-	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
-	public static OverpassResponse.Element       closestTrashCan;
+	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
+	public static LatLon       closestTrashCan;
 
 //	private final LocationListener    mLocationListener = new LocationListener() {
 //		@Override
@@ -282,14 +282,14 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 	}
 
 	@Override
-	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
-		Log.i("TrashApp", response.toString());
-		List<OverpassResponse.Element> elements = response.elementsSortedByDistanceFrom(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
+//		Log.i("TrashApp", response.toString());
+//		List<OverpassResponse.Element> elements = response.elementsSortedByDistanceFrom(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 		nearbyTrashCans.clear();
 		nearbyTrashCans.addAll(elements);
 
 		if (elements.size() > 0) {
-			OverpassResponse.Element closest = elements.get(0);
+			LatLon closest = elements.get(0);
 			closestTrashCan = closest;
 //			updatePointer();
 		} else {

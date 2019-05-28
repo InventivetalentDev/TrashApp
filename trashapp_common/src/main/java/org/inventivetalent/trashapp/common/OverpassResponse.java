@@ -31,11 +31,11 @@ public class OverpassResponse {
 		return sorted;
 	}
 
-	public static List<Element> elementsSortedByDistanceFrom(List<Element> elements, final Location location) {
-		List<Element> sorted = new ArrayList<>(elements);
-		Collections.sort(sorted, new Comparator<Element>() {
+	public static List<? extends LatLon> elementsSortedByDistanceFrom(Collection<? extends LatLon> elements, final Location location) {
+		List<? extends LatLon> sorted = new ArrayList<>(elements);
+		Collections.sort(sorted, new Comparator<LatLon>() {
 			@Override
-			public int compare(Element o1, Element o2) {
+			public int compare(LatLon o1, LatLon o2) {
 				Float d1 = location.distanceTo(o1.toLocation());
 				Float d2 = location.distanceTo(o2.toLocation());
 
@@ -45,7 +45,7 @@ public class OverpassResponse {
 		return sorted;
 	}
 
-	public static List<Element> convertElementsToPoints(List<Element> elements) {
+	public static List<Element> convertElementsToPoints(Collection<Element> elements) {
 		List<Element> pointElements = new ArrayList<>();
 
 		LongSparseArray<Element> referencedNodes = new LongSparseArray<>();
@@ -113,6 +113,7 @@ public class OverpassResponse {
 
 		private Location location;
 
+		@Override
 		public Location toLocation() {
 			if (location == null) {
 				location = new Location(String.valueOf(id));

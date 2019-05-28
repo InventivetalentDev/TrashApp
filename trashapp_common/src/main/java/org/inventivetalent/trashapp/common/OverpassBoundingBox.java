@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public class OverpassBoundingBox {
 
-	private final double south, west, north, east;
+	public final double south, west, north, east;
 
 	// south = min latitude
 	// west = min longitude

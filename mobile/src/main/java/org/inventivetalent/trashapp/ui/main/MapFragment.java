@@ -17,10 +17,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.OsmAndHelper;
-import org.inventivetalent.trashapp.common.OverpassResponse;
-import org.inventivetalent.trashapp.common.PaymentHandler;
-import org.inventivetalent.trashapp.common.Util;
+import org.inventivetalent.trashapp.common.*;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
@@ -137,9 +134,9 @@ public class MapFragment extends Fragment {
 				//				moveMap(location);
 			}
 		});
-		viewModel.mClosestCan.observe(this, new Observer<OverpassResponse.Element>() {
+		viewModel.mClosestCan.observe(this, new Observer<LatLon>() {
 			@Override
-			public void onChanged(@Nullable OverpassResponse.Element element) {
+			public void onChanged(@Nullable LatLon element) {
 				setMarkers(element);
 			}
 		});
@@ -176,7 +173,7 @@ public class MapFragment extends Fragment {
 	void focusOnSelfAndClosest() {
 		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		Location location = viewModel.mLocation.getValue();
-		OverpassResponse.Element closest =viewModel.mClosestCan.getValue();
+		LatLon closest =viewModel.mClosestCan.getValue();
 		if (location != null&&closest!=null) {
 			//TODO
 		}
@@ -189,7 +186,7 @@ public class MapFragment extends Fragment {
 		}
 	}
 
-	void setMarkers(OverpassResponse.Element closestElement) {
+	void setMarkers(LatLon closestElement) {
 		if (mapController != null && closestElement != null) {
 			//			for (Marker marker : canMarkers) {
 			//				marker.remove();
@@ -257,7 +254,7 @@ public class MapFragment extends Fragment {
 			//			canMarkers.add(marker);
 
 			if (selfMarker != null /*&& closestCanMarker != null*/) {
-				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.lat, closestElement.lon)));
+				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.getLat(), closestElement.getLon())));
 			}
 
 
@@ -271,7 +268,7 @@ public class MapFragment extends Fragment {
 				mapView.getOverlays().add(markerClusterer);
 			}
 			markerClusterer.getItems().clear();
-			for (OverpassResponse.Element element : TabActivity.nearbyTrashCans) {
+			for (LatLon element : TabActivity.nearbyTrashCans) {
 //				if (element.id == closestElement.id) {
 //					continue;// don't add twice
 //				}
@@ -283,7 +280,7 @@ public class MapFragment extends Fragment {
 				marker.setInfoWindow(null);
 				marker.setAlpha(.9f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
-				marker.setPosition(new GeoPoint(element.lat, element.lon));
+				marker.setPosition(new GeoPoint(element.getLat(), element.getLon()));
 //				canMarkers.add(marker);
 //				mapView.getOverlays().add(marker);
 				markerClusterer.add(marker);

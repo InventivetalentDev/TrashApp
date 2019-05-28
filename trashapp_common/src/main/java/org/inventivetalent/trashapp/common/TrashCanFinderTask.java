@@ -1,14 +1,12 @@
 package org.inventivetalent.trashapp.common;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import com.google.gson.Gson;
-import org.inventivetalent.trashapp.common.db.AppDatabase;
 
-import java.io.*;
+import java.io.IOException;
+import java.util.List;
 
-public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, OverpassResponse> {
+public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.Element> {
 
 	private static OverpassAPI overpassAPI = new OverpassAPI();
 
@@ -16,28 +14,41 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 	private TrashCanResultHandler handler;
 
 	public TrashCanFinderTask(Context activity, TrashCanResultHandler handler) {
+		super(handler);
 		this.query = new OverpassQuery(activity, R.raw.waste_basket_query);
-		this.handler = handler;
+	}
+
+//	@Override
+//	protected void onPreExecute() {
+////		File cacheFile = handler.getCacheFile();
+////		if (cacheFile!=null&&cacheFile.exists()) {
+////			try (Reader reader = new FileReader(cacheFile)) {
+////				OverpassResponse response = new Gson().fromJson(reader, OverpassResponse.class);
+////				handler.handleTrashCanLocations(response, true);
+////			} catch (IOException e) {
+////				Log.w("TrashCanFinderTask", "failed to read response from cache file", e);
+////			}
+////		}
+//	}
+
+	@Override
+	boolean isCaching() {
+		return false;
 	}
 
 	@Override
-	protected void onPreExecute() {
-		File cacheFile = handler.getCacheFile();
-		if (cacheFile!=null&&cacheFile.exists()) {
-			try (Reader reader = new FileReader(cacheFile)) {
-				OverpassResponse response = new Gson().fromJson(reader, OverpassResponse.class);
-				handler.handleTrashCanLocations(response, true);
-			} catch (IOException e) {
-				Log.w("TrashCanFinderTask", "failed to read response from cache file", e);
-			}
-		}
+	protected List<OverpassResponse.Element> sanitize(List<OverpassResponse.Element> elements) {
+		return OverpassResponse.convertElementsToPoints(elements);
 	}
 
 	@Override
-	protected OverpassResponse doInBackground(OverpassBoundingBox... overpassBoundingBoxes) {
+	protected List<OverpassResponse.Element> doInBackground(OverpassBoundingBox... overpassBoundingBoxes) {
 		if (overpassBoundingBoxes.length > 0) {
 			try {
-				return overpassAPI.query(this.query, overpassBoundingBoxes[0]);
+				OverpassResponse response =  overpassAPI.query(this.query, overpassBoundingBoxes[0]);
+				if (response != null) {
+					return response.elements;
+				}
 			} catch (IOException e) {
 				Log.e("TrashCanFinderTask", "Overpass Query failed", e);
 				e.printStackTrace();
@@ -46,26 +57,28 @@ public class TrashCanFinderTask extends AsyncTask<OverpassBoundingBox, Void, Ove
 		return null;
 	}
 
-	@Override
-	protected void onPostExecute(OverpassResponse overpassResponse) {
-		if (overpassResponse != null) {
-			handler.handleTrashCanLocations(overpassResponse, false);
 
-			if (handler.shouldCacheResults()) {
-				File cacheFile = handler.getCacheFile();
-				if(cacheFile!=null) {
-					try (Writer writer = new FileWriter(cacheFile)) {
-						new Gson().toJson(overpassResponse, writer);
-					} catch (IOException e) {
-						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
-					}
-				}
 
-				AppDatabase appDatabase = handler.getDatabase();
-				if (appDatabase != null) {
-					//TODO
-				}
-			}
-		}
-	}
+//	@Override
+//	protected void onPostExecute(Collection<OverpassResponse.Element> elements) {
+//		if (elements != null) {
+//			handler.handleTrashCanLocations(overpassResponse, false);
+//
+//			if (handler.shouldCacheResults()) {
+//				File cacheFile = handler.getCacheFile();
+//				if(cacheFile!=null) {
+//					try (Writer writer = new FileWriter(cacheFile)) {
+//						new Gson().toJson(overpassResponse, writer);
+//					} catch (IOException e) {
+//						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
+//					}
+//				}
+//
+//				AppDatabase appDatabase = handler.getDatabase();
+//				if (appDatabase != null) {
+//					//TODO
+//				}
+//			}
+//		}
+//	}
 }

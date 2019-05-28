@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
-
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
-import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 
 public class MainActivity extends WearableActivity implements TrashCanResultHandler {
 
@@ -47,8 +45,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
-	public static List<OverpassResponse.Element> nearbyTrashCans = new ArrayList<>();
-	public static OverpassResponse.Element       closestTrashCan;
+	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
+	public static LatLon       closestTrashCan;
 
 	private final LocationListener    mLocationListener = new LocationListener() {
 		@Override
@@ -168,7 +166,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		searchProgress.setVisibility(View.INVISIBLE);
 		pointerView.setVisibility(View.VISIBLE);
 
-		double distance = distance(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.lat, closestTrashCan.lon) / ONE_METER_DEG;
+		double distance = distance(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), closestTrashCan.getLat(), closestTrashCan.getLon()) / ONE_METER_DEG;
 		distanceTextView.setText(Math.round(distance) + "m");
 
 		//		double heading = (Math.toDegrees(lastKnownRotation[0]) + 360) % 360;
@@ -312,19 +310,15 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	}
 
 	@Override
-	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
-		Log.i("TrashApp", response.toString());
-
-
-		List<OverpassResponse.Element> elements = response.elements;
-		elements = convertElementsToPoints(elements);
+	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
+//		elements = convertElementsToPoints(elements);
 		Log.i("TrashApp", elements.toString());
 
 		nearbyTrashCans.clear();
 		nearbyTrashCans.addAll(elements);
 
 		if (elements.size() > 0) {
-			OverpassResponse.Element closest = elements.get(0);
+			LatLon closest = elements.get(0);
 			closestTrashCan = closest;
 			updatePointer();
 		} else {
