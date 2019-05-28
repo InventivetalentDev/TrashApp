@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.room.Room;
+
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
+import static org.inventivetalent.trashapp.common.OverpassResponse.convertElementsToPoints;
 
 public class MainActivity extends WearableActivity implements TrashCanResultHandler {
 
@@ -107,6 +110,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	private float lastPointerRotation;
 
+	private AppDatabase appDatabase;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,6 +122,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		searchProgress = findViewById(R.id.progressBar);
 
 		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer_24dp));
+
+		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
 
 		// Enables Always-on
 		setAmbientEnabled();
@@ -282,8 +289,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	@Override
 	public AppDatabase getDatabase() {
-		//TODO
-		return null;
+		return appDatabase;
 	}
 
 	void lookForTrashCans() {
@@ -308,7 +314,12 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	@Override
 	public void handleTrashCanLocations(OverpassResponse response, boolean isCached) {
 		Log.i("TrashApp", response.toString());
-		List<OverpassResponse.Element> elements = response.elementsSortedByDistanceFrom(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+
+		List<OverpassResponse.Element> elements = response.elements;
+		elements = convertElementsToPoints(elements);
+		Log.i("TrashApp", elements.toString());
+
 		nearbyTrashCans.clear();
 		nearbyTrashCans.addAll(elements);
 
@@ -317,6 +328,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 			closestTrashCan = closest;
 			updatePointer();
 		} else {
+			Util.insertTrashcanResult(appDatabase, elements);
+
 			closestTrashCan = null;
 			updatePointer();
 		}
