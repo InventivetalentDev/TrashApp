@@ -67,7 +67,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	protected static SkuInfo SKU_INFO_PREMIUM;
 
 	private int searchItaration = 0;
-	private AppDatabase appDatabase;
+	protected AppDatabase appDatabase;
 
 	private final LocationListener    mLocationListener = new LocationListener() {
 		@Override

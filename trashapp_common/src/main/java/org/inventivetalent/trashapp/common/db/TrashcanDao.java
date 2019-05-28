@@ -17,6 +17,9 @@ public interface TrashcanDao {
 	void insertAll(TrashcanEntity... trashcans);
 
 	@Delete
-	void delete(TrashcanEntity user);
+	void delete(TrashcanEntity trashcan);
+
+	@Query("DELETE FROM trashcans")
+	void deleteAll();
 
 }

@@ -1,6 +1,9 @@
 package org.inventivetalent.trashapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import com.google.android.material.snackbar.Snackbar;
 import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.PaymentHandler;
 import org.inventivetalent.trashapp.common.PaymentReadyListener;
@@ -70,6 +74,37 @@ public class SettingsActivity extends AppCompatActivity {
 						} else {
 							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 						}
+						return true;
+					}
+				});
+			}
+
+			final Preference clearCachePreference = findPreference("dummy_clear_cache");
+			if (clearCachePreference != null) {
+				clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						new AlertDialog.Builder(getActivity())
+								.setTitle(R.string.dialog_clear_cache_title)
+								.setMessage(R.string.dialog_clear_cache_message)
+								.setIcon(android.R.drawable.ic_dialog_alert)
+								.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										AsyncTask.execute(new Runnable() {
+											@Override
+											public void run() {
+												Log.i("SettingsActivity", "ClearCache positive onClick");
+
+												TabActivity.instance.appDatabase.trashcanDao().deleteAll();
+//												Toast.makeText(getContext(), "Trashcan cache cleared", Toast.LENGTH_SHORT).show();
+												Snackbar.make(getView(), "Trashcan cache cleared", Snackbar.LENGTH_SHORT).show();
+											}
+										});
+									}
+								}).setNegativeButton(android.R.string.no, null)
+								.show();
+
 						return true;
 					}
 				});

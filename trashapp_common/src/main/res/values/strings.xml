@@ -32,4 +32,8 @@
     <string name="about_dev_link">https://inventivetalent.org</string>
     <string name="description_trashcan">Trashcan</string>
     <string name="description_map_my_location">Show my Location</string>
+    <string name="settings_themes_title">Theme</string>
+    <string name="settings_clear_cache_title">Clear Trashcan Cache</string>
+    <string name="dialog_clear_cache_title">Clear Cache?</string>
+    <string name="dialog_clear_cache_message">Do you want to clear all cached trashcans?</string>
 </resources>

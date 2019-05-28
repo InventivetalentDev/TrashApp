@@ -48,6 +48,10 @@
                 android:defaultValue="false"
                 android:key="enable_debug"/>
 
+        <Preference
+            android:title="@string/settings_clear_cache_title"
+            android:key="dummy_clear_cache"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_premium_title">
