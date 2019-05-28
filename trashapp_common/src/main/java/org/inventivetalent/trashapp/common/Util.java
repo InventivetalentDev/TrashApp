@@ -6,17 +6,16 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
@@ -108,7 +107,6 @@ public class Util {
 		return i;
 	}
 
-
 	public static float getFloat(SharedPreferences preferences, String key, float def) {
 		float f = def;
 		try {
@@ -164,23 +162,25 @@ public class Util {
 		context.setTheme(rId);
 	}
 
-
-	public static void insertTrashcanResult(AppDatabase database, List<? extends LatLon> sanitizedElements) {
-		TrashcanEntity[] entities = new TrashcanEntity[sanitizedElements.size()];
-		for (int i=0;i<sanitizedElements.size();i++) {
+	public static void insertTrashcanResult(final AppDatabase database, List<? extends LatLon> sanitizedElements) {
+		final TrashcanEntity[] entities = new TrashcanEntity[sanitizedElements.size()];
+		for (int i = 0; i < sanitizedElements.size(); i++) {
 			LatLon element = sanitizedElements.get(i);
 			TrashcanEntity entity = new TrashcanEntity();
-			if(element instanceof TrashcanEntity)
-				entity.id = ((TrashcanEntity) element).id;
-			if(element instanceof OverpassResponse.Element)
-				entity.id = ((OverpassResponse.Element) element).id;
-
+			if (element instanceof TrashcanEntity) { entity.id = ((TrashcanEntity) element).id; }
+			if (element instanceof OverpassResponse.Element) { entity.id = ((OverpassResponse.Element) element).id; }
 
 			entity.lat = element.getLat();
-			entity.lon  =element.getLon();
-		}
-		database.trashcanDao().insertAll(entities);
-	}
+			entity.lon = element.getLon();
 
+			entities[i] = entity;
+		}
+		AsyncTask.execute(new Runnable() {
+			@Override
+			public void run() {
+				database.trashcanDao().insertAll(entities);
+			}
+		});
+	}
 
 }
