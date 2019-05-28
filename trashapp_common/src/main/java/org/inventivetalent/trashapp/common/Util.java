@@ -10,12 +10,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
+import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class Util {
@@ -181,6 +183,19 @@ public class Util {
 				database.trashcanDao().insertAll(entities);
 			}
 		});
+	}
+
+	public static void showDebugDBAddressLogToast(Context context) {
+		if (BuildConfig.DEBUG) {
+			try {
+				Class<?> debugDB = Class.forName("com.amitshekhar.DebugDB");
+				Method getAddressLog = debugDB.getMethod("getAddressLog");
+				Object value = getAddressLog.invoke(null);
+				Toast.makeText(context, (String) value, Toast.LENGTH_LONG).show();
+			} catch (Exception ignore) {
+
+			}
+		}
 	}
 
 }

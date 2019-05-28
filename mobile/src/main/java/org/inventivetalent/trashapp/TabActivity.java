@@ -169,6 +169,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//						.setAction("Action", null).show();
 		//			}
 		//		});
+		Util.showDebugDBAddressLogToast(this);
 	}
 
 	@Override
