@@ -215,6 +215,7 @@ public class MapFragment extends Fragment {
 
 				if (polyline == null) {
 					polyline = new Polyline(mapView);
+					polyline.setWidth(5f);
 					mapView.getOverlays().add(polyline);
 				}
 
