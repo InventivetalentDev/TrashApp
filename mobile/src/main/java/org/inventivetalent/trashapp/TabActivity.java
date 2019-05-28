@@ -336,6 +336,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 				Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
 			}
+		}else{
+			Util.insertTrashcanResult(appDatabase, elements);
 		}
 		updateClosestTrashcan(elements);
 	}

@@ -13,6 +13,10 @@ import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.TrashcanEntity;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
@@ -160,6 +164,23 @@ public class Util {
 		context.setTheme(rId);
 	}
 
+
+	public static void insertTrashcanResult(AppDatabase database, List<? extends LatLon> sanitizedElements) {
+		TrashcanEntity[] entities = new TrashcanEntity[sanitizedElements.size()];
+		for (int i=0;i<sanitizedElements.size();i++) {
+			LatLon element = sanitizedElements.get(i);
+			TrashcanEntity entity = new TrashcanEntity();
+			if(element instanceof TrashcanEntity)
+				entity.id = ((TrashcanEntity) element).id;
+			if(element instanceof OverpassResponse.Element)
+				entity.id = ((OverpassResponse.Element) element).id;
+
+
+			entity.lat = element.getLat();
+			entity.lon  =element.getLon();
+		}
+		database.trashcanDao().insertAll(entities);
+	}
 
 
 }

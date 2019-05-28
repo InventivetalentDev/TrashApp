@@ -96,7 +96,7 @@ public class OverpassResponse {
 				'}';
 	}
 
-	public static class Element {
+	public static class Element implements LatLon {
 
 		@SerializedName("type")
 		public String type;
@@ -130,6 +130,16 @@ public class OverpassResponse {
 					", lat=" + lat +
 					", lon=" + lon +
 					'}';
+		}
+
+		@Override
+		public double getLat() {
+			return lat;
+		}
+
+		@Override
+		public double getLon() {
+			return lon;
 		}
 	}
 
