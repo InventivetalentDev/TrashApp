@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.android.billingclient:billing:2.0.0'
     implementation "androidx.room:room-runtime:2.1.0-alpha07"
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha07" // For Kotlin use kapt instead of annotationProcessor
+    implementation 'com.google.firebase:firebase-core:16.0.9'
 }
