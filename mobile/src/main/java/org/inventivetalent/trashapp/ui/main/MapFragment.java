@@ -131,13 +131,15 @@ public class MapFragment extends Fragment {
 		viewModel.mLocation.observe(this, new Observer<Location>() {
 			@Override
 			public void onChanged(@Nullable Location location) {
-				//				moveMap(location);
+				updateSelfMarker(location);
+				mapView.invalidate();
 			}
 		});
 		viewModel.mClosestCan.observe(this, new Observer<LatLon>() {
 			@Override
 			public void onChanged(@Nullable LatLon element) {
 				setMarkers(element);
+				mapView.invalidate();
 			}
 		});
 
@@ -186,6 +188,47 @@ public class MapFragment extends Fragment {
 		}
 	}
 
+	void updateSelfMarker(Location location) {
+		if (location != null) {
+			// add self marker
+			if (selfMarker == null) {
+				selfMarker = new org.osmdroid.views.overlay.Marker(mapView);
+				Drawable drawable = getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp);
+				selfMarker.setIcon(drawable);
+				selfMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
+				selfMarker.setInfoWindow(null);
+				mapView.getOverlays().add(selfMarker);
+			}
+			GeoPoint selfPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+			selfMarker.setPosition(selfPoint);
+			if (!zoomedToSelf) {
+				moveToSelfLocation();
+				zoomedToSelf = true;
+			}
+
+			if (polyline == null) {
+				polyline = new Polyline(mapView);
+				polyline.setWidth(5f);
+				polyline.setInfoWindow(null);
+				mapView.getOverlays().add(polyline);
+			}
+
+			//				MarkerOptions markerOptions = new MarkerOptions()
+			//						.icon(BitmapDescriptorFactory.fromBitmap(Util.getBitmapFromVectorDrawable(getActivity(), R.drawable.ic_person_pin_circle_black_24dp)))
+			//						.anchor(.5f, 1f)
+			//						.alpha(0.9f)
+			//						.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
+			//				Marker marker = map.addMarker(markerOptions);
+			//				canMarkers.add(marker);
+
+			//				PolylineOptions polylineOptions = new PolylineOptions()
+			//						.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
+			//						.add(new LatLng(closestElement.lat, closestElement.lon));
+			//				map.addPolyline(polylineOptions);
+
+		}
+	}
+
 	void setMarkers(LatLon closestElement) {
 		if (mapController != null && closestElement != null) {
 			//			for (Marker marker : canMarkers) {
@@ -196,44 +239,7 @@ public class MapFragment extends Fragment {
 			final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 			Location lastLocation = viewModel.mLocation.getValue();
 
-			if (lastLocation != null) {
-				// add self marker
-				if (selfMarker == null) {
-					selfMarker = new org.osmdroid.views.overlay.Marker(mapView);
-					Drawable drawable = getResources().getDrawable(R.drawable.ic_person_pin_circle_black_24dp);
-					selfMarker.setIcon(drawable);
-					selfMarker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
-					selfMarker.setInfoWindow(null);
-					mapView.getOverlays().add(selfMarker);
-				}
-				GeoPoint selfPoint = new GeoPoint(lastLocation.getLatitude(), lastLocation.getLongitude());
-				selfMarker.setPosition(selfPoint);
-				if (!zoomedToSelf) {
-					moveToSelfLocation();
-					zoomedToSelf = true;
-				}
-
-				if (polyline == null) {
-					polyline = new Polyline(mapView);
-					polyline.setWidth(5f);
-					polyline.setInfoWindow(null);
-					mapView.getOverlays().add(polyline);
-				}
-
-				//				MarkerOptions markerOptions = new MarkerOptions()
-				//						.icon(BitmapDescriptorFactory.fromBitmap(Util.getBitmapFromVectorDrawable(getActivity(), R.drawable.ic_person_pin_circle_black_24dp)))
-				//						.anchor(.5f, 1f)
-				//						.alpha(0.9f)
-				//						.position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
-				//				Marker marker = map.addMarker(markerOptions);
-				//				canMarkers.add(marker);
-
-				//				PolylineOptions polylineOptions = new PolylineOptions()
-				//						.add(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))
-				//						.add(new LatLng(closestElement.lat, closestElement.lon));
-				//				map.addPolyline(polylineOptions);
-
-			}
+			updateSelfMarker(lastLocation);
 
 			// add closest marker
 //			if (closestCanMarker == null) {
