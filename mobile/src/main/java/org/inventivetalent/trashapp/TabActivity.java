@@ -205,6 +205,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		mSensorManager.registerListener(mSensorListener, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		mSensorManager.registerListener(mSensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 		if (requestLocationUpdates(true)) {
 			lookForTrashCans();
@@ -298,7 +299,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//		setLastKnownLocation(location);
 		//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
-//		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
+		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
 
 		return true;
 	}
