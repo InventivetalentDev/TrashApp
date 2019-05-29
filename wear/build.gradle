@@ -35,6 +35,7 @@ dependencies {
     implementation "androidx.room:room-runtime:2.1.0-beta01"
     annotationProcessor "androidx.room:room-compiler:2.1.0-beta01" // For Kotlin use kapt instead of annotationProcessor
     implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
 
 configurations.all {

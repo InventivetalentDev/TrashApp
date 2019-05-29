@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
+import com.google.android.gms.location.*;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
@@ -47,7 +48,12 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
 	public static LatLon       closestTrashCan;
 
-	private final LocationListener    mLocationListener = new LocationListener() {
+	private       FusedLocationProviderClient fusedLocationProviderClient;
+	private       LocationRequest             locationRequest   = new LocationRequest()
+			.setInterval(Constants.LOCATION_INTERVAL)
+			.setFastestInterval(Constants.LOCATION_INTERVAL_MIN)
+			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+	private final LocationListener            mLocationListener = new LocationListener() {
 		@Override
 		public void onLocationChanged(final Location location) {
 			Log.i("TrashApp", "onLocationChanged");
@@ -68,7 +74,20 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		public void onProviderDisabled(String provider) {
 		}
 	};
-	private final SensorEventListener mSensorListener   = new SensorEventListener() {
+	private final LocationCallback            locationCallback  = new LocationCallback() {
+		@Override
+		public void onLocationResult(LocationResult locationResult) {
+			if (locationResult == null) {
+				return;
+			}
+
+			Log.i("TrashApp", "onLocationResult");
+			Log.i("TrashApp", locationResult.toString());
+
+			setLastKnownLocation(locationResult.getLastLocation());
+		}
+	};
+	private final SensorEventListener         mSensorListener   = new SensorEventListener() {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -142,6 +161,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		mSensorManager.registerListener(mSensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 		if (requestLocationUpdates(true)) {
 			lookForTrashCans();
 		}
@@ -151,8 +171,9 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	protected void onPause() {
 		super.onPause();
 
-		mSensorManager.unregisterListener(mSensorListener);
-		mLocationManager.removeUpdates(mLocationListener);
+		if (mSensorManager != null) { mSensorManager.unregisterListener(mSensorListener); }
+		//		mLocationManager.removeUpdates(mLocationListener);
+		if (fusedLocationProviderClient != null) { fusedLocationProviderClient.removeLocationUpdates(locationCallback); }
 	}
 
 	void updatePointer() {
@@ -257,8 +278,10 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 		Log.i("TrashApp", "Location permissions granted!");
 		// has permission, request!
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-				LOCATION_REFRESH_DISTANCE, mLocationListener);
+		fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null/*Looper*/);
+
+//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+//				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
 		Log.i("TrashApp", "Trying to get last known location from providers");
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -273,7 +296,6 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 		return true;
 	}
-
 
 	@Override
 	public AppDatabase getDatabase() {
@@ -301,7 +323,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	@Override
 	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
-//		elements = convertElementsToPoints(elements);
+		//		elements = convertElementsToPoints(elements);
 		Log.i("TrashApp", elements.toString());
 
 		nearbyTrashCans.clear();
