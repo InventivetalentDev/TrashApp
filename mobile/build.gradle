@@ -52,7 +52,8 @@ dependencies {
     implementation "androidx.room:room-runtime:2.1.0-beta01"
     annotationProcessor "androidx.room:room-compiler:2.1.0-beta01" // For Kotlin use kapt instead of annotationProcessor
     implementation 'com.android.support:multidex:1.0.3'
-    compile 'com.google.android.gms:play-services-analytics:16.0.8'
+    implementation 'com.google.android.gms:play-services-analytics:16.0.8'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.9'
 //    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

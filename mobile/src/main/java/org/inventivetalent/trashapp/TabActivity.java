@@ -23,6 +23,7 @@ import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.location.*;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
@@ -69,6 +70,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private int searchItaration = 0;
 	protected AppDatabase appDatabase;
 
+	private FusedLocationProviderClient fusedLocationProviderClient;
+	private LocationRequest 	locationRequest = new LocationRequest()
+			.setInterval(Constants.LOCATION_INTERVAL)
+			.setFastestInterval(Constants.LOCATION_INTERVAL_MIN)
+			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 	private final LocationListener    mLocationListener = new LocationListener() {
 		@Override
 		public void onLocationChanged(final Location location) {
@@ -88,6 +94,19 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		@Override
 		public void onProviderDisabled(String provider) {
+		}
+	};
+	private final LocationCallback locationCallback = new LocationCallback(){
+		@Override
+		public void onLocationResult(LocationResult locationResult) {
+			if (locationResult == null) {
+				return;
+			}
+
+			Log.i("TrashApp", "onLocationResult");
+			Log.i("TrashApp", locationResult.toString());
+
+			setLastKnownLocation(locationResult.getLastLocation());
 		}
 	};
 	private final SensorEventListener mSensorListener   = new SensorEventListener() {
@@ -186,7 +205,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		mSensorManager.registerListener(mSensorListener, magneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		mSensorManager.registerListener(mSensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 		if (requestLocationUpdates(true)) {
 			lookForTrashCans();
 		}
@@ -204,7 +223,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		updateWidget();
 
 		if (mSensorManager != null) { mSensorManager.unregisterListener(mSensorListener); }
-		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
+//		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
+		if (fusedLocationProviderClient != null) { fusedLocationProviderClient.removeLocationUpdates(locationCallback); }
 	}
 
 	@Override
@@ -254,10 +274,14 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		Log.i("TrashApp", "Location permissions granted!");
 		// has permission, request!
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-				LOCATION_REFRESH_DISTANCE, mLocationListener);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
-				LOCATION_REFRESH_DISTANCE, mLocationListener);
+
+		fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null/*Looper*/);
+
+//		//TODO: use google play services for location updates
+//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+//				LOCATION_REFRESH_DISTANCE, mLocationListener);
+//		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
+//				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
 		//		Log.i("TrashApp", "Trying to get last known location from providers");
 		//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -274,7 +298,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//		setLastKnownLocation(location);
 		//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
-		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
+//		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
 
 		return true;
 	}
