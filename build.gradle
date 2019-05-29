@@ -27,13 +27,8 @@ allprojects {
 }
 
 ext{
-    // type major minor patch
-    // type 1 = dev
-    // type 2 = alpha
-    // type 3 = beta
-    // type 4 = release
-    appVersionId = "2000108"
-    appVersionName = "alpha-0.1.8"
+    appVersionId = "5000108"
+    appVersionName = "0.1.8"
 }
 
 task clean(type: Delete) {
