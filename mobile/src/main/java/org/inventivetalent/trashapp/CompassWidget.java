@@ -14,7 +14,6 @@ import android.widget.RemoteViews;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -298,17 +297,6 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 		}
 	}
 
-	@Override
-	public boolean shouldCacheResults() {
-		//TODO
-		return false;
-	}
-
-	@Override
-	public File getCacheFile() {
-		//TODO
-		return null;
-	}
 
 	@Override
 	public AppDatabase getDatabase() {

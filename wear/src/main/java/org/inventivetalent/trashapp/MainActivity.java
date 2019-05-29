@@ -24,7 +24,6 @@ import androidx.room.Room;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -275,15 +274,6 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		return true;
 	}
 
-	@Override
-	public boolean shouldCacheResults() {
-		return true;
-	}
-
-	@Override
-	public File getCacheFile() {
-		return new File(getFilesDir(), "last_osm_query.json");
-	}
 
 	@Override
 	public AppDatabase getDatabase() {

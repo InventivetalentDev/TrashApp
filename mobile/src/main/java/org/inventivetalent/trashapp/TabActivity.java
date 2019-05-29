@@ -30,7 +30,6 @@ import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
-import java.io.File;
 import java.util.*;
 
 import static org.inventivetalent.trashapp.common.Constants.*;
@@ -325,16 +324,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//TODO: make this more efficient, i.e. don't run both
 		new DbTrashcanQueryTask(this).execute(boundingBox);
 		new TrashCanFinderTask(this, this).execute(boundingBox);
-	}
-
-	@Override
-	public boolean shouldCacheResults() {
-		return sharedPreferences.getBoolean("cache_data", true);
-	}
-
-	@Override
-	public File getCacheFile() {
-		return new File(getFilesDir(), "last_osm_query.json");
 	}
 
 	@Override
