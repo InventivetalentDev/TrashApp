@@ -283,20 +283,20 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
 		//				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
-		//		Log.i("TrashApp", "Trying to get last known location from providers");
-		//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		//		if (location == null) {
-		//			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		//		} else {
-		//			Log.i("TrashApp", "got last known location from gps provider");
-		//		}
-		//		if (location == null) {
-		//			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-		//		} else {
-		//			Log.i("TrashApp", "got last known location from network provider");
-		//		}
-		//		setLastKnownLocation(location);
-		//		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
+		Log.i("TrashApp", "Trying to get last known location from providers");
+		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (location == null) {
+			location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		} else {
+			Log.i("TrashApp", "got last known location from gps provider");
+		}
+		if (location == null) {
+			location = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+		} else {
+			Log.i("TrashApp", "got last known location from network provider");
+		}
+		setLastKnownLocation(location);
+		Log.i("TrashApp", lastKnownLocation != null ? lastKnownLocation.toString() : "n/a");
 
 		mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mLocationListener, null);
 
