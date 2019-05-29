@@ -61,21 +61,21 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static LatLon       closestTrashCan;
 
 	private BillingManager            billingManager;
-	private boolean billingManagerReady;
+	private boolean                   billingManagerReady;
 	private Set<String>               purchasedSkus         = new HashSet<>();
 	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
 
 	protected static SkuInfo SKU_INFO_PREMIUM;
 
-	private int searchItaration = 0;
+	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
 
-	private FusedLocationProviderClient fusedLocationProviderClient;
-	private LocationRequest 	locationRequest = new LocationRequest()
+	private       FusedLocationProviderClient fusedLocationProviderClient;
+	private       LocationRequest             locationRequest   = new LocationRequest()
 			.setInterval(Constants.LOCATION_INTERVAL)
 			.setFastestInterval(Constants.LOCATION_INTERVAL_MIN)
 			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-	private final LocationListener    mLocationListener = new LocationListener() {
+	private final LocationListener            mLocationListener = new LocationListener() {
 		@Override
 		public void onLocationChanged(final Location location) {
 			Log.i("TrashApp", "onLocationChanged");
@@ -96,7 +96,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		public void onProviderDisabled(String provider) {
 		}
 	};
-	private final LocationCallback locationCallback = new LocationCallback(){
+	private final LocationCallback            locationCallback  = new LocationCallback() {
 		@Override
 		public void onLocationResult(LocationResult locationResult) {
 			if (locationResult == null) {
@@ -109,7 +109,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			setLastKnownLocation(locationResult.getLastLocation());
 		}
 	};
-	private final SensorEventListener mSensorListener   = new SensorEventListener() {
+	private final SensorEventListener         mSensorListener   = new SensorEventListener() {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -224,7 +224,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		updateWidget();
 
 		if (mSensorManager != null) { mSensorManager.unregisterListener(mSensorListener); }
-//		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
+		//		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
 		if (fusedLocationProviderClient != null) { fusedLocationProviderClient.removeLocationUpdates(locationCallback); }
 	}
 
@@ -278,11 +278,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null/*Looper*/);
 
-//		//TODO: use google play services for location updates
-//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-//				LOCATION_REFRESH_DISTANCE, mLocationListener);
-//		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
-//				LOCATION_REFRESH_DISTANCE, mLocationListener);
+		//		//TODO: use google play services for location updates
+		//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+		//				LOCATION_REFRESH_DISTANCE, mLocationListener);
+		//		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
+		//				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
 		//		Log.i("TrashApp", "Trying to get last known location from providers");
 		//		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -348,7 +348,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		initialSearchCompleted = true;
 
-//		elements = convertElementsToPoints(elements);
+		//		elements = convertElementsToPoints(elements);
 		Log.i("TrashApp", elements.toString());
 
 		if (elements.isEmpty()) {
@@ -360,9 +360,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 				// reset
 				searchItaration = 0;
 
-				Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
+				if (!isCached) { Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show(); }
 			}
-		}else{
+		} else {
 			Util.insertTrashcanResult(appDatabase, elements);
 		}
 		updateClosestTrashcan(elements);
@@ -379,9 +379,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			nearbyTrashCans.addAll(elements);
 
 			int i = 0;
-//			for (OverpassResponse.Element element : elements) {
-//				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
-//			}
+			//			for (OverpassResponse.Element element : elements) {
+			//				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
+			//			}
 
 			LatLon closest = elements.get(0);
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(closest);
@@ -480,8 +480,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	void updateWidget() {
-		if(closestTrashCan==null)return;
-		if(lastKnownLocation==null)return;
+		if (closestTrashCan == null) { return; }
+		if (lastKnownLocation == null) { return; }
 
 		Location canLocation = closestTrashCan.toLocation();
 		float bearing = lastKnownLocation.bearingTo(canLocation);
