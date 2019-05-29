@@ -45,6 +45,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
+	boolean initialSearchCompleted = false;
 	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
 	public static LatLon       closestTrashCan;
 
@@ -131,6 +132,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("TrashApp", "onCreate");
+
 		setContentView(R.layout.activity_main);
 
 		distanceTextView = findViewById(R.id.distanceTextView);
@@ -255,11 +258,16 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 			);
 			lastKnownLocation = location;
 
+			if (!initialSearchCompleted) {
+				lookForTrashCans();
+			}
+
 			updatePointer();
 		}
 	}
 
 	boolean requestLocationUpdates(boolean ask) {
+		Log.i("TrashApp", "checking location permissions (ask: "+ask+")");
 		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			Log.i("TrashApp", "Location permissions not granted");
 			if (ask) {
@@ -325,6 +333,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
 		//		elements = convertElementsToPoints(elements);
 		Log.i("TrashApp", elements.toString());
+
+		initialSearchCompleted = true;
 
 		nearbyTrashCans.clear();
 		nearbyTrashCans.addAll(elements);
