@@ -8,7 +8,7 @@
     <TextView
             android:layout_width="100dp"
             android:layout_height="0dp" android:id="@+id/distanceTextView"
-            android:textAlignment="center" app:layout_constraintTop_toBottomOf="@+id/trashCanImageView" android:text="0m" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:visibility="visible" android:textColor="@color/colorGray"/>
+            android:textAlignment="center" app:layout_constraintTop_toBottomOf="@+id/trashCanImageView" android:text="@string/distance_format" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" android:visibility="visible" android:textColor="@color/colorGray"/>
 
     <ProgressBar
             style="?android:attr/progressBarStyle"
