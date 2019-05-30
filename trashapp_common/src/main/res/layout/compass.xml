@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="fitCenter"
-            tools:visibility="visible" android:contentDescription="TODO"
+            tools:visibility="visible"
             android:visibility="invisible" android:tint="?attr/colorAccent"/>
     <ImageView
             android:layout_centerInParent="true"
