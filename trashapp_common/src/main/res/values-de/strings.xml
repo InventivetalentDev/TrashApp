@@ -17,7 +17,7 @@
     <string name="settings_search_radius_title">Suchradius (m)</string>
     <string name="settings_search_radius_max_title">Maximaler Suchradius (m)</string>
     <string name="settings_advanced_header">Erweitert</string>
-    <string name="settings_cache_title">Daten puffern</string>
+    <string name="settings_cache_title">Daten zwischenspeichern</string>
     <string name="settings_debug_title">Entwicklermodus</string>
     <string name="settings_osm_info">Mülleimer hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
@@ -34,7 +34,7 @@
     <string name="description_trashcan">Mülleimer</string>
     <string name="description_map_my_location">Standort anzeigen</string>
     <string name="settings_themes_title">Darstellung</string>
-    <string name="settings_clear_cache_title">Datenpuffer leeren</string>
-    <string name="dialog_clear_cache_title">Datenpuffer leeren?</string>
+    <string name="settings_clear_cache_title">Zwischenspeicher leeren</string>
+    <string name="dialog_clear_cache_title">Zwischenspeicher leeren?</string>
     <string name="dialog_clear_cache_message">Wollen Sie wirklich alle Mülleimer aus dem Zwischenspeicher entfernen?</string>
 </resources>
