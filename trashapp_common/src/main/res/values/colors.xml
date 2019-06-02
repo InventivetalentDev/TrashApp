@@ -15,9 +15,14 @@
     <color name="grassSecondaryLight">#99d066</color>
     <color name="grassSecondaryDark">#387002</color>
 
+    <color name="lightBackground">#F8F8F9</color>
+    <color name="darkBackground">#222</color>
+    <color name="darkBackgroundLight">#323232</color>
 
 
+    <color name="primaryTextColor">#000</color>
+    <color name="secondaryTextColor">#fff</color>
 
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryTextColorDark">#ffffff</color>
+    <color name="secondaryTextColorDark">#000000</color>
 </resources>

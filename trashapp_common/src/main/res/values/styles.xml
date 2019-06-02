@@ -5,6 +5,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/lightBackground</item>
+        <item name="android:background">@color/lightBackground</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
 
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
     </style>
@@ -12,6 +15,15 @@
         <item name="colorPrimary">@color/grassPrimary</item>
         <item name="colorPrimaryDark">@color/grassPrimaryDark</item>
         <item name="colorAccent">@color/grassSecondary</item>
+    </style>
+    <style name="DarkGrassTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/grassPrimary</item>
+        <item name="colorPrimaryDark">@color/grassPrimaryDark</item>
+        <item name="colorAccent">@color/grassSecondary</item>
+        <item name="android:background">@color/darkBackground</item>
+        <item name="android:colorBackground">@color/darkBackground</item>
+        <item name="android:textColor">@color/primaryTextColorDark</item>
+        <item name="colorButtonNormal">@color/darkBackgroundLight</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
