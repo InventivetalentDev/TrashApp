@@ -13,13 +13,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:clickable="true" android:id="@+id/addButton" android:layout_marginEnd="72dp" android:layout_marginStart="10dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:tint="@android:color/white" android:contentDescription="@string/description_map_edit"/>
+            android:clickable="true" android:id="@+id/addButton" android:layout_marginEnd="72dp" android:layout_marginStart="10dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp" android:tint="?attr/android:colorBackground" android:contentDescription="@string/description_map_edit"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             app:srcCompat="@drawable/ic_my_location_black_64dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:clickable="true" android:id="@+id/myLocationButton" android:layout_margin="10dp" android:tint="@android:color/white" android:contentDescription="@string/description_map_my_location"/>
+            android:clickable="true" android:id="@+id/myLocationButton" android:layout_margin="10dp" android:tint="?attr/android:colorBackground" android:contentDescription="@string/description_map_my_location"/>
     <org.osmdroid.views.MapView android:id="@+id/map"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"/>
