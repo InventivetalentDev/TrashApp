@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MüllApp</string>
+    <string name="action_settings">Einstellungen</string>
     <string name="tab_text_compass">Kompass</string>
     <string name="tab_text_map">Karte</string>
     <string name="searching_cans">Suche nach Mülleimern…</string>
-    <string name="action_settings">Einstellungen</string>
+    <string name="description_map_edit">Fügt einen neuen Mülleimer hinzu</string>
+    <string name="description_settings">Einstellungen der Anwendung</string>
+    <string name="err_no_trashcans">Es konnten keine Mülleimer in deiner Nähe gefunden werden :(</string>
     <string name="distance_format">%dm</string>
+    <string name="shrug" translatable="false">¯\\_(ツ)_/¯</string>
     <string name="title_activity_settings">Einstellungen</string>
+    <string name="settings_info_header">Info</string>
+    <string name="settings_about_title">Über</string>
     <string name="settings_search_header">Suche</string>
+    <string name="settings_search_radius_title">Suchradius (m)</string>
+    <string name="settings_search_radius_max_title">Maximaler Suchradius (m)</string>
+    <string name="settings_advanced_header">Erweitert</string>
+    <string name="settings_cache_title">Daten puffern</string>
+    <string name="settings_debug_title">Entwicklermodus</string>
+    <string name="settings_osm_info">Mülleimer hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
     <string name="settings_premium_title">Premium</string>
-    <string name="settings_osm_info">Mülleimer hinzufügen</string>
-    <string name="settings_advanced_header">Erweitert</string>
-    <string name="settings_about_title">Über</string>
-    <string name="description_trashcan">Mülleimer</string>
+    <string name="settings_dark_theme_title">Dark Theme</string>
     <string name="about_version">Version %s</string>
-    <string name="settings_info_header">Info</string>
+    <string name="about_osm_description">Karten und Umgebungsdaten von OpenStreetMap</string>
+    <string name="about_osm_link">https://openstreetmap.org</string>
+    <string name="about_wikimaps_description">Kartenmaterial von wikimedia maps</string>
+    <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
+    <string name="buy_dev_coffee">Spendiere dem Entwickler einen Kaffee!</string>
+    <string name="about_dev_description">Entwickelt durch inventivetalent</string>
+    <string name="about_dev_link">https://inventivetalent.org</string>
+    <string name="description_trashcan">Mülleimer</string>
+    <string name="description_map_my_location">Standort anzeigen</string>
+    <string name="settings_themes_title">Darstellung</string>
+    <string name="settings_clear_cache_title">Datenpuffer leeren</string>
+    <string name="dialog_clear_cache_title">Datenpuffer leeren?</string>
+    <string name="dialog_clear_cache_message">Wollen Sie wirklich alle Mülleimer aus dem Zwischenspeicher entfernen?</string>
 </resources>
