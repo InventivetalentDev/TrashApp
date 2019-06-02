@@ -128,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
 				themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 					@Override
 					public boolean onPreferenceChange(Preference preference, Object newValue) {
-						//TODO: refresh theme
+						getActivity().recreate();
 						return true;
 					}
 				});
