@@ -15,9 +15,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.LatLon;
+import org.inventivetalent.trashapp.common.OsmAndHelper;
+import org.inventivetalent.trashapp.common.PaymentHandler;
+import org.inventivetalent.trashapp.common.Util;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
@@ -47,6 +51,8 @@ public class MapFragment extends Fragment {
 							| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
 							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
 			));
+
+	private FirebaseAnalytics mFirebaseAnalytics;
 
 	private MapView              mapView;
 	private FloatingActionButton addButton;
@@ -86,7 +92,10 @@ public class MapFragment extends Fragment {
 				Toast.makeText(getActivity(), "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
 			}
 		});
+
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -344,6 +353,8 @@ public class MapFragment extends Fragment {
 	public void onResume() {
 		mapView.onResume();
 		super.onResume();
+
+		mFirebaseAnalytics.setCurrentScreen(getActivity(), "MapTab", null);
 	}
 
 	@Override

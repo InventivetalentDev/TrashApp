@@ -24,12 +24,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.*;
 
 public class CompassFragment extends Fragment {
+
+	private FirebaseAnalytics mFirebaseAnalytics;
+
 
 	private SharedPreferences sharedPreferences;
 	private boolean debug;
@@ -74,7 +78,16 @@ public class CompassFragment extends Fragment {
 		//			}
 		//		});
 
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
 		Log.i("TrashApp", "CompassFragment onCreate");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mFirebaseAnalytics.setCurrentScreen(getActivity(), "CompassTab", null);
 	}
 
 	@Override
@@ -243,5 +256,7 @@ public class CompassFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 	}
+
+
 
 }
