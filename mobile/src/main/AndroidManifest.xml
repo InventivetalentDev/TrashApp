@@ -77,6 +77,10 @@
                         android:scheme="https"
                         android:host="trashapp.inventivetalent.org"
                 />
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.inventivetalent.org"
+                />
             </intent-filter>
         </activity>
         <activity
