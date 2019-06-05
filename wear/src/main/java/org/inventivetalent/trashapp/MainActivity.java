@@ -7,6 +7,7 @@ import android.hardware.*;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
@@ -146,6 +147,11 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 		// Enables Always-on
 		setAmbientEnabled();
+
+		// ATTENTION: This was auto-generated to handle app links.
+		Intent appLinkIntent = getIntent();
+		String appLinkAction = appLinkIntent.getAction();
+		Uri appLinkData = appLinkIntent.getData();
 	}
 
 	@Override

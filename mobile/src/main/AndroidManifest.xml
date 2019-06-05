@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:dist="http://schemas.android.com/apk/distribution"
           package="org.inventivetalent.trashapp">
-    <dist:module dist:instant="true" />
+    <dist:module dist:instant="true"/>
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
@@ -53,7 +53,7 @@
 
         <meta-data
                 android:name="default-url"
-                android:value="https://trashapp.invntivetalent.org" />
+                android:value="https://trashapp.invntivetalent.org"/>
 
         <activity
                 android:name=".TabActivity"
@@ -69,15 +69,14 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
-
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="https" />
-                <data android:scheme="http" />
-                <data android:host="trashapp.inventivetalent.org" />
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.inventivetalent.org"
+                />
             </intent-filter>
         </activity>
         <activity

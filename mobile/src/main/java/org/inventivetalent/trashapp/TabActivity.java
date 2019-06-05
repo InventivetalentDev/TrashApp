@@ -69,6 +69,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
 
+	private CustomViewPager viewPager;
+
 	private       FusedLocationProviderClient fusedLocationProviderClient;
 	private       LocationRequest             locationRequest   = new LocationRequest()
 			.setInterval(Constants.LOCATION_INTERVAL)
@@ -153,7 +155,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-		CustomViewPager viewPager = findViewById(R.id.view_pager);
+		viewPager = findViewById(R.id.view_pager);
 		viewPager.setAdapter(sectionsPagerAdapter);
 		TabLayout tabs = findViewById(R.id.tabs);
 		tabs.setupWithViewPager(viewPager);
@@ -187,6 +189,25 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//			}
 		//		});
 		Util.showDebugDBAddressLogToast(this);
+
+		// ATTENTION: This was auto-generated to handle app links.
+		Intent appLinkIntent = getIntent();
+		String appLinkAction = appLinkIntent.getAction();
+		Uri appLinkData = appLinkIntent.getData();
+		if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+			String tabPath = appLinkData.getLastPathSegment();
+			if(tabPath!=null) {
+				switch (tabPath) {
+					case "map":
+						viewPager.setCurrentItem(1);
+						break;
+					case "compass":
+					default:
+						viewPager.setCurrentItem(0);
+						break;
+				}
+			}
+		}
 	}
 
 	@Override
