@@ -290,14 +290,23 @@ public class MapFragment extends Fragment {
 				marker.setIcon(drawable);
 
 				if (element instanceof TrashType) {
-					List<String> readables = Util.typeKeysToReadables(getActivity(), ((TrashType) element).getTypes());
-					if (((TrashType) element).getTypes().contains("general") || ((TrashType) element).getTypes().contains("bin")) {
+					if (Util.isMiscTrash((TrashType) element)) {
 						marker.setTitle(getString(R.string.trashcan));
 						marker.setSubDescription(getString(R.string.trashcan_info));
-					} else {
+
+						marker.setImage(getResources().getDrawable(R.drawable.ic_trashcan_64dp));
+					} else {// recycling
+						drawable = getResources().getDrawable(R.drawable.ic_marker_recycling_32dp);
+						drawable.setColorFilter(Util.getAttrColor(getActivity(), R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+						marker.setIcon(drawable);
+
 						marker.setTitle(getString(R.string.recycling));
 						marker.setSubDescription(getString(R.string.recycling_info));
+
+						marker.setImage(getResources().getDrawable(R.drawable.ic_recycling_64dp));
 					}
+
+					List<String> readables = Util.typeKeysToReadables(getActivity(), ((TrashType) element).getTypes());
 					marker.setSnippet(Converters.fromList(readables));
 				} else {
 					marker.setInfoWindow(null);

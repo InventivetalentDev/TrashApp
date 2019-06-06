@@ -473,6 +473,14 @@ public class Util {
 		return context.getResources().getIdentifier(key, "string", context.getPackageName());
 	}
 
+	public static boolean isMiscTrash(TrashType type) {
+		return type.getTypes().contains("general") || type.getTypes().contains("bin");
+	}
+
+	public static boolean isRecycling(TrashType type) {
+		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
+	}
+
 
 	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
 		List<T> filtered = new ArrayList<>();
