@@ -383,7 +383,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			}
 		} else if (!isCached) {
 			Util.insertTrashcanResult(appDatabase, elements);
-			elements = Util.filterResponse(elements, Util.createFilterFromPreferences(sharedPreferences));
+			List<String> filter = Util.createFilterFromPreferences(sharedPreferences);
+			Log.i("TabActivity", filter.toString());
+			elements = Util.filterResponse(elements, filter);
 		}
 		updateClosestTrashcan(elements);
 	}
