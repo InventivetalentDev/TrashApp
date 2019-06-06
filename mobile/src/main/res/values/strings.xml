@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings_filters_header">Filters</string>
-    <string name="settings_filters_misc_header">Waste</string>
-    <string name="settings_filters_recycling_header">Recycling</string>
+
 </resources>
