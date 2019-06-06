@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import androidx.annotation.ColorInt;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
@@ -443,10 +444,35 @@ public class Util {
 		}
 		/* /Generated Code */
 
-		//TODO: recycling stuff
-
 		return types;
 	}
+
+	public static List<String> typeKeysToReadables(Context context,List<String> keys) {
+		List<String> readables = new ArrayList<>();
+
+		for (String key : keys) {
+			String readable;
+			if ("general".equals(key)) {
+				readable = context.getString(R.string.settings_filter_general);
+			} else if ("bin".equals(key)) {
+				readable = context.getString(R.string.settings_filter_bins);
+			} else {
+				readable = getStringFromKey(context, "settings_filter_recycling_" + key);
+			}
+			readables.add(readable);
+		}
+		return readables;
+	}
+
+	public static String getStringFromKey(Context context, String key) {
+		return context.getString(getStringResFromKey(context, key));
+	}
+
+	@StringRes
+	public static int getStringResFromKey(Context context, String key) {
+		return context.getResources().getIdentifier(key, "string", context.getPackageName());
+	}
+
 
 	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
 		List<T> filtered = new ArrayList<>();

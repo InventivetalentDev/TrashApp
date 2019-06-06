@@ -112,7 +112,11 @@
     <string name="settings_filter_recycling_waste">Waste</string>
     <string name="settings_filter_recycling_white_goods">White Goods</string>
     <string name="settings_filter_recycling_wood">Wood</string>
-    <string name="warn_empty_filter">Filters are empty! Searching everything.</string>
     <!-- /Generated Strings -->
 
+    <string name="warn_empty_filter">Filters are empty! Searching everything.</string>
+    <string name="trashcan">Trashcan</string>
+    <string name="recycling">Recycling</string>
+    <string name="trashcan_info">For miscellaneous trash</string>
+    <string name="recycling_info">Only for recyclable waste</string>
 </resources>
