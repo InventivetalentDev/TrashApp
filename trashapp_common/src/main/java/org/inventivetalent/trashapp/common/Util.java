@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import androidx.annotation.ColorInt;
@@ -223,7 +224,9 @@ public class Util {
 
 		stringBuilder.append(")");
 
-		return dao.getAllOfTypesInArea(new SimpleSQLiteQuery(stringBuilder.toString(), args.toArray(new Object[0])));
+		SimpleSQLiteQuery query = new SimpleSQLiteQuery(stringBuilder.toString(), args.toArray(new Object[0]));
+		Log.i("Util", "Query: " + query.getSql());
+		return dao.getAllOfTypesInArea(query);
 	}
 
 	public static List<String> createFilterFromPreferences(SharedPreferences preferences) {

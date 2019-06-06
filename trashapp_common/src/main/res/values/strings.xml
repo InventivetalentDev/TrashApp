@@ -41,6 +41,8 @@
     <string name="settings_filters_header">Filters</string>
     <string name="settings_filters_misc_header">Waste</string>
     <string name="settings_filters_recycling_header">Recycling</string>
+    <string name="settings_select_all">Select All</string>
+    <string name="settings_select_none">Select None</string>
 
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <string name="settings_filter_recycling_aerosol_cans">Aerosol Cans</string>
@@ -110,6 +112,7 @@
     <string name="settings_filter_recycling_waste">Waste</string>
     <string name="settings_filter_recycling_white_goods">White Goods</string>
     <string name="settings_filter_recycling_wood">Wood</string>
+    <string name="warn_empty_filter">Filters are empty! Searching everything.</string>
     <!-- /Generated Strings -->
 
 </resources>

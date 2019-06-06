@@ -348,6 +348,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
 		List<String> types = Util.createFilterFromPreferences(sharedPreferences);
+		if (types.isEmpty()) {
+			Toast.makeText(this, R.string.warn_empty_filter, Toast.LENGTH_SHORT).show();
+		}
 		Log.i("TrashApp", boundingBox.toCoordString());
 		TrashcanQuery query = new TrashcanQuery(boundingBox, types);
 
