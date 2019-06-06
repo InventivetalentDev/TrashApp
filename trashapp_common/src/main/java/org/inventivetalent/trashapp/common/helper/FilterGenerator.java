@@ -10,8 +10,8 @@ public class FilterGenerator {
 			+ "android:title=\"@string/settings_filter_recycling_%s\"\n"
 			+ "android:defaultValue=\"true\"\n"
 			+ "android:key=\"filter_recycling_%s\"/>";
-	static final String FORMAT_STRING = "<string name=\"settings_filter_recycling_%s\">%s</string>";
-	static final String FORMAT_CODE = "if (preferences.getBoolean(\"filter_recycling_%s\", true)) {\n"
+	static final String FORMAT_STRING     = "<string name=\"settings_filter_recycling_%s\">%s</string>";
+	static final String FORMAT_CODE       = "if (preferences.getBoolean(\"filter_recycling_%s\", true)) {\n"
 			+ "\ttypes.add(\"%s\");\n"
 			+ "}";
 
@@ -93,7 +93,6 @@ public class FilterGenerator {
 		StringBuilder strings = new StringBuilder();
 		StringBuilder code = new StringBuilder();
 
-
 		String[] lines = input.split("\n");
 		for (String line : lines) {
 			if (line.contains("recycling:")) {
@@ -113,17 +112,17 @@ public class FilterGenerator {
 			}
 		}
 
-		System.out.println("<!-- Generated Preferences @ "+new Date().toString()+" -->");
+		System.out.println("<!-- Generated Preferences @ " + new Date().toString() + " -->");
 		System.out.println(preferences);
 		System.out.println("<!-- /Generated Preferences -->");
 		System.out.println("\n\n");
 
-		System.out.println("<!-- Generated Strings @ "+new Date().toString()+" -->");
+		System.out.println("<!-- Generated Strings @ " + new Date().toString() + " -->");
 		System.out.println(strings);
 		System.out.println("<!-- /Generated Strings -->");
 		System.out.println("\n\n");
 
-		System.out.println("/* Generated Code @ "+new Date().toString()+" */");
+		System.out.println("/* Generated Code @ " + new Date().toString() + " */");
 		System.out.println(code);
 		System.out.println("/* /Generated Code */");
 		System.out.println("\n\n");

@@ -7,7 +7,7 @@ import java.util.List;
 public class TrashcanQuery {
 
 	public OverpassBoundingBox boundingBox;
-	public List<String> types = new ArrayList<>();
+	public List<String>        types = new ArrayList<>();
 
 	public TrashcanQuery(OverpassBoundingBox boundingBox, List<String> types) {
 		this.boundingBox = boundingBox;

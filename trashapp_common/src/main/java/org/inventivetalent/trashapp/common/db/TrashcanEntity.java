@@ -40,7 +40,7 @@ public class TrashcanEntity implements LatLon, TrashType {
 
 	@Override
 	public List<String> getTypes() {
-		if (types != null&&!types.isEmpty()) {
+		if (types != null && !types.isEmpty()) {
 			return types;
 		}
 		return Collections.singletonList("general");

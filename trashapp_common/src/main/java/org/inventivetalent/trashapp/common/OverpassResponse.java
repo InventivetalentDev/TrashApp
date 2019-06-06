@@ -96,7 +96,7 @@ public class OverpassResponse {
 				'}';
 	}
 
-	public static class Element implements LatLon,TrashType {
+	public static class Element implements LatLon, TrashType {
 
 		@SerializedName("type")
 		public String type;
@@ -127,7 +127,7 @@ public class OverpassResponse {
 					for (Map.Entry<String, String> entry : tags.entrySet()) {
 						String key = entry.getKey();
 						String value = entry.getValue();
-						if (key.startsWith("recycling:")&&"yes".equals(value)) {
+						if (key.startsWith("recycling:") && "yes".equals(value)) {
 							String type = key.substring("recycling:".length());
 							types.add(type);
 						}
@@ -135,7 +135,7 @@ public class OverpassResponse {
 					return types;
 				}
 			}
-			if (tags.containsKey("bin")&&"yes".equals(tags.get("bin"))) {
+			if (tags.containsKey("bin") && "yes".equals(tags.get("bin"))) {
 				return Collections.singletonList("bin");
 			}
 
@@ -151,8 +151,6 @@ public class OverpassResponse {
 			}
 			return location;
 		}
-
-
 
 		@Override
 		public String toString() {

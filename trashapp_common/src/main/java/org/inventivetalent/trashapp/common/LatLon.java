@@ -4,10 +4,10 @@ import android.location.Location;
 
 public interface LatLon {
 
+	double getLat();
 
-    double getLat();
-    double getLon();
+	double getLon();
 
-    Location toLocation();
+	Location toLocation();
 
 }

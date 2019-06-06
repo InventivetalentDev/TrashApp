@@ -506,9 +506,9 @@ public class Util {
 				type.getTypes().contains("trash") || type.getTypes().contains("oil") || type.getTypes().contains("drugs") || type.getTypes().contains("organic") || type.getTypes().contains("plastic") || type.getTypes().contains("rubble") || type.getTypes().contains("dog_excrement") || type.getTypes().contains("cigarette");
 	}
 
-//	public static boolean isRecycling(TrashType type) {
-//		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
-//	}
+	//	public static boolean isRecycling(TrashType type) {
+	//		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
+	//	}
 
 	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
 		List<T> filtered = new ArrayList<>();

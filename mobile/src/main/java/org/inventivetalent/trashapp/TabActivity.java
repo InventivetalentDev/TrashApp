@@ -201,7 +201,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Uri appLinkData = appLinkIntent.getData();
 		if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
 			String tabPath = appLinkData.getLastPathSegment();
-			if(tabPath!=null) {
+			if (tabPath != null) {
 				switch (tabPath) {
 					case "map":
 						viewPager.setCurrentItem(1);

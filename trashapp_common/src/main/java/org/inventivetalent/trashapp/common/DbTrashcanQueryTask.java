@@ -7,7 +7,6 @@ import java.util.List;
 
 public class DbTrashcanQueryTask extends AbstractTrashcanTask<TrashcanEntity> {
 
-
 	public DbTrashcanQueryTask(TrashCanResultHandler handler) {
 		super(handler);
 	}

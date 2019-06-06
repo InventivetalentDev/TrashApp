@@ -4,7 +4,7 @@ import com.android.billingclient.api.SkuDetails;
 
 public class SkuInfo {
 
-	private final SkuDetails skuDetails;
+	private final SkuDetails     skuDetails;
 	private final PaymentHandler paymentHandler;
 
 	public SkuInfo(SkuDetails skuDetails, PaymentHandler paymentHandler) {
