@@ -1,8 +1,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-            app:title="@string/settings_filters_misc_header">
-
+    <PreferenceCategory android:title="@string/settings_filters_general_header">
 
         <SwitchPreference
                 android:title="@string/settings_filter_general"
@@ -13,6 +11,53 @@
                 android:title="@string/settings_filter_bins"
                 android:defaultValue="true"
                 android:key="filter_bins"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/settings_filters_misc_header">
+
+        <!-- https://wiki.openstreetmap.org/wiki/Key:waste -->
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_trash"
+                android:defaultValue="true"
+                android:key="filter_waste_trash"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_oil"
+                android:defaultValue="true"
+                android:key="filter_waste_oil"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_drugs"
+                android:defaultValue="true"
+                android:key="filter_waste_drugs"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_organic"
+                android:defaultValue="true"
+                android:key="filter_waste_organic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_plastic"
+                android:defaultValue="true"
+                android:key="filter_waste_plastic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_rubble"
+                android:defaultValue="true"
+                android:key="filter_waste_rubble"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_dog_excrement"
+                android:defaultValue="true"
+                android:key="filter_waste_dog_excrement"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_cigarettes"
+                android:defaultValue="true"
+                android:key="filter_waste_cigarettes"/>
 
     </PreferenceCategory>
 

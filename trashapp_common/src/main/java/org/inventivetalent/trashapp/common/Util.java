@@ -233,6 +233,7 @@ public class Util {
 	public static List<String> createFilterFromPreferences(SharedPreferences preferences) {
 		List<String> types = new ArrayList<>();
 
+		// Misc
 		if (preferences.getBoolean("filter_general", true)) {
 			types.add("general");
 		}
@@ -240,6 +241,33 @@ public class Util {
 			types.add("bin");
 		}
 
+		// Waste (https://wiki.openstreetmap.org/wiki/Key:waste) 06.06.19
+		if (preferences.getBoolean("filter_waste_trash", true)) {
+			types.add("trash");
+		}
+		if (preferences.getBoolean("filter_waste_oil", true)) {
+			types.add("oil");
+		}
+		if (preferences.getBoolean("filter_waste_drugs", true)) {
+			types.add("drugs");
+		}
+		if (preferences.getBoolean("filter_waste_organic", true)) {
+			types.add("organic");
+		}
+		if (preferences.getBoolean("filter_waste_plastic", true)) {
+			types.add("plastic");
+		}
+		if (preferences.getBoolean("filter_waste_rubble",true)) {
+			types.add("rubble");
+		}
+		if (preferences.getBoolean("filter_waste_dog_excrement", true)) {
+			types.add("dog_excrement");
+		}
+		if (preferences.getBoolean("cigarettes", true)) {
+			types.add("cigarettes");
+		}
+
+		/// Recycling
 		/* Generated Code @ Thu Jun 06 18:52:57 CEST 2019 */
 		if (preferences.getBoolean("filter_recycling_aerosol_cans", true)) {
 			types.add("aerosol_cans");

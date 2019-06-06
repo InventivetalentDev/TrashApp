@@ -117,6 +117,9 @@ public class OverpassResponse {
 		public List<String> getTypes() {
 			if (tags.containsKey("amenity")) {
 				if ("waste_basket".equals(tags.get("amenity"))) {
+					if (tags.containsKey("waste")) {
+						return Collections.singletonList(tags.get("waste"));
+					}
 					return Collections.singletonList("general");
 				}
 				if ("recycling".equals(tags.get("amenity"))) {

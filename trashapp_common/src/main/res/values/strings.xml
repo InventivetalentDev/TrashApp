@@ -119,4 +119,13 @@
     <string name="recycling">Recycling</string>
     <string name="trashcan_info">For miscellaneous trash</string>
     <string name="recycling_info">Only for recyclable waste</string>
+    <string name="settings_filter_waste_trash">Trash</string>
+    <string name="settings_filters_general_header">General Filters</string>
+    <string name="settings_filter_waste_oil">Oil</string>
+    <string name="settings_filter_waste_drugs">Drugs</string>
+    <string name="settings_filter_waste_organic">Organic</string>
+    <string name="settings_filter_waste_plastic">Plastic</string>
+    <string name="settings_filter_waste_rubble">Rubble</string>
+    <string name="settings_filter_waste_dog_excrement">Dog Excrement</string>
+    <string name="settings_filter_waste_cigarettes">Cigarettes</string>
 </resources>
