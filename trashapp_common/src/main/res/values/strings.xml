@@ -36,4 +36,6 @@
     <string name="settings_clear_cache_title">Clear Trashcan Cache</string>
     <string name="dialog_clear_cache_title">Clear Cache?</string>
     <string name="dialog_clear_cache_message">Do you want to clear all cached trashcans?</string>
+    <string name="settings_filter_general">General Waste</string>
+    <string name="settings_filter_bins">Bins inside shelters etc.</string>
 </resources>

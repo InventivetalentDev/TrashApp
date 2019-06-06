@@ -161,4 +161,14 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 	}
 
+	public static class FilterSettingsFragment extends PreferenceFragmentCompat {
+		@Override
+		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+			setPreferencesFromResource(R.xml.filter_preferences, rootKey);
+
+
+		}
+
+	}
+
 }

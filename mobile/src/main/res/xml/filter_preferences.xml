@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            app:title="@string/settings_filters_misc_header">
+
+
+        <SwitchPreference
+                android:title="@string/settings_filter_general"
+                android:defaultValue="true"
+                android:key="filter_general"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_bins"
+                android:defaultValue="true"
+                android:key="filter_bins"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_filters_recycling_header">
+
+        <!-- TODO -->
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

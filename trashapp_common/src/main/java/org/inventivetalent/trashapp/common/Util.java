@@ -14,10 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Util {
@@ -178,6 +182,8 @@ public class Util {
 			entity.lat = element.getLat();
 			entity.lon = element.getLon();
 
+			if (element instanceof TrashType) { entity.types = ((TrashType) element).getTypes(); }
+
 			entities[i] = entity;
 		}
 		AsyncTask.execute(new Runnable() {
@@ -187,6 +193,85 @@ public class Util {
 			}
 		});
 	}
+
+	public static List<TrashcanEntity> getAllTrashcansOfTypesInArea(TrashcanDao dao,Collection<String> types, double minLat, double maxLat, double minLon, double maxLon) {
+		if (types == null || types.isEmpty()) {
+			// fallback to default method if we don't need to check for types
+			return dao.getAllInArea(minLat, maxLat, minLon, maxLon);
+		}
+
+
+		StringBuilder stringBuilder = new StringBuilder();
+		List<Object> args = new ArrayList<>();
+
+		// base query, same as TrashcanDao#getAllInArea
+		stringBuilder.append("SELECT * FROM trashcans WHERE (lat BETWEEN ? AND ? AND lon BETWEEN ? AND ?) AND (");
+		args.add(minLat);
+		args.add(maxLat);
+		args.add(minLon);
+		args.add(maxLon);
+
+		boolean first = true;
+		for (String type : types) {
+			if (!first) {
+				stringBuilder.append(" OR ");
+			}
+			stringBuilder.append("types LIKE ?");
+			args.add(type);
+
+			first = false;
+		}
+
+		stringBuilder.append(")");
+
+		return dao.getAllOfTypesInArea(new SimpleSQLiteQuery(stringBuilder.toString(), args.toArray(new Object[0])));
+	}
+
+	public static List<String> createFilterFromPreferences(SharedPreferences preferences) {
+		List<String> types = new ArrayList<>();
+
+		if (preferences.getBoolean("filter_general", true)) {
+			types.add("general");
+		}
+		if (preferences.getBoolean("filter_bins", true)) {
+			types.add("bin");
+		}
+
+		//TODO: recycling stuff
+
+
+		return types;
+	}
+
+	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
+		List<T> filtered = new ArrayList<>();
+
+		for (T t : response) {
+			if(t instanceof TrashType) {
+				for (String s : types) {
+					if (((TrashType) t).getTypes().contains(s)) {
+						filtered.add(t);
+					}
+				}
+			}
+		}
+
+		return filtered;
+	}
+
+//	public static <T extends TrashType> List<T> filterResponse(List<T> response, List<String> types) {
+//		List<T> filtered = new ArrayList<>();
+//
+//		for (T t : response) {
+//			for (String s : types) {
+//				if (t.getTypes().contains(s)) {
+//					filtered.add(t);
+//				}
+//			}
+//		}
+//
+//		return filtered;
+//	}
 
 	public static void showDebugDBAddressLogToast(Context context) {
 		if (BuildConfig.DEBUG) {

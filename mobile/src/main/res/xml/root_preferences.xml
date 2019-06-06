@@ -1,5 +1,8 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+    <Preference android:fragment="org.inventivetalent.trashapp.SettingsActivity$FilterSettingsFragment" android:title="@string/settings_filters_header"/>
+
     <PreferenceCategory
             app:title="@string/settings_info_header">
 

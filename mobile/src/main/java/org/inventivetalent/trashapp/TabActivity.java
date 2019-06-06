@@ -27,6 +27,7 @@ import com.google.android.gms.location.*;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.Migrations;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
@@ -177,7 +178,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
-		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
+		appDatabase = Room
+				.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp")
+				.addMigrations(Migrations.MIGRATION_1_2)
+				.fallbackToDestructiveMigration()
+				.build();
 
 		//		FloatingActionButton fab = findViewById(R.id.fab);
 		//
@@ -213,6 +218,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		Log.i("TabActivity", "onResume");
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		if (mSensorManager == null) {
@@ -340,11 +347,13 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		double lon = lastKnownLocation.getLongitude();
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
+		List<String> types = Util.createFilterFromPreferences(sharedPreferences);
 		Log.i("TrashApp", boundingBox.toCoordString());
+		TrashcanQuery query = new TrashcanQuery(boundingBox, types);
 
 		//TODO: make this more efficient, i.e. don't run both
-		new DbTrashcanQueryTask(this).execute(boundingBox);
-		new TrashCanFinderTask(this, this).execute(boundingBox);
+		new DbTrashcanQueryTask(this).execute(query);
+		new TrashCanFinderTask(this, this).execute(query);
 	}
 
 	@Override
@@ -372,8 +381,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 				if (!isCached) { Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show(); }
 			}
-		} else {
+		} else if (!isCached) {
 			Util.insertTrashcanResult(appDatabase, elements);
+			elements = Util.filterResponse(elements, Util.createFilterFromPreferences(sharedPreferences));
 		}
 		updateClosestTrashcan(elements);
 	}

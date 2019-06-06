@@ -276,8 +276,10 @@ public class CompassWidget extends AppWidgetProvider implements TrashCanResultHa
 		double lon = lastKnownLocation.getLongitude();
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
+		TrashcanQuery query = new TrashcanQuery(boundingBox);
+		//TODO: might wanna filter it
 		Log.i("TrashApp", boundingBox.toCoordString());
-		new TrashCanFinderTask(context, this).execute(boundingBox);
+		new TrashCanFinderTask(context, this).execute(query);
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import androidx.room.Room;
 import com.google.android.gms.location.*;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.Migrations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +144,11 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer_24dp));
 
-		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
+		appDatabase = Room
+				.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp")
+				.addMigrations(Migrations.MIGRATION_1_2)
+				.fallbackToDestructiveMigration()
+				.build();
 
 		// Enables Always-on
 		setAmbientEnabled();

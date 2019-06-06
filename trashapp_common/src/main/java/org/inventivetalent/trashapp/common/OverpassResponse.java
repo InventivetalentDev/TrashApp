@@ -96,7 +96,7 @@ public class OverpassResponse {
 				'}';
 	}
 
-	public static class Element implements LatLon {
+	public static class Element implements LatLon,TrashType {
 
 		@SerializedName("type")
 		public String type;
@@ -114,6 +114,32 @@ public class OverpassResponse {
 		private Location location;
 
 		@Override
+		public List<String> getTypes() {
+			if (tags.containsKey("amenity")) {
+				if ("waste_basket".equals(tags.get("amenity"))) {
+					return Collections.singletonList("general");
+				}
+				if ("recycling".equals(tags.get("amenity"))) {
+					List<String> types = new ArrayList<>();
+					for (Map.Entry<String, String> entry : tags.entrySet()) {
+						String key = entry.getKey();
+						String value = entry.getValue();
+						if (key.startsWith("recycling:")&&"yes".equals(value)) {
+							String type = key.substring("recycling:".length());
+							types.add(type);
+						}
+					}
+					return types;
+				}
+			}
+			if (tags.containsKey("bin")&&"yes".equals(tags.get("bin"))) {
+				return Collections.singletonList("bin");
+			}
+
+			return Collections.singletonList("general");
+		}
+
+		@Override
 		public Location toLocation() {
 			if (location == null) {
 				location = new Location(String.valueOf(id));
@@ -122,6 +148,8 @@ public class OverpassResponse {
 			}
 			return location;
 		}
+
+
 
 		@Override
 		public String toString() {

@@ -42,10 +42,10 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 	}
 
 	@Override
-	protected List<OverpassResponse.Element> doInBackground(OverpassBoundingBox... overpassBoundingBoxes) {
-		if (overpassBoundingBoxes.length > 0) {
+	protected List<OverpassResponse.Element> doInBackground(TrashcanQuery... queries) {
+		if (queries.length > 0) {
 			try {
-				OverpassResponse response =  overpassAPI.query(this.query, overpassBoundingBoxes[0]);
+				OverpassResponse response =  overpassAPI.query(this.query, queries[0].boundingBox);
 				if (response != null) {
 					return response.elements;
 				}
