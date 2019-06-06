@@ -257,7 +257,7 @@ public class Util {
 		if (preferences.getBoolean("filter_waste_plastic", true)) {
 			types.add("plastic");
 		}
-		if (preferences.getBoolean("filter_waste_rubble",true)) {
+		if (preferences.getBoolean("filter_waste_rubble", true)) {
 			types.add("rubble");
 		}
 		if (preferences.getBoolean("filter_waste_dog_excrement", true)) {
@@ -475,7 +475,7 @@ public class Util {
 		return types;
 	}
 
-	public static List<String> typeKeysToReadables(Context context,List<String> keys) {
+	public static List<String> typeKeysToReadables(Context context, List<String> keys) {
 		List<String> readables = new ArrayList<>();
 
 		for (String key : keys) {
@@ -502,13 +502,13 @@ public class Util {
 	}
 
 	public static boolean isMiscTrash(TrashType type) {
-		return type.getTypes().contains("general") || type.getTypes().contains("bin");
+		return type.getTypes().contains("general") || type.getTypes().contains("bin") ||
+				type.getTypes().contains("trash") || type.getTypes().contains("oil") || type.getTypes().contains("drugs") || type.getTypes().contains("organic") || type.getTypes().contains("plastic") || type.getTypes().contains("rubble") || type.getTypes().contains("dog_excrement") || type.getTypes().contains("cigarette");
 	}
 
-	public static boolean isRecycling(TrashType type) {
-		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
-	}
-
+//	public static boolean isRecycling(TrashType type) {
+//		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
+//	}
 
 	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
 		List<T> filtered = new ArrayList<>();
