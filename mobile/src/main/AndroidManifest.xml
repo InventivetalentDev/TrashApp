@@ -24,14 +24,46 @@
         <activity
                 android:name=".AboutActivity"
                 android:parentActivityName=".SettingsActivity">
+            <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.invntivetalent.org/"/>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/about"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/about"/>
+            </intent-filter>
         </activity>
         <activity
                 android:name=".SettingsActivity"
                 android:label="@string/title_activity_settings"
                 android:parentActivityName=".TabActivity">
             <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.invntivetalent.org/"/>
+            <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="org.inventivetalent.trashapp.TabActivity"/>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/settings"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/settings"/>
+            </intent-filter>
         </activity>
 
         <receiver android:name=".CompassWidget">
@@ -53,12 +85,15 @@
 
         <meta-data
                 android:name="default-url"
-                android:value="https://trashapp.invntivetalent.org"/>
+                android:value="https://trashapp.invntivetalent.org/"/>
 
         <activity
                 android:name=".TabActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.invntivetalent.org/"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -69,6 +104,7 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+            <!-- deep links -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -76,11 +112,35 @@
                 <data
                         android:scheme="https"
                         android:host="trashapp.inventivetalent.org"
-                />
+                        android:pathPattern="/"/>
                 <data
                         android:scheme="http"
                         android:host="trashapp.inventivetalent.org"
-                />
+                        android:pathPattern="/"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.inventivetalent.org"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.inventivetalent.org"/>
+            </intent-filter>
+            <intent-filter android:autoVerify="true" android:order="1">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/.*"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.inventivetalent.org"
+                        android:pathPattern="/.*"/>
             </intent-filter>
         </activity>
         <activity
