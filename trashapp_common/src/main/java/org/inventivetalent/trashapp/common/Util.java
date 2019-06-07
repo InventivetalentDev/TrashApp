@@ -17,6 +17,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
+import com.crashlytics.android.Crashlytics;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
@@ -516,7 +517,10 @@ public class Util {
 	public static String getStringFromKey(Context context, String key) {
 		@StringRes int id = getStringResFromKey(context, key);
 		if (id == 0) {
-			throw new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
+			Exception exception = new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
+			Crashlytics.logException(exception);
+			Log.w("Util", exception);
+			return key;
 		}
 		return context.getString(id);
 	}
