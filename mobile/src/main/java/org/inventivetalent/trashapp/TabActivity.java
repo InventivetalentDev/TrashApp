@@ -399,10 +399,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	public void updateClosestTrashcan(Collection<? extends LatLon> elements) {
-		Set<LatLon> joined = new HashSet<>();
-		joined.addAll(elements);
-		joined.addAll(nearbyTrashCans);
-		elements = joined;
+//		Set<LatLon> joined = new HashSet<>();
+//		joined.addAll(elements);
+//		joined.addAll(nearbyTrashCans);
+//		elements = joined;
 
 		if (elements.isEmpty()) {
 			closestTrashCan = null;

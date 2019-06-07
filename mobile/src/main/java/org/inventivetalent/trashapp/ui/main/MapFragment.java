@@ -124,7 +124,7 @@ public class MapFragment extends Fragment {
 				location.setLongitude(mapView.getMapCenter().getLongitude());
 
 				if (TabActivity.lastKnownLocation.distanceTo(location) > 1000) {
-					TabActivity.lastKnownLocation = location;
+					TabActivity.searchCenter = location;
 					trashcanUpdater.lookForTrashCans();
 				}
 
