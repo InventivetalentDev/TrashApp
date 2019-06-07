@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 28
@@ -37,6 +38,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.1.0-beta01" // For Kotlin use kapt instead of annotationProcessor
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-perf:17.0.2'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
 
