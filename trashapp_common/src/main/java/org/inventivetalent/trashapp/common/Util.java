@@ -493,7 +493,11 @@ public class Util {
 	}
 
 	public static String getStringFromKey(Context context, String key) {
-		return context.getString(getStringResFromKey(context, key));
+		@StringRes int id = getStringResFromKey(context, key);
+		if (id == 0) {
+			throw new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
+		}
+		return context.getString(id);
 	}
 
 	@StringRes
