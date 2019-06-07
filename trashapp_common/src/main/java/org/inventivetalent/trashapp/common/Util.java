@@ -471,6 +471,9 @@ public class Util {
 			types.add("wood");
 		}
 		/* /Generated Code */
+		if (preferences.getBoolean("filter_recycling_shoes", true)) {
+			types.add("shoes");
+		}
 
 		return types;
 	}

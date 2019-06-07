@@ -402,6 +402,11 @@
 
         <!-- /Generated Preferences -->
 
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_shoes"
+                android:defaultValue="true"
+                android:key="filter_recycling_shoes"/>
+
     </PreferenceCategory>
 
 

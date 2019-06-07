@@ -113,6 +113,7 @@
     <string name="settings_filter_recycling_white_goods">White Goods</string>
     <string name="settings_filter_recycling_wood">Wood</string>
     <!-- /Generated Strings -->
+    <string name="settings_filter_recycling_shoes">Shoes</string>
 
     <string name="warn_empty_filter">Filters are empty! Searching everything.</string>
     <string name="trashcan">Trashcan</string>
