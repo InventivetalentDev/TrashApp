@@ -5,7 +5,7 @@ public class Constants {
 	public static final int REQUEST_LOCATION_PERMS_CODE = 5589;
 	public static final int OSM_REQUEST_CODE            = 5588;
 
-	public static final long LOCATION_INTERVAL = 10000;
+	public static final long LOCATION_INTERVAL     = 10000;
 	public static final long LOCATION_INTERVAL_MIN = 5000;
 
 	public static final long  LOCATION_REFRESH_TIME     = 2000;// milliseconds

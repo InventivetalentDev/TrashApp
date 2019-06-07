@@ -1,0 +1,408 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_filters_general_header">
+
+        <SwitchPreference
+                android:title="@string/settings_filter_general"
+                android:defaultValue="true"
+                android:key="filter_general"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_bins"
+                android:defaultValue="true"
+                android:key="filter_bins"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/settings_filters_misc_header">
+
+        <!-- https://wiki.openstreetmap.org/wiki/Key:waste -->
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_trash"
+                android:defaultValue="true"
+                android:key="filter_waste_trash"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_oil"
+                android:defaultValue="true"
+                android:key="filter_waste_oil"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_drugs"
+                android:defaultValue="true"
+                android:key="filter_waste_drugs"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_organic"
+                android:defaultValue="true"
+                android:key="filter_waste_organic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_plastic"
+                android:defaultValue="true"
+                android:key="filter_waste_plastic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_rubble"
+                android:defaultValue="true"
+                android:key="filter_waste_rubble"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_dog_excrement"
+                android:defaultValue="true"
+                android:key="filter_waste_dog_excrement"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_waste_cigarettes"
+                android:defaultValue="true"
+                android:key="filter_waste_cigarettes"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_filters_recycling_header">
+
+        <!-- Generated Preferences @ Thu Jun 06 18:48:19 CEST 2019 -->
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_aerosol_cans"
+                android:defaultValue="true"
+                android:key="filter_recycling_aerosol_cans"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_animal_waste"
+                android:defaultValue="true"
+                android:key="filter_recycling_animal_waste"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_aluminium"
+                android:defaultValue="true"
+                android:key="filter_recycling_aluminium"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_bags"
+                android:defaultValue="true"
+                android:key="filter_recycling_bags"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_batteries"
+                android:defaultValue="true"
+                android:key="filter_recycling_batteries"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_belts"
+                android:defaultValue="true"
+                android:key="filter_recycling_belts"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_beverage_cartons"
+                android:defaultValue="true"
+                android:key="filter_recycling_beverage_cartons"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_bicycles"
+                android:defaultValue="true"
+                android:key="filter_recycling_bicycles"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_books"
+                android:defaultValue="true"
+                android:key="filter_recycling_books"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cans"
+                android:defaultValue="true"
+                android:key="filter_recycling_cans"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_car_batteries"
+                android:defaultValue="true"
+                android:key="filter_recycling_car_batteries"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cardboard"
+                android:defaultValue="true"
+                android:key="filter_recycling_cardboard"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cartons"
+                android:defaultValue="true"
+                android:key="filter_recycling_cartons"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cds"
+                android:defaultValue="true"
+                android:key="filter_recycling_cds"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_chipboard"
+                android:defaultValue="true"
+                android:key="filter_recycling_chipboard"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_christmas_trees"
+                android:defaultValue="true"
+                android:key="filter_recycling_christmas_trees"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_clothes"
+                android:defaultValue="true"
+                android:key="filter_recycling_clothes"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_coffee_capsules"
+                android:defaultValue="true"
+                android:key="filter_recycling_coffee_capsules"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_computers"
+                android:defaultValue="true"
+                android:key="filter_recycling_computers"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cooking_oil"
+                android:defaultValue="true"
+                android:key="filter_recycling_cooking_oil"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_cork"
+                android:defaultValue="true"
+                android:key="filter_recycling_cork"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_drugs"
+                android:defaultValue="true"
+                android:key="filter_recycling_drugs"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_electrical_items"
+                android:defaultValue="true"
+                android:key="filter_recycling_electrical_items"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_engine_oil"
+                android:defaultValue="true"
+                android:key="filter_recycling_engine_oil"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_fluorescent_tubes"
+                android:defaultValue="true"
+                android:key="filter_recycling_fluorescent_tubes"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_foil"
+                android:defaultValue="true"
+                android:key="filter_recycling_foil"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_furniture"
+                android:defaultValue="true"
+                android:key="filter_recycling_furniture"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_gas_bottles"
+                android:defaultValue="true"
+                android:key="filter_recycling_gas_bottles"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_glass"
+                android:defaultValue="true"
+                android:key="filter_recycling_glass"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_glass_bottles"
+                android:defaultValue="true"
+                android:key="filter_recycling_glass_bottles"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_green_waste"
+                android:defaultValue="true"
+                android:key="filter_recycling_green_waste"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_garden_waste"
+                android:defaultValue="true"
+                android:key="filter_recycling_garden_waste"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_hazardous_waste"
+                android:defaultValue="true"
+                android:key="filter_recycling_hazardous_waste"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_hardcore"
+                android:defaultValue="true"
+                android:key="filter_recycling_hardcore"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_low_energy_bulbs"
+                android:defaultValue="true"
+                android:key="filter_recycling_low_energy_bulbs"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_magazines"
+                android:defaultValue="true"
+                android:key="filter_recycling_magazines"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_metal"
+                android:defaultValue="true"
+                android:key="filter_recycling_metal"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_mobile_phones"
+                android:defaultValue="true"
+                android:key="filter_recycling_mobile_phones"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_newspaper"
+                android:defaultValue="true"
+                android:key="filter_recycling_newspaper"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_organic"
+                android:defaultValue="true"
+                android:key="filter_recycling_organic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_paint"
+                android:defaultValue="true"
+                android:key="filter_recycling_paint"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_pallets"
+                android:defaultValue="true"
+                android:key="filter_recycling_pallets"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_paper"
+                android:defaultValue="true"
+                android:key="filter_recycling_paper"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_paper_packaging"
+                android:defaultValue="true"
+                android:key="filter_recycling_paper_packaging"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_pens"
+                android:defaultValue="true"
+                android:key="filter_recycling_pens"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_PET"
+                android:defaultValue="true"
+                android:key="filter_recycling_PET"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_plasterboard"
+                android:defaultValue="true"
+                android:key="filter_recycling_plasterboard"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_plastic"
+                android:defaultValue="true"
+                android:key="filter_recycling_plastic"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_plastic_bags"
+                android:defaultValue="true"
+                android:key="filter_recycling_plastic_bags"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_plastic_bottles"
+                android:defaultValue="true"
+                android:key="filter_recycling_plastic_bottles"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_plastic_packaging"
+                android:defaultValue="true"
+                android:key="filter_recycling_plastic_packaging"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_polyester"
+                android:defaultValue="true"
+                android:key="filter_recycling_polyester"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_polystyrene_foam"
+                android:defaultValue="true"
+                android:key="filter_recycling_polystyrene_foam"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_printer_cartridges"
+                android:defaultValue="true"
+                android:key="filter_recycling_printer_cartridges"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_printer_toner_cartridges"
+                android:defaultValue="true"
+                android:key="filter_recycling_printer_toner_cartridges"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_printer_inkjet_cartridges"
+                android:defaultValue="true"
+                android:key="filter_recycling_printer_inkjet_cartridges"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_rubble"
+                android:defaultValue="true"
+                android:key="filter_recycling_rubble"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_scrap_metal"
+                android:defaultValue="true"
+                android:key="filter_recycling_scrap_metal"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_sheet_metal"
+                android:defaultValue="true"
+                android:key="filter_recycling_sheet_metal"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_small_appliances"
+                android:defaultValue="true"
+                android:key="filter_recycling_small_appliances"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_small_electrical_appliances"
+                android:defaultValue="true"
+                android:key="filter_recycling_small_electrical_appliances"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_styrofoam"
+                android:defaultValue="true"
+                android:key="filter_recycling_styrofoam"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_tyres"
+                android:defaultValue="true"
+                android:key="filter_recycling_tyres"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_tv_monitor"
+                android:defaultValue="true"
+                android:key="filter_recycling_tv_monitor"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_waste"
+                android:defaultValue="true"
+                android:key="filter_recycling_waste"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_white_goods"
+                android:defaultValue="true"
+                android:key="filter_recycling_white_goods"/>
+
+        <SwitchPreference
+                android:title="@string/settings_filter_recycling_wood"
+                android:defaultValue="true"
+                android:key="filter_recycling_wood"/>
+
+        <!-- /Generated Preferences -->
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

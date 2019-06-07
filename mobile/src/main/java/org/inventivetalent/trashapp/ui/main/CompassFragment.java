@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
@@ -31,8 +32,10 @@ import org.inventivetalent.trashapp.common.*;
 
 public class CompassFragment extends Fragment {
 
+	private FirebaseAnalytics mFirebaseAnalytics;
+
 	private SharedPreferences sharedPreferences;
-	private boolean debug;
+	private boolean           debug;
 
 	private TextView distanceTextView;
 	private TextView statusTextView;
@@ -51,7 +54,7 @@ public class CompassFragment extends Fragment {
 	private float lastPointerRotation;
 
 	private TrashcanUpdater trashcanUpdater;
-	private PaymentHandler paymentHandler;
+	private PaymentHandler  paymentHandler;
 
 	public CompassFragment() {
 		// Required empty public constructor
@@ -74,7 +77,16 @@ public class CompassFragment extends Fragment {
 		//			}
 		//		});
 
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
 		Log.i("TrashApp", "CompassFragment onCreate");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mFirebaseAnalytics.setCurrentScreen(getActivity(), "CompassTab", null);
 	}
 
 	@Override
@@ -115,26 +127,25 @@ public class CompassFragment extends Fragment {
 			}
 		});
 
+		final AdView adView1 = view.findViewById(R.id.compassAdView);
+		//			final AdView adView2 = view.findViewById(R.id.compassAdView2);
+		paymentHandler.waitForManager(new PaymentReadyListener() {
+			@Override
+			public void ready() {
+				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+				Log.i("CompassFragment", "hasPremium: " + hasPremium);
 
-			final AdView adView1 = view.findViewById(R.id.compassAdView);
-//			final AdView adView2 = view.findViewById(R.id.compassAdView2);
-			paymentHandler.waitForManager(new PaymentReadyListener() {
-				@Override
-				public void ready() {
-					boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-					Log.i("CompassFragment", "hasPremium: " + hasPremium);
-
-					if (hasPremium) {
-						adView1.setVisibility(View.GONE);
-//						adView2.setVisibility(View.GONE);
-					}else{
-						adView1.setVisibility(View.VISIBLE);
-//						adView2.setVisibility(View.VISIBLE);
-						adView1.loadAd(new AdRequest.Builder().build());
-//						adView2.loadAd(new AdRequest.Builder().build());
-					}
+				if (hasPremium) {
+					adView1.setVisibility(View.GONE);
+					//						adView2.setVisibility(View.GONE);
+				} else {
+					adView1.setVisibility(View.VISIBLE);
+					//						adView2.setVisibility(View.VISIBLE);
+					adView1.loadAd(new AdRequest.Builder().build());
+					//						adView2.loadAd(new AdRequest.Builder().build());
 				}
-			});
+			}
+		});
 
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		viewModel.mLocation.observe(this, new Observer<Location>() {
@@ -233,7 +244,7 @@ public class CompassFragment extends Fragment {
 		}
 		if (context instanceof PaymentHandler) {
 			paymentHandler = (PaymentHandler) context;
-		}else{
+		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement PaymentHandler");
 		}

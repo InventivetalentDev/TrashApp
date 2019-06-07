@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-public abstract class AbstractTrashcanTask<T extends LatLon> extends AsyncTask<OverpassBoundingBox, Void, List<T>> {
+public abstract class AbstractTrashcanTask<T extends LatLon> extends AsyncTask<TrashcanQuery, Void, List<T>> {
 
 	protected TrashCanResultHandler handler;
 

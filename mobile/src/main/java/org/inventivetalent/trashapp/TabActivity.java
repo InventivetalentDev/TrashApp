@@ -27,6 +27,7 @@ import com.google.android.gms.location.*;
 import com.google.android.material.tabs.TabLayout;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.Migrations;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
@@ -68,6 +69,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
+
+	private CustomViewPager viewPager;
 
 	private       FusedLocationProviderClient fusedLocationProviderClient;
 	private       LocationRequest             locationRequest   = new LocationRequest()
@@ -153,7 +156,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		setContentView(R.layout.activity_tab);
 		SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-		CustomViewPager viewPager = findViewById(R.id.view_pager);
+		viewPager = findViewById(R.id.view_pager);
 		viewPager.setAdapter(sectionsPagerAdapter);
 		TabLayout tabs = findViewById(R.id.tabs);
 		tabs.setupWithViewPager(viewPager);
@@ -175,7 +178,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
-		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
+		appDatabase = Room
+				.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp")
+				.addMigrations(Migrations.MIGRATION_1_2)
+				.fallbackToDestructiveMigration()
+				.build();
 
 		//		FloatingActionButton fab = findViewById(R.id.fab);
 		//
@@ -187,11 +194,32 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//			}
 		//		});
 		Util.showDebugDBAddressLogToast(this);
+
+		// ATTENTION: This was auto-generated to handle app links.
+		Intent appLinkIntent = getIntent();
+		String appLinkAction = appLinkIntent.getAction();
+		Uri appLinkData = appLinkIntent.getData();
+		if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null) {
+			String tabPath = appLinkData.getLastPathSegment();
+			if (tabPath != null) {
+				switch (tabPath) {
+					case "map":
+						viewPager.setCurrentItem(1);
+						break;
+					case "compass":
+					default:
+						viewPager.setCurrentItem(0);
+						break;
+				}
+			}
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		Log.i("TabActivity", "onResume");
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		if (mSensorManager == null) {
@@ -319,11 +347,16 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		double lon = lastKnownLocation.getLongitude();
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
+		List<String> types = Util.createFilterFromPreferences(sharedPreferences);
+		if (types.isEmpty()) {
+			Toast.makeText(this, R.string.warn_empty_filter, Toast.LENGTH_SHORT).show();
+		}
 		Log.i("TrashApp", boundingBox.toCoordString());
+		TrashcanQuery query = new TrashcanQuery(boundingBox, types);
 
 		//TODO: make this more efficient, i.e. don't run both
-		new DbTrashcanQueryTask(this).execute(boundingBox);
-		new TrashCanFinderTask(this, this).execute(boundingBox);
+		new DbTrashcanQueryTask(this).execute(query);
+		new TrashCanFinderTask(this, this).execute(query);
 	}
 
 	@Override
@@ -351,8 +384,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 				if (!isCached) { Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show(); }
 			}
-		} else {
+		} else if (!isCached) {
 			Util.insertTrashcanResult(appDatabase, elements);
+			List<String> filter = Util.createFilterFromPreferences(sharedPreferences);
+			Log.i("TabActivity", filter.toString());
+			elements = Util.filterResponse(elements, filter);
 		}
 		updateClosestTrashcan(elements);
 	}

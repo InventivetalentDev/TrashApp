@@ -15,9 +15,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.db.Converters;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
@@ -32,6 +34,7 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
@@ -47,6 +50,8 @@ public class MapFragment extends Fragment {
 							| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
 							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
 			));
+
+	private FirebaseAnalytics mFirebaseAnalytics;
 
 	private MapView              mapView;
 	private FloatingActionButton addButton;
@@ -86,6 +91,8 @@ public class MapFragment extends Fragment {
 				Toast.makeText(getActivity(), "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
 			}
 		});
+
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
 
 	@Override
@@ -103,7 +110,6 @@ public class MapFragment extends Fragment {
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
-
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -143,23 +149,21 @@ public class MapFragment extends Fragment {
 			}
 		});
 
-
-
-//		final AdView adView = view.findViewById(R.id.mapAdView);
-//		paymentHandler.waitForManager(new PaymentReadyListener() {
-//			@Override
-//			public void ready() {
-//				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-//				Log.i("MapFragment", "hasPremium: " + hasPremium);
-//
-//				if (hasPremium) {
-//					adView.setVisibility(View.GONE);
-//				}else{
-//					adView.setVisibility(View.VISIBLE);
-//					adView.loadAd(new AdRequest.Builder().build());
-//				}
-//			}
-//		});
+		//		final AdView adView = view.findViewById(R.id.mapAdView);
+		//		paymentHandler.waitForManager(new PaymentReadyListener() {
+		//			@Override
+		//			public void ready() {
+		//				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+		//				Log.i("MapFragment", "hasPremium: " + hasPremium);
+		//
+		//				if (hasPremium) {
+		//					adView.setVisibility(View.GONE);
+		//				}else{
+		//					adView.setVisibility(View.VISIBLE);
+		//					adView.loadAd(new AdRequest.Builder().build());
+		//				}
+		//			}
+		//		});
 
 		return view;
 	}
@@ -175,8 +179,8 @@ public class MapFragment extends Fragment {
 	void focusOnSelfAndClosest() {
 		final PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		Location location = viewModel.mLocation.getValue();
-		LatLon closest =viewModel.mClosestCan.getValue();
-		if (location != null&&closest!=null) {
+		LatLon closest = viewModel.mClosestCan.getValue();
+		if (location != null && closest != null) {
 			//TODO
 		}
 	}
@@ -242,16 +246,16 @@ public class MapFragment extends Fragment {
 			updateSelfMarker(lastLocation);
 
 			// add closest marker
-//			if (closestCanMarker == null) {
-//				closestCanMarker = new Marker(mapView);
-//				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
-//				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
-//				closestCanMarker.setIcon(drawable);
-//				closestCanMarker.setInfoWindow(null);
-//				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-//				mapView.getOverlays().add(closestCanMarker);
-//			}
-//			closestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
+			//			if (closestCanMarker == null) {
+			//				closestCanMarker = new Marker(mapView);
+			//				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
+			//				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+			//				closestCanMarker.setIcon(drawable);
+			//				closestCanMarker.setInfoWindow(null);
+			//				closestCanMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+			//				mapView.getOverlays().add(closestCanMarker);
+			//			}
+			//			closestCanMarker.setPosition(new GeoPoint(closestElement.lat, closestElement.lon));
 
 			//			MarkerOptions markerOptions = new MarkerOptions()
 			//					.icon(BitmapDescriptorFactory.fromResource(R.raw.trashcan32))
@@ -265,32 +269,54 @@ public class MapFragment extends Fragment {
 				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.getLat(), closestElement.getLon())));
 			}
 
-
 			// add other markers
-//			for (Marker oldMarker : canMarkers) {
-//				mapView.getOverlays().remove(oldMarker);
-//			}
-//			canMarkers.clear();
+			//			for (Marker oldMarker : canMarkers) {
+			//				mapView.getOverlays().remove(oldMarker);
+			//			}
+			//			canMarkers.clear();
 			if (markerClusterer == null) {
 				markerClusterer = new RadiusMarkerClusterer(getActivity());
 				mapView.getOverlays().add(markerClusterer);
 			}
 			markerClusterer.getItems().clear();
 			for (LatLon element : TabActivity.nearbyTrashCans) {
-//				if (element.id == closestElement.id) {
-//					continue;// don't add twice
-//				}
+				//				if (element.id == closestElement.id) {
+				//					continue;// don't add twice
+				//				}
 
 				Marker marker = new Marker(mapView);
 				Drawable drawable = getResources().getDrawable(R.drawable.ic_marker_32dp);
-				drawable.setColorFilter(Util.getAttrColor(getActivity(),R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+				drawable.setColorFilter(Util.getAttrColor(getActivity(), R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
 				marker.setIcon(drawable);
-				marker.setInfoWindow(null);
+
+				if (element instanceof TrashType) {
+					if (Util.isMiscTrash((TrashType) element)) {
+						marker.setTitle(getString(R.string.trashcan));
+						marker.setSubDescription(getString(R.string.trashcan_info));
+
+						marker.setImage(getResources().getDrawable(R.drawable.ic_trashcan_64dp));
+					} else {// recycling
+						drawable = getResources().getDrawable(R.drawable.ic_marker_recycling_32dp);
+						drawable.setColorFilter(Util.getAttrColor(getActivity(), R.attr.colorAccent), PorterDuff.Mode.SRC_IN);
+						marker.setIcon(drawable);
+
+						marker.setTitle(getString(R.string.recycling));
+						marker.setSubDescription(getString(R.string.recycling_info));
+
+						marker.setImage(getResources().getDrawable(R.drawable.ic_recycling_64dp));
+					}
+
+					List<String> readables = Util.typeKeysToReadables(getActivity(), ((TrashType) element).getTypes());
+					marker.setSnippet(Converters.fromList(readables));
+				} else {
+					marker.setInfoWindow(null);
+				}
+
 				marker.setAlpha(.9f);
 				marker.setAnchor(org.osmdroid.views.overlay.Marker.ANCHOR_CENTER, org.osmdroid.views.overlay.Marker.ANCHOR_BOTTOM);
 				marker.setPosition(new GeoPoint(element.getLat(), element.getLon()));
-//				canMarkers.add(marker);
-//				mapView.getOverlays().add(marker);
+				//				canMarkers.add(marker);
+				//				mapView.getOverlays().add(marker);
 				markerClusterer.add(marker);
 
 				//				markerOptions = new MarkerOptions()
@@ -329,7 +355,7 @@ public class MapFragment extends Fragment {
 		super.onAttach(context);
 		if (context instanceof PaymentHandler) {
 			paymentHandler = (PaymentHandler) context;
-		}else{
+		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement PaymentHandler");
 		}
@@ -344,6 +370,8 @@ public class MapFragment extends Fragment {
 	public void onResume() {
 		mapView.onResume();
 		super.onResume();
+
+		mFirebaseAnalytics.setCurrentScreen(getActivity(), "MapTab", null);
 	}
 
 	@Override

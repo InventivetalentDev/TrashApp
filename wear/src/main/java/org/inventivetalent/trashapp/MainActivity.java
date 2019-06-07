@@ -7,6 +7,7 @@ import android.hardware.*;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
@@ -24,6 +25,7 @@ import androidx.room.Room;
 import com.google.android.gms.location.*;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.Migrations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,10 +144,19 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 
 		pointerView.setBackground(getResources().getDrawable(R.drawable.ic_pointer_24dp));
 
-		appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp").build();
+		appDatabase = Room
+				.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp")
+				.addMigrations(Migrations.MIGRATION_1_2)
+				.fallbackToDestructiveMigration()
+				.build();
 
 		// Enables Always-on
 		setAmbientEnabled();
+
+		// ATTENTION: This was auto-generated to handle app links.
+		Intent appLinkIntent = getIntent();
+		String appLinkAction = appLinkIntent.getAction();
+		Uri appLinkData = appLinkIntent.getData();
 	}
 
 	@Override
@@ -267,7 +278,7 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 	}
 
 	boolean requestLocationUpdates(boolean ask) {
-		Log.i("TrashApp", "checking location permissions (ask: "+ask+")");
+		Log.i("TrashApp", "checking location permissions (ask: " + ask + ")");
 		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			Log.i("TrashApp", "Location permissions not granted");
 			if (ask) {
@@ -288,8 +299,8 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		// has permission, request!
 		fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null/*Looper*/);
 
-//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-//				LOCATION_REFRESH_DISTANCE, mLocationListener);
+		//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+		//				LOCATION_REFRESH_DISTANCE, mLocationListener);
 
 		Log.i("TrashApp", "Trying to get last known location from providers");
 		Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -325,8 +336,9 @@ public class MainActivity extends WearableActivity implements TrashCanResultHand
 		double lon = lastKnownLocation.getLongitude();
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
+		TrashcanQuery query = new TrashcanQuery(boundingBox);
 		Log.i("TrashApp", boundingBox.toCoordString());
-		new TrashCanFinderTask(this, this).execute(boundingBox);
+		new TrashCanFinderTask(this, this).execute(query);
 	}
 
 	@Override

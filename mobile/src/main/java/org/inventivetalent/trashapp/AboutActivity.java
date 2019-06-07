@@ -47,11 +47,11 @@ public class AboutActivity extends AppCompatActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				if (TabActivity.SKU_INFO_PREMIUM != null) {
-//					TabActivity.SKU_INFO_PREMIUM.launchBilling();
-//				} else {
-//					Toast.makeText(AboutActivity.this, "Product not ready!", Toast.LENGTH_SHORT).show();
-//				}
+				//				if (TabActivity.SKU_INFO_PREMIUM != null) {
+				//					TabActivity.SKU_INFO_PREMIUM.launchBilling();
+				//				} else {
+				//					Toast.makeText(AboutActivity.this, "Product not ready!", Toast.LENGTH_SHORT).show();
+				//				}
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.patreon.com/inventivetalent"));
 				startActivity(browserIntent);
 			}

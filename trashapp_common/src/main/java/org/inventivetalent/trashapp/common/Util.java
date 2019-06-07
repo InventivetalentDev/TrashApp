@@ -9,15 +9,21 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 import androidx.annotation.ColorInt;
+import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
+import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Util {
@@ -178,6 +184,8 @@ public class Util {
 			entity.lat = element.getLat();
 			entity.lon = element.getLon();
 
+			if (element instanceof TrashType) { entity.types = ((TrashType) element).getTypes(); }
+
 			entities[i] = entity;
 		}
 		AsyncTask.execute(new Runnable() {
@@ -187,6 +195,372 @@ public class Util {
 			}
 		});
 	}
+
+	public static List<TrashcanEntity> getAllTrashcansOfTypesInArea(TrashcanDao dao, Collection<String> types, double minLat, double maxLat, double minLon, double maxLon) {
+		if (types == null || types.isEmpty()) {
+			// fallback to default method if we don't need to check for types
+			return dao.getAllInArea(minLat, maxLat, minLon, maxLon);
+		}
+
+		StringBuilder stringBuilder = new StringBuilder();
+		List<Object> args = new ArrayList<>();
+
+		// base query, same as TrashcanDao#getAllInArea
+		stringBuilder.append("SELECT * FROM trashcans WHERE (lat BETWEEN ? AND ? AND lon BETWEEN ? AND ?) AND (");
+		args.add(minLat);
+		args.add(maxLat);
+		args.add(minLon);
+		args.add(maxLon);
+
+		boolean first = true;
+		for (String type : types) {
+			if (!first) {
+				stringBuilder.append(" OR ");
+			}
+			stringBuilder.append("types LIKE ?");
+			args.add(type);
+
+			first = false;
+		}
+
+		stringBuilder.append(")");
+
+		SimpleSQLiteQuery query = new SimpleSQLiteQuery(stringBuilder.toString(), args.toArray(new Object[0]));
+		Log.i("Util", "Query: " + query.getSql());
+		return dao.getAllOfTypesInArea(query);
+	}
+
+	public static List<String> createFilterFromPreferences(SharedPreferences preferences) {
+		List<String> types = new ArrayList<>();
+
+		// Misc
+		if (preferences.getBoolean("filter_general", true)) {
+			types.add("general");
+		}
+		if (preferences.getBoolean("filter_bins", true)) {
+			types.add("bin");
+		}
+
+		// Waste (https://wiki.openstreetmap.org/wiki/Key:waste) 06.06.19
+		if (preferences.getBoolean("filter_waste_trash", true)) {
+			types.add("trash");
+		}
+		if (preferences.getBoolean("filter_waste_oil", true)) {
+			types.add("oil");
+		}
+		if (preferences.getBoolean("filter_waste_drugs", true)) {
+			types.add("drugs");
+		}
+		if (preferences.getBoolean("filter_waste_organic", true)) {
+			types.add("organic");
+		}
+		if (preferences.getBoolean("filter_waste_plastic", true)) {
+			types.add("plastic");
+		}
+		if (preferences.getBoolean("filter_waste_rubble", true)) {
+			types.add("rubble");
+		}
+		if (preferences.getBoolean("filter_waste_dog_excrement", true)) {
+			types.add("dog_excrement");
+		}
+		if (preferences.getBoolean("cigarettes", true)) {
+			types.add("cigarettes");
+		}
+
+		/// Recycling
+		/* Generated Code @ Thu Jun 06 18:52:57 CEST 2019 */
+		if (preferences.getBoolean("filter_recycling_aerosol_cans", true)) {
+			types.add("aerosol_cans");
+		}
+		if (preferences.getBoolean("filter_recycling_animal_waste", true)) {
+			types.add("animal_waste");
+		}
+		if (preferences.getBoolean("filter_recycling_aluminium", true)) {
+			types.add("aluminium");
+		}
+		if (preferences.getBoolean("filter_recycling_bags", true)) {
+			types.add("bags");
+		}
+		if (preferences.getBoolean("filter_recycling_batteries", true)) {
+			types.add("batteries");
+		}
+		if (preferences.getBoolean("filter_recycling_belts", true)) {
+			types.add("belts");
+		}
+		if (preferences.getBoolean("filter_recycling_beverage_cartons", true)) {
+			types.add("beverage_cartons");
+		}
+		if (preferences.getBoolean("filter_recycling_bicycles", true)) {
+			types.add("bicycles");
+		}
+		if (preferences.getBoolean("filter_recycling_books", true)) {
+			types.add("books");
+		}
+		if (preferences.getBoolean("filter_recycling_cans", true)) {
+			types.add("cans");
+		}
+		if (preferences.getBoolean("filter_recycling_car_batteries", true)) {
+			types.add("car_batteries");
+		}
+		if (preferences.getBoolean("filter_recycling_cardboard", true)) {
+			types.add("cardboard");
+		}
+		if (preferences.getBoolean("filter_recycling_cartons", true)) {
+			types.add("cartons");
+		}
+		if (preferences.getBoolean("filter_recycling_cds", true)) {
+			types.add("cds");
+		}
+		if (preferences.getBoolean("filter_recycling_chipboard", true)) {
+			types.add("chipboard");
+		}
+		if (preferences.getBoolean("filter_recycling_christmas_trees", true)) {
+			types.add("christmas_trees");
+		}
+		if (preferences.getBoolean("filter_recycling_clothes", true)) {
+			types.add("clothes");
+		}
+		if (preferences.getBoolean("filter_recycling_coffee_capsules", true)) {
+			types.add("coffee_capsules");
+		}
+		if (preferences.getBoolean("filter_recycling_computers", true)) {
+			types.add("computers");
+		}
+		if (preferences.getBoolean("filter_recycling_cooking_oil", true)) {
+			types.add("cooking_oil");
+		}
+		if (preferences.getBoolean("filter_recycling_cork", true)) {
+			types.add("cork");
+		}
+		if (preferences.getBoolean("filter_recycling_drugs", true)) {
+			types.add("drugs");
+		}
+		if (preferences.getBoolean("filter_recycling_electrical_items", true)) {
+			types.add("electrical_items");
+		}
+		if (preferences.getBoolean("filter_recycling_engine_oil", true)) {
+			types.add("engine_oil");
+		}
+		if (preferences.getBoolean("filter_recycling_fluorescent_tubes", true)) {
+			types.add("fluorescent_tubes");
+		}
+		if (preferences.getBoolean("filter_recycling_foil", true)) {
+			types.add("foil");
+		}
+		if (preferences.getBoolean("filter_recycling_furniture", true)) {
+			types.add("furniture");
+		}
+		if (preferences.getBoolean("filter_recycling_gas_bottles", true)) {
+			types.add("gas_bottles");
+		}
+		if (preferences.getBoolean("filter_recycling_glass", true)) {
+			types.add("glass");
+		}
+		if (preferences.getBoolean("filter_recycling_glass_bottles", true)) {
+			types.add("glass_bottles");
+		}
+		if (preferences.getBoolean("filter_recycling_green_waste", true)) {
+			types.add("green_waste");
+		}
+		if (preferences.getBoolean("filter_recycling_garden_waste", true)) {
+			types.add("garden_waste");
+		}
+		if (preferences.getBoolean("filter_recycling_hazardous_waste", true)) {
+			types.add("hazardous_waste");
+		}
+		if (preferences.getBoolean("filter_recycling_hardcore", true)) {
+			types.add("hardcore");
+		}
+		if (preferences.getBoolean("filter_recycling_low_energy_bulbs", true)) {
+			types.add("low_energy_bulbs");
+		}
+		if (preferences.getBoolean("filter_recycling_magazines", true)) {
+			types.add("magazines");
+		}
+		if (preferences.getBoolean("filter_recycling_metal", true)) {
+			types.add("metal");
+		}
+		if (preferences.getBoolean("filter_recycling_mobile_phones", true)) {
+			types.add("mobile_phones");
+		}
+		if (preferences.getBoolean("filter_recycling_newspaper", true)) {
+			types.add("newspaper");
+		}
+		if (preferences.getBoolean("filter_recycling_organic", true)) {
+			types.add("organic");
+		}
+		if (preferences.getBoolean("filter_recycling_paint", true)) {
+			types.add("paint");
+		}
+		if (preferences.getBoolean("filter_recycling_pallets", true)) {
+			types.add("pallets");
+		}
+		if (preferences.getBoolean("filter_recycling_paper", true)) {
+			types.add("paper");
+		}
+		if (preferences.getBoolean("filter_recycling_paper_packaging", true)) {
+			types.add("paper_packaging");
+		}
+		if (preferences.getBoolean("filter_recycling_pens", true)) {
+			types.add("pens");
+		}
+		if (preferences.getBoolean("filter_recycling_PET", true)) {
+			types.add("PET");
+		}
+		if (preferences.getBoolean("filter_recycling_plasterboard", true)) {
+			types.add("plasterboard");
+		}
+		if (preferences.getBoolean("filter_recycling_plastic", true)) {
+			types.add("plastic");
+		}
+		if (preferences.getBoolean("filter_recycling_plastic_bags", true)) {
+			types.add("plastic_bags");
+		}
+		if (preferences.getBoolean("filter_recycling_plastic_bottles", true)) {
+			types.add("plastic_bottles");
+		}
+		if (preferences.getBoolean("filter_recycling_plastic_packaging", true)) {
+			types.add("plastic_packaging");
+		}
+		if (preferences.getBoolean("filter_recycling_polyester", true)) {
+			types.add("polyester");
+		}
+		if (preferences.getBoolean("filter_recycling_polystyrene_foam", true)) {
+			types.add("polystyrene_foam");
+		}
+		if (preferences.getBoolean("filter_recycling_printer_cartridges", true)) {
+			types.add("printer_cartridges");
+		}
+		if (preferences.getBoolean("filter_recycling_printer_toner_cartridges", true)) {
+			types.add("printer_toner_cartridges");
+		}
+		if (preferences.getBoolean("filter_recycling_printer_inkjet_cartridges", true)) {
+			types.add("printer_inkjet_cartridges");
+		}
+		if (preferences.getBoolean("filter_recycling_rubble", true)) {
+			types.add("rubble");
+		}
+		if (preferences.getBoolean("filter_recycling_scrap_metal", true)) {
+			types.add("scrap_metal");
+		}
+		if (preferences.getBoolean("filter_recycling_sheet_metal", true)) {
+			types.add("sheet_metal");
+		}
+		if (preferences.getBoolean("filter_recycling_small_appliances", true)) {
+			types.add("small_appliances");
+		}
+		if (preferences.getBoolean("filter_recycling_small_electrical_appliances", true)) {
+			types.add("small_electrical_appliances");
+		}
+		if (preferences.getBoolean("filter_recycling_styrofoam", true)) {
+			types.add("styrofoam");
+		}
+		if (preferences.getBoolean("filter_recycling_tyres", true)) {
+			types.add("tyres");
+		}
+		if (preferences.getBoolean("filter_recycling_tv_monitor", true)) {
+			types.add("tv_monitor");
+		}
+		if (preferences.getBoolean("filter_recycling_waste", true)) {
+			types.add("waste");
+		}
+		if (preferences.getBoolean("filter_recycling_white_goods", true)) {
+			types.add("white_goods");
+		}
+		if (preferences.getBoolean("filter_recycling_wood", true)) {
+			types.add("wood");
+		}
+		/* /Generated Code */
+
+		return types;
+	}
+
+	public static List<String> typeKeysToReadables(Context context, List<String> keys) {
+		List<String> readables = new ArrayList<>();
+
+		for (String key : keys) {
+			String readable;
+			if ("general".equals(key)) {
+				readable = context.getString(R.string.settings_filter_general);
+			} else if ("bin".equals(key)) {
+				readable = context.getString(R.string.settings_filter_bins);
+
+			// waste
+			} else if ("oil".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_oil);
+			}else if("drugs".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_drugs);
+			}else if("organic".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_organic);
+			}else if("plastic".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_plastic);
+			}else if("rubble".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_rubble);
+			}else if("dog_excrement".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_dog_excrement);
+			}else if("cigarettes".equals(key)){
+				readable = context.getString(R.string.settings_filter_waste_cigarettes);
+
+			// recycling
+			} else {
+				readable = getStringFromKey(context, "settings_filter_recycling_" + key);
+			}
+			readables.add(readable);
+		}
+		return readables;
+	}
+
+	public static String getStringFromKey(Context context, String key) {
+		@StringRes int id = getStringResFromKey(context, key);
+		if (id == 0) {
+			throw new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
+		}
+		return context.getString(id);
+	}
+
+	@StringRes
+	public static int getStringResFromKey(Context context, String key) {
+		return context.getResources().getIdentifier(key, "string", context.getPackageName());
+	}
+
+	public static boolean isMiscTrash(TrashType type) {
+		return type.getTypes().contains("general") || type.getTypes().contains("bin") ||
+				type.getTypes().contains("trash") || type.getTypes().contains("oil") || type.getTypes().contains("drugs") || type.getTypes().contains("organic") || type.getTypes().contains("plastic") || type.getTypes().contains("rubble") || type.getTypes().contains("dog_excrement") || type.getTypes().contains("cigarette");
+	}
+
+	//	public static boolean isRecycling(TrashType type) {
+	//		return !type.getTypes().contains("general") && !type.getTypes().contains("bin");
+	//	}
+
+	public static <T extends LatLon> List<T> filterResponse(List<T> response, List<String> types) {
+		List<T> filtered = new ArrayList<>();
+
+		for (T t : response) {
+			if (t instanceof TrashType) {
+				for (String s : types) {
+					if (((TrashType) t).getTypes().contains(s)) {
+						filtered.add(t);
+					}
+				}
+			}
+		}
+
+		return filtered;
+	}
+
+	//	public static <T extends TrashType> List<T> filterResponse(List<T> response, List<String> types) {
+	//		List<T> filtered = new ArrayList<>();
+	//
+	//		for (T t : response) {
+	//			for (String s : types) {
+	//				if (t.getTypes().contains(s)) {
+	//					filtered.add(t);
+	//				}
+	//			}
+	//		}
+	//
+	//		return filtered;
+	//	}
 
 	public static void showDebugDBAddressLogToast(Context context) {
 		if (BuildConfig.DEBUG) {

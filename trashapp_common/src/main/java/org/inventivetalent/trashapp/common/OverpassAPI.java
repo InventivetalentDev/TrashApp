@@ -54,7 +54,7 @@ public class OverpassAPI {
 				builder.append(line);
 			}
 		}
-		return  builder.toString();
+		return builder.toString();
 	}
 
 }

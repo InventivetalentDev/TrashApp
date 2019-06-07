@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode Integer.parseInt("2"+rootProject.ext.appVersionId)
+        versionCode Integer.parseInt("2" + rootProject.ext.appVersionId)
         versionName rootProject.ext.appVersionName
         vectorDrawables.useSupportLibrary = true
 
@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 
 }
 

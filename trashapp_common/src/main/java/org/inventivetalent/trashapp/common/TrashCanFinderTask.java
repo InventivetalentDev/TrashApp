@@ -18,18 +18,18 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 		this.query = new OverpassQuery(activity, R.raw.waste_basket_query);
 	}
 
-//	@Override
-//	protected void onPreExecute() {
-////		File cacheFile = handler.getCacheFile();
-////		if (cacheFile!=null&&cacheFile.exists()) {
-////			try (Reader reader = new FileReader(cacheFile)) {
-////				OverpassResponse response = new Gson().fromJson(reader, OverpassResponse.class);
-////				handler.handleTrashCanLocations(response, true);
-////			} catch (IOException e) {
-////				Log.w("TrashCanFinderTask", "failed to read response from cache file", e);
-////			}
-////		}
-//	}
+	//	@Override
+	//	protected void onPreExecute() {
+	////		File cacheFile = handler.getCacheFile();
+	////		if (cacheFile!=null&&cacheFile.exists()) {
+	////			try (Reader reader = new FileReader(cacheFile)) {
+	////				OverpassResponse response = new Gson().fromJson(reader, OverpassResponse.class);
+	////				handler.handleTrashCanLocations(response, true);
+	////			} catch (IOException e) {
+	////				Log.w("TrashCanFinderTask", "failed to read response from cache file", e);
+	////			}
+	////		}
+	//	}
 
 	@Override
 	boolean isCaching() {
@@ -42,10 +42,10 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 	}
 
 	@Override
-	protected List<OverpassResponse.Element> doInBackground(OverpassBoundingBox... overpassBoundingBoxes) {
-		if (overpassBoundingBoxes.length > 0) {
+	protected List<OverpassResponse.Element> doInBackground(TrashcanQuery... queries) {
+		if (queries.length > 0) {
 			try {
-				OverpassResponse response =  overpassAPI.query(this.query, overpassBoundingBoxes[0]);
+				OverpassResponse response = overpassAPI.query(this.query, queries[0].boundingBox);
 				if (response != null) {
 					return response.elements;
 				}
@@ -57,28 +57,26 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 		return null;
 	}
 
-
-
-//	@Override
-//	protected void onPostExecute(Collection<OverpassResponse.Element> elements) {
-//		if (elements != null) {
-//			handler.handleTrashCanLocations(overpassResponse, false);
-//
-//			if (handler.shouldCacheResults()) {
-//				File cacheFile = handler.getCacheFile();
-//				if(cacheFile!=null) {
-//					try (Writer writer = new FileWriter(cacheFile)) {
-//						new Gson().toJson(overpassResponse, writer);
-//					} catch (IOException e) {
-//						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
-//					}
-//				}
-//
-//				AppDatabase appDatabase = handler.getDatabase();
-//				if (appDatabase != null) {
-//					//TODO
-//				}
-//			}
-//		}
-//	}
+	//	@Override
+	//	protected void onPostExecute(Collection<OverpassResponse.Element> elements) {
+	//		if (elements != null) {
+	//			handler.handleTrashCanLocations(overpassResponse, false);
+	//
+	//			if (handler.shouldCacheResults()) {
+	//				File cacheFile = handler.getCacheFile();
+	//				if(cacheFile!=null) {
+	//					try (Writer writer = new FileWriter(cacheFile)) {
+	//						new Gson().toJson(overpassResponse, writer);
+	//					} catch (IOException e) {
+	//						Log.w("TrashCanFinderTask", "failed to write response to cache file", e);
+	//					}
+	//				}
+	//
+	//				AppDatabase appDatabase = handler.getDatabase();
+	//				if (appDatabase != null) {
+	//					//TODO
+	//				}
+	//			}
+	//		}
+	//	}
 }

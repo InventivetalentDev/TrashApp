@@ -7,7 +7,6 @@ import java.util.List;
 
 public class DbTrashcanQueryTask extends AbstractTrashcanTask<TrashcanEntity> {
 
-
 	public DbTrashcanQueryTask(TrashCanResultHandler handler) {
 		super(handler);
 	}
@@ -18,12 +17,13 @@ public class DbTrashcanQueryTask extends AbstractTrashcanTask<TrashcanEntity> {
 	}
 
 	@Override
-	protected List<TrashcanEntity> doInBackground(OverpassBoundingBox... overpassBoundingBoxes) {
-		if (overpassBoundingBoxes.length > 0) {
+	protected List<TrashcanEntity> doInBackground(TrashcanQuery... queries) {
+		if (queries.length > 0) {
 			AppDatabase database = handler.getDatabase();
 			if (database != null) {
-				OverpassBoundingBox box = overpassBoundingBoxes[0];
-				return database.trashcanDao().getAllInArea(box.south, box.north, box.west, box.east);
+				TrashcanQuery query = queries[0];
+				OverpassBoundingBox box = query.boundingBox;
+				return Util.getAllTrashcansOfTypesInArea(database.trashcanDao(), query.types, box.south, box.north, box.west, box.east);
 			}
 		}
 		return null;
