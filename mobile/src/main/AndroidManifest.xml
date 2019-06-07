@@ -26,7 +26,7 @@
                 android:parentActivityName=".SettingsActivity">
             <meta-data
                     android:name="default-url"
-                    android:value="https://trashapp.invntivetalent.org/"/>
+                    android:value="https://trashapp.inventivetalent.org/"/>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -47,7 +47,7 @@
                 android:parentActivityName=".TabActivity">
             <meta-data
                     android:name="default-url"
-                    android:value="https://trashapp.invntivetalent.org/"/>
+                    android:value="https://trashapp.inventivetalent.org/"/>
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="org.inventivetalent.trashapp.TabActivity"/>
@@ -85,7 +85,7 @@
 
         <meta-data
                 android:name="default-url"
-                android:value="https://trashapp.invntivetalent.org/"/>
+                android:value="https://trashapp.inventivetalent.org/"/>
 
         <activity
                 android:name=".TabActivity"
@@ -93,7 +93,7 @@
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="default-url"
-                    android:value="https://trashapp.invntivetalent.org/"/>
+                    android:value="https://trashapp.inventivetalent.org/"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
