@@ -484,6 +484,24 @@ public class Util {
 				readable = context.getString(R.string.settings_filter_general);
 			} else if ("bin".equals(key)) {
 				readable = context.getString(R.string.settings_filter_bins);
+
+			// waste
+			} else if ("oil".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_oil);
+			}else if("drugs".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_drugs);
+			}else if("organic".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_organic);
+			}else if("plastic".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_plastic);
+			}else if("rubble".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_rubble);
+			}else if("dog_excrement".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_dog_excrement);
+			}else if("cigarettes".equals(key)){
+				readable = context.getString(R.string.settings_filter_waste_cigarettes);
+
+			// recycling
 			} else {
 				readable = getStringFromKey(context, "settings_filter_recycling_" + key);
 			}
