@@ -123,7 +123,7 @@ public class MapFragment extends Fragment {
 				location.setLatitude(mapView.getMapCenter().getLatitude());
 				location.setLongitude(mapView.getMapCenter().getLongitude());
 
-				if (TabActivity.lastKnownLocation.distanceTo(location) > 1000) {
+				if (TabActivity.searchCenter.distanceTo(location) > 1000) {
 					TabActivity.searchCenter = location;
 					trashcanUpdater.lookForTrashCans();
 				}
@@ -135,7 +135,7 @@ public class MapFragment extends Fragment {
 			public boolean onZoom(ZoomEvent event) {
 				return false;
 			}
-		}));
+		},1000));
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -203,6 +203,7 @@ public class MapFragment extends Fragment {
 
 		// move to self too
 		TabActivity.searchCenter = TabActivity.lastKnownLocation;
+		trashcanUpdater.lookForTrashCans();
 	}
 
 	void focusOnSelfAndClosest() {

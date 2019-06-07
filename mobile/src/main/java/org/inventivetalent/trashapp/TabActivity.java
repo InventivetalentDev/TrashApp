@@ -55,6 +55,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private       boolean       magneticSet;
 	public static float[]       lastKnownRotation = new float[3];
 
+	public long lastLiveUpdateTime=0;
+
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
 	boolean initialSearchCompleted = false;
@@ -342,7 +344,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			}
 		}
 		Log.i("TrashApp", "Looking for trash cans");
-		Toast.makeText(this, R.string.searching, Toast.LENGTH_SHORT);
+		Toast.makeText(this, R.string.searching, Toast.LENGTH_SHORT).show();
+
 		double searchRadius = Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
 		double searchRadiusDeg = searchRadius * ONE_METER_DEG;
 
@@ -359,9 +362,14 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", boundingBox.toCoordString());
 		TrashcanQuery query = new TrashcanQuery(boundingBox, types);
 
+
 		//TODO: make this more efficient, i.e. don't run both
 		new DbTrashcanQueryTask(this).execute(query);
-		new TrashCanFinderTask(this, this).execute(query);
+
+		if (System.currentTimeMillis() - lastLiveUpdateTime > 10000) {
+			new TrashCanFinderTask(this, this).execute(query);
+			lastLiveUpdateTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
