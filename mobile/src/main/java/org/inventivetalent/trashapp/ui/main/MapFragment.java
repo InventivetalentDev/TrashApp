@@ -1,6 +1,7 @@
 package org.inventivetalent.trashapp.ui.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -41,6 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.inventivetalent.trashapp.common.Constants.DEFAULT_SEARCH_RADIUS;
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
 public class MapFragment extends Fragment {
@@ -80,6 +82,8 @@ public class MapFragment extends Fragment {
 	private PaymentHandler  paymentHandler;
 	private TrashcanUpdater trashcanUpdater;
 
+	private SharedPreferences sharedPreferences;
+
 	public MapFragment() {
 		// Required empty public constructor
 	}
@@ -96,6 +100,7 @@ public class MapFragment extends Fragment {
 				Toast.makeText(getActivity(), "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
 			}
 		});
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
@@ -123,7 +128,7 @@ public class MapFragment extends Fragment {
 				location.setLatitude(mapView.getMapCenter().getLatitude());
 				location.setLongitude(mapView.getMapCenter().getLongitude());
 
-				if (TabActivity.searchCenter.distanceTo(location) > 1000) {
+				if (TabActivity.searchCenter.distanceTo(location) > Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) / 2) {
 					TabActivity.searchCenter = location;
 					trashcanUpdater.lookForTrashCans();
 				}
@@ -135,7 +140,7 @@ public class MapFragment extends Fragment {
 			public boolean onZoom(ZoomEvent event) {
 				return false;
 			}
-		},1000));
+		}, 1000));
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);

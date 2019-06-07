@@ -150,9 +150,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		instance = this;
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
-		}
+//		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
+//		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		Util.applyTheme(this, sharedPreferences);
