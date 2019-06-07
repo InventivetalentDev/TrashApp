@@ -86,6 +86,9 @@ public class CompassFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
+		// reset center to self location
+		TabActivity.searchCenter = TabActivity.lastKnownLocation;
+
 		mFirebaseAnalytics.setCurrentScreen(getActivity(), "CompassTab", null);
 	}
 

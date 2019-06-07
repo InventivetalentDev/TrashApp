@@ -23,6 +23,10 @@ import org.inventivetalent.trashapp.common.db.Converters;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.DelayedMapListener;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -73,7 +77,8 @@ public class MapFragment extends Fragment {
 
 	private OsmAndHelper osmAndHelper;
 
-	private PaymentHandler paymentHandler;
+	private PaymentHandler  paymentHandler;
+	private TrashcanUpdater trashcanUpdater;
 
 	public MapFragment() {
 		// Required empty public constructor
@@ -110,6 +115,27 @@ public class MapFragment extends Fragment {
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
+
+		mapView.addMapListener(new DelayedMapListener(new MapListener() {
+			@Override
+			public boolean onScroll(ScrollEvent event) {
+				Location location = new Location("MapCenter");
+				location.setLatitude(mapView.getMapCenter().getLatitude());
+				location.setLongitude(mapView.getMapCenter().getLongitude());
+
+				if (TabActivity.lastKnownLocation.distanceTo(location) > 1000) {
+					TabActivity.lastKnownLocation = location;
+					trashcanUpdater.lookForTrashCans();
+				}
+
+				return false;
+			}
+
+			@Override
+			public boolean onZoom(ZoomEvent event) {
+				return false;
+			}
+		}));
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -174,6 +200,9 @@ public class MapFragment extends Fragment {
 		if (location != null) {
 			moveMap(location, 19);
 		}
+
+		// move to self too
+		TabActivity.searchCenter = TabActivity.lastKnownLocation;
 	}
 
 	void focusOnSelfAndClosest() {
@@ -358,6 +387,12 @@ public class MapFragment extends Fragment {
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement PaymentHandler");
+		}
+		if (context instanceof TrashcanUpdater) {
+			trashcanUpdater = (TrashcanUpdater) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement TrashcanUpdater");
 		}
 	}
 
