@@ -22,7 +22,11 @@
 
     <color name="primaryTextColor">#000</color>
     <color name="secondaryTextColor">#fff</color>
+    <color name="primaryTextColorDisabled">#80000000</color>
+    <color name="secondaryTextColorDisabled">#80FFFFFF</color>
 
     <color name="primaryTextColorDark">#ffffff</color>
     <color name="secondaryTextColorDark">#000000</color>
+    <color name="primaryTextColorDarkDisabled">#80FFFFFF</color>
+    <color name="secondaryTextColorDarkDisabled">#80000000</color>
 </resources>

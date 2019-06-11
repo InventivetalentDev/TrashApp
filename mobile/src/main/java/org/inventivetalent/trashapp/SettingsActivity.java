@@ -148,6 +148,10 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				});
 			}
 
+			if (adsPreference != null) { adsPreference.setEnabled(true); }
+			if (themePreference != null) { themePreference.setEnabled(false); }
+
+
 			final PaymentHandler paymentHandler = TabActivity.instance;
 			paymentHandler.waitForManager(new PaymentReadyListener() {
 				@Override

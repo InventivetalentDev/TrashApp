@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/lightBackground</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/primary_text_color_selector_light</item>
 
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
     </style>
@@ -20,7 +20,7 @@
         <item name="colorPrimaryDark">@color/grassPrimaryDark</item>
         <item name="colorAccent">@color/grassSecondary</item>
         <item name="android:colorBackground">@color/darkBackground</item>
-        <item name="android:textColor">@color/primaryTextColorDark</item>
+        <item name="android:textColor">@color/primary_text_color_selector_dark</item>
         <item name="colorButtonNormal">@color/darkBackgroundLight</item>
         <item name="android:popupBackground">@color/darkBackgroundLight</item>
         <item name="android:itemBackground">@color/darkBackgroundLight</item>
@@ -39,3 +39,4 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>
+
