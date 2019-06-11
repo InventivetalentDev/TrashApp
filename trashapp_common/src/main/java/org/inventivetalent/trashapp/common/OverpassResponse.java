@@ -122,6 +122,12 @@ public class OverpassResponse {
 					}
 					return Collections.singletonList("general");
 				}
+				if("waste_disposal".equals(tags.get("amenity"))) {
+					if (tags.containsKey("waste")) {
+						return Collections.singletonList(tags.get("waste"));
+					}
+					return Collections.singletonList("waste_disposal");
+				}
 				if ("recycling".equals(tags.get("amenity"))) {
 					List<String> types = new ArrayList<>();
 					for (Map.Entry<String, String> entry : tags.entrySet()) {

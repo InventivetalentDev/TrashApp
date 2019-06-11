@@ -12,6 +12,11 @@
                 android:defaultValue="true"
                 android:key="filter_bins"/>
 
+        <SwitchPreference
+            android:title="@string/settings_filter_waste_disposal"
+            android:defaultValue="true"
+            android:key="filter_waste_disposal"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

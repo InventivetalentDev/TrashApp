@@ -241,6 +241,9 @@ public class Util {
 		if (preferences.getBoolean("filter_bins", true)) {
 			types.add("bin");
 		}
+		if(preferences.getBoolean("filter_waste_disposal", true)) {
+			types.add("waste_disposal");
+		}
 
 		// Waste (https://wiki.openstreetmap.org/wiki/Key:waste) 06.06.19
 		if (preferences.getBoolean("filter_waste_trash", true)) {
@@ -488,6 +491,8 @@ public class Util {
 				readable = context.getString(R.string.settings_filter_general);
 			} else if ("bin".equals(key)) {
 				readable = context.getString(R.string.settings_filter_bins);
+			} else if("waste_disposal".equals(key)){
+				readable = context.getString(R.string.settings_filter_waste_disposal);
 
 			// waste
 			} else if ("oil".equals(key)) {
@@ -531,7 +536,7 @@ public class Util {
 	}
 
 	public static boolean isMiscTrash(TrashType type) {
-		return type.getTypes().contains("general") || type.getTypes().contains("bin") ||
+		return type.getTypes().contains("general") || type.getTypes().contains("bin") || type.getTypes().contains("waste_disposal") ||
 				type.getTypes().contains("trash") || type.getTypes().contains("oil") || type.getTypes().contains("drugs") || type.getTypes().contains("organic") || type.getTypes().contains("plastic") || type.getTypes().contains("rubble") || type.getTypes().contains("dog_excrement") || type.getTypes().contains("cigarette");
 	}
 
