@@ -55,7 +55,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private       boolean       magneticSet;
 	public static float[]       lastKnownRotation = new float[3];
 
-	public long lastLiveUpdateTime=0;
+	public long lastLiveUpdateTime = 0;
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
@@ -150,9 +150,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		instance = this;
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
-//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
-//		}
+		//		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+		//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
+		//		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		Util.applyTheme(this, sharedPreferences);
@@ -277,6 +277,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			);
 			lastKnownLocation = location;
 
+			if (searchCenter == null || !sharedPreferences.getBoolean("moving_search", false) || searchCenter.distanceTo(lastKnownLocation) > 1) {
+				searchCenter = lastKnownLocation;
+			}
+
 			ViewModelProviders.of(this).get(PageViewModel.class).mLocation.setValue(location);
 
 			if (!initialSearchCompleted) {
@@ -336,7 +340,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public void lookForTrashCans() {
-		if (searchCenter == null) {//TODO: gotta make sure to keep the center updated when moving around and not on the map
+		if (searchCenter == null) {
 			if (lastKnownLocation != null) {
 				searchCenter = lastKnownLocation;
 			} else {
@@ -361,7 +365,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 		Log.i("TrashApp", boundingBox.toCoordString());
 		TrashcanQuery query = new TrashcanQuery(boundingBox, types);
-
 
 		//TODO: make this more efficient, i.e. don't run both
 		new DbTrashcanQueryTask(this).execute(query);
@@ -407,10 +410,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	public void updateClosestTrashcan(Collection<? extends LatLon> elements) {
-//		Set<LatLon> joined = new HashSet<>();
-//		joined.addAll(elements);
-//		joined.addAll(nearbyTrashCans);
-//		elements = joined;
+		//		Set<LatLon> joined = new HashSet<>();
+		//		joined.addAll(elements);
+		//		joined.addAll(nearbyTrashCans);
+		//		elements = joined;
 
 		if (elements.isEmpty()) {
 			closestTrashCan = null;
@@ -421,7 +424,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			nearbyTrashCans.clear();
 			nearbyTrashCans.addAll(sortedElements);
 
-//			int i = 0;
+			//			int i = 0;
 			//			for (OverpassResponse.Element element : elements) {
 			//				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
 			//			}

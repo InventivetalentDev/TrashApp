@@ -128,7 +128,7 @@ public class MapFragment extends Fragment {
 				location.setLatitude(mapView.getMapCenter().getLatitude());
 				location.setLongitude(mapView.getMapCenter().getLongitude());
 
-				if (TabActivity.searchCenter.distanceTo(location) > Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) / 2) {
+				if (sharedPreferences.getBoolean("moving_search", false) && TabActivity.searchCenter.distanceTo(location) > Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) / 2) {
 					TabActivity.searchCenter = location;
 					trashcanUpdater.lookForTrashCans();
 				}
