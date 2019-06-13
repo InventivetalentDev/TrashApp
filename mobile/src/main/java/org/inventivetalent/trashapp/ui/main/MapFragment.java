@@ -58,6 +58,7 @@ public class MapFragment extends Fragment {
 			));
 
 	private FirebaseAnalytics mFirebaseAnalytics;
+	private boolean           debug;
 
 	private MapView              mapView;
 	private FloatingActionButton addButton;
@@ -71,6 +72,7 @@ public class MapFragment extends Fragment {
 	private boolean zoomedToSelf = false;
 
 	private Marker      selfMarker;
+	private Marker      searchCenterMarker;
 	private Marker      closestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
 	private Polyline    polyline;
@@ -101,6 +103,7 @@ public class MapFragment extends Fragment {
 			}
 		});
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
@@ -299,6 +302,16 @@ public class MapFragment extends Fragment {
 			//					.position(new LatLng(closestElement.lat, closestElement.lon));
 			//			Marker marker = map.addMarker(markerOptions);
 			//			canMarkers.add(marker);
+
+			if (debug) {
+				if (searchCenterMarker == null) {
+					searchCenterMarker = new Marker(mapView);
+					searchCenterMarker.setIcon(getResources().getDrawable(R.drawable.ic_my_location_black_64dp));
+					searchCenterMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+					mapView.getOverlays().add(searchCenterMarker);
+				}
+				searchCenterMarker.setPosition(new GeoPoint(TabActivity.searchCenter.getLatitude(), TabActivity.searchCenter.getLongitude()));
+			}
 
 			if (selfMarker != null /*&& closestCanMarker != null*/) {
 				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.getLat(), closestElement.getLon())));
