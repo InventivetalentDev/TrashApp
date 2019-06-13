@@ -51,8 +51,8 @@ dependencies {
     implementation 'com.android.billingclient:billing:2.0.0'
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
-    implementation "androidx.room:room-runtime:2.1.0-rc01"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-rc01"
+    implementation "androidx.room:room-runtime:2.1.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-analytics:16.0.8'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
