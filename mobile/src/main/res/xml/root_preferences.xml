@@ -36,6 +36,11 @@
                 android:inputType="number"
                 android:key="search_radius_max"/>
 
+        <SwitchPreference
+            android:title="@string/settings_moving_search"
+            android:defaultValue="false"
+            android:key="moving_search"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_premium_title">

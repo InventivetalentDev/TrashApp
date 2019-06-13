@@ -130,4 +130,5 @@
     <string name="settings_filter_waste_dog_excrement">Dog Excrement</string>
     <string name="settings_filter_waste_cigarettes">Cigarettes</string>
     <string name="searching">Searching...</string>
+    <string name="settings_moving_search">Move Search Area with Map</string>
 </resources>

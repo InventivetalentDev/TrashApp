@@ -336,7 +336,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public void lookForTrashCans() {
-		if (searchCenter == null) {
+		if (searchCenter == null) {//TODO: gotta make sure to keep the center updated when moving around and not on the map
 			if (lastKnownLocation != null) {
 				searchCenter = lastKnownLocation;
 			} else {
