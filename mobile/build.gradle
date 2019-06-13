@@ -40,19 +40,19 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation project(':trashapp_common')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'androidx.preference:preference:1.1.0-alpha05'
+    implementation 'androidx.preference:preference:1.1.0-beta01'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     wearApp project(':wear')
     implementation 'com.google.android.gms:play-services-wearable:16.0.1'
-    implementation "androidx.preference:preference:1.1.0-alpha05"
+    implementation "androidx.preference:preference:1.1.0-beta01"
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
     implementation 'com.android.billingclient:billing:2.0.0'
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
     implementation 'com.github.MKergall:osmbonuspack:6.6.0'
-    implementation "androidx.room:room-runtime:2.1.0-beta01"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-beta01" // For Kotlin use kapt instead of annotationProcessor
+    implementation "androidx.room:room-runtime:2.1.0-rc01"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-rc01"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-analytics:16.0.8'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
