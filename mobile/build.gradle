@@ -14,6 +14,16 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
+    splits {
+        density {
+            enable true
+
+            // Specify a list of screen densities which Gradle won't create multiple APKs for
+            exclude 'ldpi', 'mdpi'
+            // Specify a list of compatible screen size for the manifest
+            compatibleScreens 'small', 'normal', 'large', 'xlarge'
+        }
+    }
     buildTypes {
         debug {
             minifyEnabled false
@@ -50,7 +60,6 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
     implementation 'com.android.billingclient:billing:2.0.0'
     implementation 'com.google.android.gms:play-services-ads:17.2.1'
-    implementation 'com.github.MKergall:osmbonuspack:6.6.0'
     implementation "androidx.room:room-runtime:2.1.0"
     annotationProcessor "androidx.room:room-compiler:2.1.0"
     implementation 'com.android.support:multidex:1.0.3'
