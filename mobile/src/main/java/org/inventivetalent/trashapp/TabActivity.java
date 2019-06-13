@@ -45,6 +45,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	private       LocationManager  mLocationManager;
 	public static Location         lastKnownLocation;
+	public static Location         searchCenter;
 	public static GeomagneticField geoField;
 
 	private       SensorManager mSensorManager;
@@ -53,6 +54,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private       float[]       mGeomagnetic      = new float[3];
 	private       boolean       magneticSet;
 	public static float[]       lastKnownRotation = new float[3];
+
+	public long lastLiveUpdateTime = 0;
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
 
@@ -147,9 +150,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		instance = this;
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
-		}
+		//		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+		//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
+		//		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		Util.applyTheme(this, sharedPreferences);
@@ -274,6 +277,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			);
 			lastKnownLocation = location;
 
+			if (searchCenter == null || !sharedPreferences.getBoolean("moving_search", false) || searchCenter.distanceTo(lastKnownLocation) > 1) {
+				searchCenter = lastKnownLocation;
+			}
+
 			ViewModelProviders.of(this).get(PageViewModel.class).mLocation.setValue(location);
 
 			if (!initialSearchCompleted) {
@@ -333,18 +340,23 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	@Override
 	public void lookForTrashCans() {
-		if (lastKnownLocation == null) {
-			return;
+		if (searchCenter == null) {
+			if (lastKnownLocation != null) {
+				searchCenter = lastKnownLocation;
+			} else {
+				return;
+			}
 		}
 		Log.i("TrashApp", "Looking for trash cans");
+		Toast.makeText(this, R.string.searching, Toast.LENGTH_SHORT).show();
+
 		double searchRadius = Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) + SEARCH_STEP * searchItaration;// meters
-		//TODO: might need to steadily increase the radius if we can't find anything closer
 		double searchRadiusDeg = searchRadius * ONE_METER_DEG;
 
 		Log.i("TrashApp", "Radius: " + (searchRadius / 1000) + "km / " + searchRadius + "m / " + searchRadiusDeg + "deg");
 
-		double lat = lastKnownLocation.getLatitude();
-		double lon = lastKnownLocation.getLongitude();
+		double lat = searchCenter.getLatitude();
+		double lon = searchCenter.getLongitude();
 
 		OverpassBoundingBox boundingBox = new OverpassBoundingBox(lat - searchRadiusDeg, lon - searchRadiusDeg, lat + searchRadiusDeg, lon + searchRadiusDeg);
 		List<String> types = Util.createFilterFromPreferences(sharedPreferences);
@@ -356,7 +368,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 		//TODO: make this more efficient, i.e. don't run both
 		new DbTrashcanQueryTask(this).execute(query);
-		new TrashCanFinderTask(this, this).execute(query);
+
+		if (System.currentTimeMillis() - lastLiveUpdateTime > 10000) {
+			new TrashCanFinderTask(this, this).execute(query);
+			lastLiveUpdateTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -393,22 +409,27 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		updateClosestTrashcan(elements);
 	}
 
-	public void updateClosestTrashcan(List<? extends LatLon> elements) {
+	public void updateClosestTrashcan(Collection<? extends LatLon> elements) {
+		//		Set<LatLon> joined = new HashSet<>();
+		//		joined.addAll(elements);
+		//		joined.addAll(nearbyTrashCans);
+		//		elements = joined;
+
 		if (elements.isEmpty()) {
 			closestTrashCan = null;
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(null);
 		} else {
-			elements = elementsSortedByDistanceFrom(elements, lastKnownLocation);
+			List<? extends LatLon> sortedElements = elementsSortedByDistanceFrom(elements, lastKnownLocation);
 			// no need to convert to points again
 			nearbyTrashCans.clear();
-			nearbyTrashCans.addAll(elements);
+			nearbyTrashCans.addAll(sortedElements);
 
-			int i = 0;
+			//			int i = 0;
 			//			for (OverpassResponse.Element element : elements) {
 			//				Log.i("TrashApp", (i++) + " " + element.toLocation() + " => " + lastKnownLocation.distanceTo(element.toLocation()));
 			//			}
 
-			LatLon closest = elements.get(0);
+			LatLon closest = sortedElements.get(0);
 			ViewModelProviders.of(this).get(PageViewModel.class).mClosestCan.setValue(closest);
 			closestTrashCan = closest;
 

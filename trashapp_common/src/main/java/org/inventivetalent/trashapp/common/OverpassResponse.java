@@ -158,6 +158,19 @@ public class OverpassResponse {
 			return location;
 		}
 
+
+
+		@Override
+		public double getLat() {
+			return lat;
+		}
+
+		@Override
+		public double getLon() {
+			return lon;
+		}
+
+
 		@Override
 		public String toString() {
 			return "Element{" +
@@ -169,13 +182,16 @@ public class OverpassResponse {
 		}
 
 		@Override
-		public double getLat() {
-			return lat;
+		public boolean equals(Object o) {
+			if (this == o) { return true; }
+			if (o == null || getClass() != o.getClass()) { return false; }
+			Element element = (Element) o;
+			return id == element.id;
 		}
 
 		@Override
-		public double getLon() {
-			return lon;
+		public int hashCode() {
+			return Objects.hash(id);
 		}
 	}
 

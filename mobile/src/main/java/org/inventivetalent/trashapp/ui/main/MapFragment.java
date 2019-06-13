@@ -1,6 +1,7 @@
 package org.inventivetalent.trashapp.ui.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -23,6 +24,10 @@ import org.inventivetalent.trashapp.common.db.Converters;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.DelayedMapListener;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -37,6 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.inventivetalent.trashapp.common.Constants.DEFAULT_SEARCH_RADIUS;
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
 public class MapFragment extends Fragment {
@@ -52,6 +58,7 @@ public class MapFragment extends Fragment {
 			));
 
 	private FirebaseAnalytics mFirebaseAnalytics;
+	private boolean           debug;
 
 	private MapView              mapView;
 	private FloatingActionButton addButton;
@@ -65,6 +72,7 @@ public class MapFragment extends Fragment {
 	private boolean zoomedToSelf = false;
 
 	private Marker      selfMarker;
+	private Marker      searchCenterMarker;
 	private Marker      closestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
 	private Polyline    polyline;
@@ -73,7 +81,10 @@ public class MapFragment extends Fragment {
 
 	private OsmAndHelper osmAndHelper;
 
-	private PaymentHandler paymentHandler;
+	private PaymentHandler  paymentHandler;
+	private TrashcanUpdater trashcanUpdater;
+
+	private SharedPreferences sharedPreferences;
 
 	public MapFragment() {
 		// Required empty public constructor
@@ -91,6 +102,8 @@ public class MapFragment extends Fragment {
 				Toast.makeText(getActivity(), "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
 			}
 		});
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
@@ -110,6 +123,27 @@ public class MapFragment extends Fragment {
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
+
+		mapView.addMapListener(new DelayedMapListener(new MapListener() {
+			@Override
+			public boolean onScroll(ScrollEvent event) {
+				Location location = new Location("MapCenter");
+				location.setLatitude(mapView.getMapCenter().getLatitude());
+				location.setLongitude(mapView.getMapCenter().getLongitude());
+
+				if (sharedPreferences.getBoolean("moving_search", false) && TabActivity.searchCenter.distanceTo(location) > Util.getInt(sharedPreferences, "search_radius_start", DEFAULT_SEARCH_RADIUS) / 2) {
+					TabActivity.searchCenter = location;
+					trashcanUpdater.lookForTrashCans();
+				}
+
+				return false;
+			}
+
+			@Override
+			public boolean onZoom(ZoomEvent event) {
+				return false;
+			}
+		}, 1000));
 
 		//		mapView.onCreate(savedInstanceState);
 		//		mapView.getMapAsync(this);
@@ -174,6 +208,10 @@ public class MapFragment extends Fragment {
 		if (location != null) {
 			moveMap(location, 19);
 		}
+
+		// move to self too
+		TabActivity.searchCenter = TabActivity.lastKnownLocation;
+		trashcanUpdater.lookForTrashCans();
 	}
 
 	void focusOnSelfAndClosest() {
@@ -264,6 +302,16 @@ public class MapFragment extends Fragment {
 			//					.position(new LatLng(closestElement.lat, closestElement.lon));
 			//			Marker marker = map.addMarker(markerOptions);
 			//			canMarkers.add(marker);
+
+			if (debug) {
+				if (searchCenterMarker == null) {
+					searchCenterMarker = new Marker(mapView);
+					searchCenterMarker.setIcon(getResources().getDrawable(R.drawable.ic_my_location_black_64dp));
+					searchCenterMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+					mapView.getOverlays().add(searchCenterMarker);
+				}
+				searchCenterMarker.setPosition(new GeoPoint(TabActivity.searchCenter.getLatitude(), TabActivity.searchCenter.getLongitude()));
+			}
 
 			if (selfMarker != null /*&& closestCanMarker != null*/) {
 				polyline.setPoints(Arrays.asList(selfMarker.getPosition(), /*closestCanMarker.getPosition()*/new GeoPoint(closestElement.getLat(), closestElement.getLon())));
@@ -358,6 +406,12 @@ public class MapFragment extends Fragment {
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement PaymentHandler");
+		}
+		if (context instanceof TrashcanUpdater) {
+			trashcanUpdater = (TrashcanUpdater) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement TrashcanUpdater");
 		}
 	}
 
