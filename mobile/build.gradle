@@ -14,16 +14,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
-    splits {
-        density {
-            enable true
-
-            // Specify a list of screen densities which Gradle won't create multiple APKs for
-            exclude 'ldpi', 'mdpi'
-            // Specify a list of compatible screen size for the manifest
-            compatibleScreens 'small', 'normal', 'large', 'xlarge'
-        }
-    }
     buildTypes {
         debug {
             minifyEnabled false
@@ -57,7 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     wearApp project(':wear')
-    implementation 'com.google.android.gms:play-services-wearable:16.0.1'
     implementation "androidx.preference:preference:1.1.0-beta01"
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
     implementation 'com.android.billingclient:billing:2.0.0'

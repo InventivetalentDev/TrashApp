@@ -24,16 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    splits {
-        density {
-            enable true
-
-            // Specify a list of screen densities which Gradle won't create multiple APKs for
-            exclude 'ldpi', 'mdpi'
-            // Specify a list of compatible screen size for the manifest
-            compatibleScreens 'small', 'normal', 'large', 'xlarge'
-        }
-    }
 }
 
 dependencies {
