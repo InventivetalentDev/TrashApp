@@ -1,8 +1,6 @@
 package org.inventivetalent.trashapp;
 
 import android.Manifest;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -251,8 +249,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	protected void onPause() {
 		super.onPause();
 
-		updateWidget();
-
 		if (mSensorManager != null) { mSensorManager.unregisterListener(mSensorListener); }
 		//		if (mLocationManager != null) { mLocationManager.removeUpdates(mLocationListener); }
 		if (fusedLocationProviderClient != null) { fusedLocationProviderClient.removeLocationUpdates(locationCallback); }
@@ -435,8 +431,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 			// reset
 			searchItaration = 0;
-
-			updateWidget();
 		}
 	}
 
@@ -523,64 +517,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Log.i("TrashApp", purchase.getSku() + ": " + purchase.getPurchaseState());
 			purchasedSkus.add(purchase.getSku());
 		}
-	}
-
-	void updateWidget() {
-		if (closestTrashCan == null) { return; }
-		if (lastKnownLocation == null) { return; }
-
-		Location canLocation = closestTrashCan.toLocation();
-		float bearing = lastKnownLocation.bearingTo(canLocation);
-		//		float angle = (float) (bearing - heading)*-1;
-		float azimuth = rotationBuffer.getAverageAzimuth();
-		//		 azimuth = (float) Math.toDegrees(azimuth);
-		if (geoField != null) {
-			azimuth += geoField.getDeclination();
-		}
-		float angle = (float) (azimuth - bearing);
-		if (angle < 0) { angle += 360f; }
-
-		int rounded = ((int) Math.round(angle / 45)) * 45;
-		Log.i("CompassWidget", "rounded: " + rounded);
-		int resId = -1;
-		switch (rounded) {
-			case 45:
-				resId = R.drawable.ic_small_pointer_r45;
-				break;
-			case 90:
-				resId = R.drawable.ic_small_pointer_r90;
-				break;
-			case 135:
-				resId = R.drawable.ic_small_pointer_r135;
-				break;
-			case 180:
-				resId = R.drawable.ic_small_pointer_r180;
-				break;
-			case 225:
-				resId = R.drawable.ic_small_pointer_r225;
-				break;
-			case 270:
-				resId = R.drawable.ic_small_pointer_r270;
-				break;
-			case 315:
-				resId = R.drawable.ic_small_pointer_r315;
-				break;
-			case 0:
-			case 360:
-			default:
-				resId = R.drawable.ic_small_pointer_r0;
-				break;
-		}
-
-		CompassWidget.pointerResId = resId;
-
-		Intent intent = new Intent(this, CompassWidget.class);
-		intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-		// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-		// since it seems the onUpdate() is only fired on that:
-		int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), CompassWidget.class));
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-		sendBroadcast(intent);
 	}
 
 	void exitApp() {
