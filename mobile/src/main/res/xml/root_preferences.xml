@@ -71,6 +71,9 @@
             android:title="@string/settings_clear_cache_title"
             android:key="dummy_clear_cache"/>
 
+        <Preference android:title="@string/found_bug"
+                    android:key="dummy_report_issue"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

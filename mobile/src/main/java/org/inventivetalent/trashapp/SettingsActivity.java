@@ -3,6 +3,8 @@ package org.inventivetalent.trashapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -124,6 +126,27 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				});
 			}
 
+			final Preference reportIssuePreference = findPreference("dummy_report_issue");
+			if (reportIssuePreference != null) {
+				reportIssuePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						String issueUri = null;
+						try {
+							issueUri = Util.createPrefilledIssueUri( getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0));
+						} catch (PackageManager.NameNotFoundException e) {
+							e.printStackTrace();
+							issueUri = "https://github.com/InventivetalentDev/TrashApp/issues/new";
+						}
+
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(issueUri));
+						startActivity(browserIntent);
+
+						return true;
+					}
+				});
+			}
+
 			final ListPreference themePreference = findPreference("app_theme");
 			if (themePreference != null) {
 				themePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -150,7 +173,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
 			if (adsPreference != null) { adsPreference.setEnabled(true); }
 			if (themePreference != null) { themePreference.setEnabled(false); }
-
 
 			final PaymentHandler paymentHandler = TabActivity.instance;
 			paymentHandler.waitForManager(new PaymentReadyListener() {

@@ -2,6 +2,7 @@ package org.inventivetalent.trashapp.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,7 +23,9 @@ import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -241,7 +244,7 @@ public class Util {
 		if (preferences.getBoolean("filter_bins", true)) {
 			types.add("bin");
 		}
-		if(preferences.getBoolean("filter_waste_disposal", true)) {
+		if (preferences.getBoolean("filter_waste_disposal", true)) {
 			types.add("waste_disposal");
 		}
 
@@ -491,26 +494,26 @@ public class Util {
 				readable = context.getString(R.string.settings_filter_general);
 			} else if ("bin".equals(key)) {
 				readable = context.getString(R.string.settings_filter_bins);
-			} else if("waste_disposal".equals(key)){
+			} else if ("waste_disposal".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_disposal);
 
-			// waste
+				// waste
 			} else if ("oil".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_oil);
-			}else if("drugs".equals(key)) {
+			} else if ("drugs".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_drugs);
-			}else if("organic".equals(key)) {
+			} else if ("organic".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_organic);
-			}else if("plastic".equals(key)) {
+			} else if ("plastic".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_plastic);
-			}else if("rubble".equals(key)) {
+			} else if ("rubble".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_rubble);
-			}else if("dog_excrement".equals(key)) {
+			} else if ("dog_excrement".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_dog_excrement);
-			}else if("cigarettes".equals(key)){
+			} else if ("cigarettes".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_cigarettes);
 
-			// recycling
+				// recycling
 			} else {
 				readable = getStringFromKey(context, "settings_filter_recycling_" + key);
 			}
@@ -520,7 +523,8 @@ public class Util {
 	}
 
 	public static String getStringFromKey(Context context, String key) {
-		@StringRes int id = getStringResFromKey(context, key);
+		@StringRes
+		int id = getStringResFromKey(context, key);
 		if (id == 0) {
 			Exception exception = new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
 			Crashlytics.logException(exception);
@@ -573,6 +577,38 @@ public class Util {
 	//
 	//		return filtered;
 	//	}
+
+	public static String createPrefilledIssueUri(PackageInfo packageInfo) {
+		StringBuilder bodyBuilder = new StringBuilder("== Device Info==").append('\n');
+		bodyBuilder.append("Manufacturer: ").append(Build.MANUFACTURER).append('\n');
+		bodyBuilder.append("Brand: ").append(Build.BRAND).append('\n');
+		bodyBuilder.append("Device: ").append(Build.DEVICE).append('\n');
+		bodyBuilder.append("Version API Level: ").append(Build.VERSION.SDK_INT).append('\n');
+		bodyBuilder.append("Version Release: ").append(Build.VERSION.RELEASE).append('\n');
+		bodyBuilder.append('\n');
+		if (packageInfo != null) {
+			bodyBuilder.append("App Version Name: ").append(packageInfo.versionName).append('\n');
+			bodyBuilder.append("App Version Code: ").append(packageInfo.versionCode).append('\n');
+		}
+		bodyBuilder.append("App Build Type: ").append(org.inventivetalent.trashapp.common.BuildConfig.BUILD_TYPE).append('\n');
+		bodyBuilder.append("==============").append('\n');
+		bodyBuilder.append('\n');
+		bodyBuilder.append('\n');
+		bodyBuilder.append("## What steps will reproduce the problem?").append('\n');
+		bodyBuilder.append("1. \n");
+		bodyBuilder.append("2. \n");
+		bodyBuilder.append("3. \n");
+		bodyBuilder.append('\n');
+		bodyBuilder.append("## What were you expecting to happen? What happened instead?\n");
+		bodyBuilder.append('\n');
+
+		try {
+			return "https://github.com/InventivetalentDev/TrashApp/issues/new?body=" + URLEncoder.encode(bodyBuilder.toString(), "utf8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "https://github.com/InventivetalentDev/TrashApp/issues/new";
+		}
+	}
 
 	public static void showDebugDBAddressLogToast(Context context) {
 		if (BuildConfig.DEBUG) {

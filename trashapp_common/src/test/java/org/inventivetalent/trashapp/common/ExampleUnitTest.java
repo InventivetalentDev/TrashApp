@@ -35,4 +35,9 @@ public class ExampleUnitTest {
 		assertArrayEquals(new String[]{"lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit"},list.toArray(new String[0]));
 	}
 
+	@Test
+	public void issueUriTest() {
+		System.out.println(Util.createPrefilledIssueUri(null));
+	}
+
 }
