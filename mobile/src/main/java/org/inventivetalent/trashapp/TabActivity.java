@@ -23,6 +23,7 @@ import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.location.*;
 import com.google.android.material.tabs.TabLayout;
+import com.kobakei.ratethisapp.RateThisApp;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.Migrations;
@@ -214,6 +215,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 				}
 			}
 		}
+
+		// Monitor launch times and interval from installation
+		RateThisApp.onCreate(this);
+		// If the condition is satisfied, "Rate this app" dialog will be shown
+		RateThisApp.showRateDialogIfNeeded(this);
 	}
 
 	@Override
