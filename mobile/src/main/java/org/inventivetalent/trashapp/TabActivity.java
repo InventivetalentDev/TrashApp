@@ -67,7 +67,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private Set<String>               purchasedSkus         = new HashSet<>();
 	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
 
+	@Deprecated
 	protected static SkuInfo SKU_INFO_PREMIUM;
+	protected static SkuInfo SKU_INFO_THEMES;
+	protected static SkuInfo SKU_INFO_REMOVE_ADS;
 
 	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
@@ -481,6 +484,12 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 						switch (details.getSku()) {
 							case BillingConstants.SKU_PREMIUM:
 								SKU_INFO_PREMIUM = new SkuInfo(details, TabActivity.this);
+								break;
+							case BillingConstants.SKU_THEMES:
+								SKU_INFO_THEMES = new SkuInfo(details, TabActivity.this);
+								break;
+							case BillingConstants.SKU_REMOVE_ADS:
+								SKU_INFO_REMOVE_ADS = new SkuInfo(details, TabActivity.this);
 								break;
 							default:
 								Log.w("TabActivity", "Unhandled SkuDetails: " + details.getSku());

@@ -85,8 +85,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				adsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						if (TabActivity.SKU_INFO_PREMIUM != null) {
-							TabActivity.SKU_INFO_PREMIUM.launchBilling();
+						if (TabActivity.SKU_INFO_REMOVE_ADS != null) {
+							TabActivity.SKU_INFO_REMOVE_ADS.launchBilling();
 						} else {
 							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 						}
@@ -133,7 +133,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					public boolean onPreferenceClick(Preference preference) {
 						String issueUri = null;
 						try {
-							issueUri = Util.createPrefilledIssueUri( getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0));
+							issueUri = Util.createPrefilledIssueUri(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0));
 						} catch (PackageManager.NameNotFoundException e) {
 							e.printStackTrace();
 							issueUri = "https://github.com/InventivetalentDev/TrashApp/issues/new";
@@ -153,8 +153,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						if (!themePreference.isEnabled()) {
-							if (TabActivity.SKU_INFO_PREMIUM != null) {
-								TabActivity.SKU_INFO_PREMIUM.launchBilling();
+							if (TabActivity.SKU_INFO_THEMES != null) {
+								TabActivity.SKU_INFO_THEMES.launchBilling();
 							} else {
 								Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 							}
@@ -179,10 +179,14 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				@Override
 				public void ready() {
 					boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-					Log.i("SettingsActivity", "hasPremium: " + hasPremium);
+					boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
+					boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS);
+					Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
+					Log.i("SettingsActivity", "hasThemes: " + hasThemes);
+					Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
-					if (adsPreference != null) { adsPreference.setEnabled(!hasPremium); }
-					if (themePreference != null) { themePreference.setEnabled(hasPremium); }
+					if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
+					if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
 				}
 			});
 
