@@ -37,4 +37,11 @@
     <string name="settings_clear_cache_title">Zwischenspeicher leeren</string>
     <string name="dialog_clear_cache_title">Zwischenspeicher leeren?</string>
     <string name="dialog_clear_cache_message">Wollen Sie wirklich alle Mülleimer aus dem Zwischenspeicher entfernen?</string>
+    <string name="found_bug">Fehler gefunden?</string>
+    <string name="searching">Suche...</string>
+    <string name="settings_moving_search">Suchareal mit Karte bewegen</string>
+    <string name="settings_select_all">Alle auswählen...</string>
+    <string name="settings_select_none">Nichts auswählen...</string>
+    <string name="trashcan">Mülleimer</string>
+    <string name="settings_filters_header">Filter</string>
 </resources>
