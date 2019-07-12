@@ -22,7 +22,7 @@ public class OverpassAPI {
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Accept-Encoding", "gzip");
 		connection.setRequestProperty("User-Agent", "TrashApp");
-		connection.setRequestProperty("Referer", "https://trashapp.inventivetalent.org");
+		connection.setRequestProperty("Referer", "https://trashapp.cc");
 		connection.setConnectTimeout(2000);
 		connection.setReadTimeout(30000);
 		connection.setDoInput(true);

@@ -48,7 +48,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:host="trashapp.inventivetalent.org"
+                <data android:host="trashapp.cc"
                       android:scheme="https"/>
             </intent-filter>
         </activity>
