@@ -18,99 +18,7 @@
             android:supportsRtl="true"
             android:name=".TrashApp"
             android:theme="@style/AppTheme">
-        <activity android:name=".HtmlActivity"
-                  android:parentActivityName=".SettingsActivity">
-        </activity>
-        <activity
-                android:name=".AboutActivity"
-                android:parentActivityName=".SettingsActivity">
-            <meta-data
-                    android:name="default-url"
-                    android:value="https://trashapp.cc/about"/>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/about"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/about"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/about"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/about"/>
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".SettingsActivity"
-                android:label="@string/title_activity_settings"
-                android:parentActivityName=".TabActivity">
-            <meta-data
-                    android:name="default-url"
-                    android:value="https://trashapp.cc/settings"/>
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="org.inventivetalent.trashapp.TabActivity"/>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/settings"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/settings"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/settings"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/settings"/>
-            </intent-filter>
-        </activity>
+
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
@@ -147,107 +55,10 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                         android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                        android:host="trashapp.cc"/>
                 <data
                         android:scheme="http"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                />
-            </intent-filter>
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                />
+                        android:host="trashapp.cc"/>
             </intent-filter>
             <intent-filter android:order="1" android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
@@ -257,35 +68,60 @@
                         android:scheme="https"
                         android:host="trashapp.cc"
                         android:pathPattern="/.*"/>
-            </intent-filter>
-            <intent-filter android:order="1" android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="https"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/.*"/>
-            </intent-filter>
-            <intent-filter android:order="1" android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                        android:scheme="http"
-                        android:host="trashapp.cc"
-                        android:pathPattern="/.*"/>
-            </intent-filter>
-            <intent-filter android:order="1" android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                         android:scheme="http"
                         android:host="trashapp.cc"
                         android:pathPattern="/.*"/>
             </intent-filter>
         </activity>
+        <activity android:name=".HtmlActivity"
+                  android:parentActivityName=".SettingsActivity">
+        </activity>
+        <activity
+                android:name=".AboutActivity"
+                android:parentActivityName=".SettingsActivity">
+            <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.cc/about"/>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.cc"
+                        android:pathPattern="/about"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.cc"
+                        android:pathPattern="/about"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:parentActivityName=".TabActivity">
+            <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.cc/settings"/>
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="org.inventivetalent.trashapp.TabActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="trashapp.cc"
+                        android:pathPattern="/settings"/>
+                <data
+                        android:scheme="http"
+                        android:host="trashapp.cc"
+                        android:pathPattern="/settings"/>
+            </intent-filter>
+        </activity>
+
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
