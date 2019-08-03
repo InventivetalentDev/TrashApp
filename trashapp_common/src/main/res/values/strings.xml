@@ -5,6 +5,13 @@
     <string name="playstore_description_short">Find nearby rubbish bins and stop throwing waste into the environment!</string>
     <string name="playstore_description_full">This app locates public rubbish bins near you, so you can use them instead of polluting nature!</string>
 
+    <string name="playstore_graphic_phone_01">Instantly see the Nearest Trashcan</string>
+    <string name="playstore_graphic_phone_02">Explore your Surroundings</string>
+    <string name="playstore_graphic_phone_03">Customize Results</string>
+
+    <string name="playstore_graphic_feature">Find nearby Trashcans\n
+    Stop polluting nature</string>
+
     <string name="action_settings">Settings</string>
     <string name="tab_text_compass">Compass</string>
     <string name="tab_text_map">Map</string>

@@ -125,4 +125,8 @@
     <string name="settings_filter_recycling_tyres">Reifen</string>
     <string name="settings_filter_recycling_styrofoam">Styropor</string>
     <string name="settings_filter_recycling_belts">Gürtel</string>
+    <string name="playstore_graphic_phone_02">Erkunde deine Umgebung</string>
+    <string name="playstore_graphic_phone_01">Sieh direkt den nächsten Mülleimer</string>
+    <string name="playstore_graphic_phone_03">Passe die Ergebnisse an</string>
+    <string name="playstore_description_short">Mülleimer in der Nähe finden und aufhören die Natur zu verschmutzen!</string>
 </resources>
