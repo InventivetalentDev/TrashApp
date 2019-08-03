@@ -129,4 +129,5 @@
     <string name="playstore_graphic_phone_01">Sieh direkt den nächsten Mülleimer</string>
     <string name="playstore_graphic_phone_03">Passe die Ergebnisse an</string>
     <string name="playstore_description_short">Mülleimer in der Nähe finden und aufhören die Natur zu verschmutzen!</string>
+    <string name="playstore_description_full">Diese App findet öffentliche Mülleimer in deiner Nähe, so dass du diese verwenden kannst statt die Natur zu verschmutzen!</string>
 </resources>
