@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TrashApp</string>
+    <string name="playstore_description_short">Find nearby rubbish bins and stop throwing waste into the environment!</string>
+    <string name="playstore_description_full">This app locates public rubbish bins near you, so you can use them instead of polluting nature!</string>
+    <string name="playstore_graphic_phone_01">Instantly see the Nearest Rubbish Bin</string>
+    <string name="playstore_graphic_phone_03">Customise Results</string>
+    <string name="searching_cans">Looking for Rubbish Bins nearby…</string>
+</resources>
