@@ -1,4 +1,5 @@
 <resources>
+    <!-- Default Strings (en_US) -->
     <string name="app_name">TrashApp</string>
 
     <!-- Playstore Stuff -->
