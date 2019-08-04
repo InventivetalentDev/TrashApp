@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              tools:context=".AddActivity" android:orientation="vertical">
+    <FrameLayout android:layout_width="fill_parent"
+                 android:layout_height="fill_parent" android:layout_weight="1">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                app:srcCompat="@drawable/ic_check_black_64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:clickable="true" android:id="@+id/addDoneButton" android:layout_margin="10dp" android:tint="?attr/android:colorBackground" android:contentDescription="@string/description_add_trashcan"/>
+
+
+        <org.osmdroid.views.MapView android:id="@+id/map"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"/>
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" app:srcCompat="@drawable/ic_marker_64dp" android:tint="@android:color/black" android:layout_gravity="center" android:layout_marginBottom="32dp"/>
+
+    </FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent"
+                                                       android:layout_height="fill_parent" android:layout_weight="6" android:id="@+id/frameLayout">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/add_trashcan_info" android:id="@+id/textView7" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"/>
+        <TextView
+                android:text="@string/add_trashcan_osmand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/osmAndTextView" app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="16dp" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp" android:textColor="@android:color/holo_blue_dark"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

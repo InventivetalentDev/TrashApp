@@ -146,4 +146,7 @@
     <string name="searching">Searching...</string>
     <string name="settings_moving_search">Move Search Area with Map</string>
     <string name="found_bug">Found a Bug?</string>
+    <string name="description_add_trashcan">Add Trashcan</string>
+    <string name="add_trashcan_info">Drag the map to position the needle where you would like to add a new trashcan</string>
+    <string name="add_trashcan_osmand"><b>Use OsmAnd for more options</b></string>
 </resources>
