@@ -20,8 +20,8 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".AddActivity">
-        </activity>
+
+
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
@@ -80,6 +80,26 @@
                 <data
                         android:host="trashapp.cc"
                         android:pathPattern="/.*"
+                        android:scheme="http"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddActivity"     android:parentActivityName=".TabActivity">
+            <meta-data
+                    android:name="default-url"
+                    android:value="https://trashapp.cc/add"/>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                        android:host="trashapp.cc"
+                        android:pathPattern="/add"
+                        android:scheme="https"/>
+                <data
+                        android:host="trashapp.cc"
+                        android:pathPattern="/add"
                         android:scheme="http"/>
             </intent-filter>
         </activity>
