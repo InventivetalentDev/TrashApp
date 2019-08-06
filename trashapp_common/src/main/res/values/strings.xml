@@ -32,7 +32,7 @@
     <string name="settings_advanced_header">Advanced</string>
     <string name="settings_cache_title">Cache Data</string>
     <string name="settings_debug_title">Enable Debug</string>
-    <string name="settings_osm_info">Add new Trashcans</string>
+    <string name="settings_osm_info">Add new Trashcans with OsmAnd</string>
     <string name="settings_remove_ads">Remove Ads</string>
     <string name="settings_premium_title">Premium</string>
     <string name="settings_dark_theme_title">Dark Theme</string>
