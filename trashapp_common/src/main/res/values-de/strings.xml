@@ -19,7 +19,7 @@
     <string name="settings_advanced_header">Erweitert</string>
     <string name="settings_cache_title">Daten zwischenspeichern</string>
     <string name="settings_debug_title">Entwicklermodus</string>
-    <string name="settings_osm_info">Mülleimer hinzufügen</string>
+    <string name="settings_osm_info">Mülleimer mit OsmAnd hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
     <string name="settings_premium_title">Premium</string>
     <string name="settings_dark_theme_title">Dark Theme</string>
