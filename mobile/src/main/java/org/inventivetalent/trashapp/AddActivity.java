@@ -1,5 +1,6 @@
 package org.inventivetalent.trashapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -40,6 +41,8 @@ public class AddActivity extends AppCompatActivity {
 	private FirebaseAnalytics mFirebaseAnalytics;
 	private SharedPreferences sharedPreferences;
 	private boolean           debug;
+
+	private boolean isAddConfirmed = false;
 
 	private AlertDialog currentDialog;
 
@@ -115,7 +118,7 @@ public class AddActivity extends AppCompatActivity {
 				lat = center.getLatitude();
 				lon = center.getLongitude();
 
-				currentDialog =new AlertDialog.Builder(AddActivity.this).setMessage(R.string.alert_adding_trashcan).show();
+				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.alert_adding_trashcan).show();// TODO: might wanna change the message shown here
 				Bundle bundle = new Bundle();
 				bundle.putString("lat", String.valueOf(lat));
 				bundle.putString("lon", String.valueOf(lon));
@@ -135,7 +138,7 @@ public class AddActivity extends AppCompatActivity {
 
 	void showLocationInOsm(double lat, double lon) {
 		if (osmAndHelper != null) {
-			currentDialog =new AlertDialog.Builder(this).setMessage(R.string.alert_open_osmand).show();
+			currentDialog = new AlertDialog.Builder(this).setMessage(R.string.alert_open_osmand).show();
 			osmAndHelper.showLocation(lat, lon);
 		}
 	}
@@ -145,15 +148,38 @@ public class AddActivity extends AppCompatActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == OsmBridgeClient.AUTH_REQUEST_CODE) {
+			Log.i("AddActivity", "Got result from WebView auth: " + (resultCode == RESULT_OK ? "OK" : "NOT OK"));
+
 			if (!client.notifyAuthFinished(resultCode)) {
-				currentDialog =new AlertDialog.Builder(this).setMessage(R.string.osm_auth_failed).show();
+				closeCurrentDialog();
+				currentDialog = new AlertDialog.Builder(this).setMessage(R.string.osm_auth_failed).show();
+				client.invalidateSession(sharedPreferences);
 				return;
 			}
 			client.storeSessionId(sharedPreferences);
 
+
 			// Start another task, this time hopefully with correct authentication
 			new AddTask().execute(getPendingTrashcans());
 		}
+	}
+
+	void showAddConfirmationDialog(String osmUsername) {
+		new AlertDialog.Builder(this)
+				.setMessage(getString(R.string.add_trashcan_confirmation, osmUsername))
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						isAddConfirmed = true;
+						new AddTask().execute(getPendingTrashcans());
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						isAddConfirmed = false;
+					}
+				}).show();
 	}
 
 	@Override
@@ -190,8 +216,9 @@ public class AddActivity extends AppCompatActivity {
 		}
 	}
 
-	enum AddState{
+	enum AddState {
 		AUTH_PENDING,
+		AWAITING_CONFIRMATION,
 		SUCCESS,
 		FAIL;
 	}
@@ -207,14 +234,38 @@ public class AddActivity extends AppCompatActivity {
 			// Check session id
 			boolean sessionValid = client.isSessionIdValid();
 			if (!sessionValid) {
+				Log.w("AddTask", "Session is not valid - launching WebView to authenticate with OSM");
 				client.launchAuthWebView(AddActivity.this);
 				// Stop this task - wait for the auth to complete to start another one
 				return AddState.AUTH_PENDING;
 			}
+			Log.i("AddTask", "Session is valid");
+
+			if (!isAddConfirmed) {
+				Log.i("AddTask", "Asking for add confirmation");
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						showAddConfirmationDialog(client.getOsmUsername());
+					}
+				});
+				return AddState.AWAITING_CONFIRMATION;
+			}
+			Log.i("AddTask", "Add Confirmed");
+
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					closeCurrentDialog();
+					currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.alert_adding_trashcan).show();
+				}
+			});
 
 			if (client.addTrashcans(commentEditText.getText().toString(), pendingTrashcans)) {
+				Log.i("AddTask", "added!");
 				return AddState.SUCCESS;
 			}
+			Log.w("AddTask", "failed!");
 			return AddState.FAIL;
 		}
 
@@ -222,9 +273,9 @@ public class AddActivity extends AppCompatActivity {
 		protected void onPostExecute(AddState state) {
 			super.onPostExecute(state);
 
-			if(state==AddState.SUCCESS) {
+			if (state == AddState.SUCCESS) {
 				closeCurrentDialog();
-				currentDialog =new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_added).show();
+				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_added).show();
 			} else if (state == AddState.FAIL) {
 				closeCurrentDialog();
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_add_failed).show();

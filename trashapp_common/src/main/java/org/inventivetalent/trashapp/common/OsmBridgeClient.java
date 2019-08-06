@@ -1,10 +1,13 @@
 package org.inventivetalent.trashapp.common;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -26,7 +29,9 @@ public class OsmBridgeClient {
 
 	// Session ID used for API auth
 	private String sid;
-	private long sidSaveTime;
+	private long   sidSaveTime;
+
+	private JsonObject userInfoJson;
 
 	/**
 	 * Creates a new client without session id
@@ -68,8 +73,22 @@ public class OsmBridgeClient {
 	public void storeSessionId(SharedPreferences preferences) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("osmbridge_sid", this.sid);
-		editor.putLong("osmbridge_sid_saved", System.currentTimeMillis());
+		editor.putLong("osmbridge_sid_saved", this.sidSaveTime = System.currentTimeMillis());
 		editor.apply();
+
+		Log.i("OsmBridgeClient", "session stored to preferences");
+	}
+
+	public void invalidateSession(SharedPreferences preferences) {
+		this.sid = null;
+		this.sidSaveTime = 0;
+
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString("osmbridge_sid", "");
+		editor.putLong("osmbridge_sid_saved", 0L);
+		editor.apply();
+
+		Log.i("OsmBridgeClient", "session invalidated");
 	}
 
 	/**
@@ -80,16 +99,19 @@ public class OsmBridgeClient {
 	 */
 	public boolean isSessionIdValid() {
 		if (!hasSessionId()) {
+			Log.i("OsmBridgeClient", "isSessionIdValid: no session id");
 			return false;
 		}
 		if (System.currentTimeMillis() - sidSaveTime > 3.154e+10/* 1 year */) {
 			// invalidate after 1 year
+			Log.i("OsmBridgeClient", "isSessionIdValid: session id expired");
 			return false;
 		}
 
 		try {
 			JsonObject response = request("GET", "/", null);
 			System.out.println(response);
+			userInfoJson = response.getAsJsonObject("user");
 			return response != null && response.has("authenticated") && response.get("authenticated").getAsBoolean();
 		} catch (IOException e) {
 			Log.e("OsmBridgeClient", "Failed to check API for authentication", e);
@@ -105,6 +127,18 @@ public class OsmBridgeClient {
 	}
 
 	/**
+	 * Should only be called after making sure the session is valid
+	 *
+	 * @return The osm username
+	 */
+	public String getOsmUsername() {
+		if (userInfoJson == null) {
+			return null;
+		}
+		return userInfoJson.getAsJsonObject("osm").getAsJsonArray("user").get(0).getAsJsonObject().getAsJsonObject("$").get("display_name").getAsString();
+	}
+
+	/**
 	 * Launches a {@link WebViewActivity} to start the authentication flow with OSM
 	 *
 	 * @param activity
@@ -112,11 +146,18 @@ public class OsmBridgeClient {
 	public void launchAuthWebView(Activity activity) {
 		Intent intent = new Intent(activity, WebViewActivity.class);
 		intent.putExtra("url", getAuthUrl());
+		intent.putExtra("title", activity.getString(R.string.osm_auth_title));
+
+		//		expireSessionCookie(activity);
+
+		//		CookieManager cookieManager = CookieManager.getInstance();
 		if (hasSessionId()) {
 			intent.putExtra("sid", sid);
 
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.setCookie(BRIDGE_URL, "connect.sid=" + this.sid + "; Domain=osmbridge.trashapp.cc; Path=/; Secure; HttpOnly");
+			//			cookieManager.setCookie(BRIDGE_URL, "connect.sid=" + this.sid + "; Domain=osmbridge.trashapp.cc; Path=/; Secure; HttpOnly");
+			//			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			//				cookieManager.flush();
+			//			}
 		}
 		activity.startActivityForResult(intent, AUTH_REQUEST_CODE);
 	}
@@ -153,6 +194,9 @@ public class OsmBridgeClient {
 		//		String sid = sessionCookie.getValue();
 
 		String sid = extractSid(cookieString);
+
+		//cookieManager.removeSessionCookie();// Remove session cookies (hopefully this fixes duplicate sid cookies)
+
 		if (sid == null) {
 			Log.w("OsmBridgeClient", "Missing session id cookie");
 			return false;
@@ -272,6 +316,23 @@ public class OsmBridgeClient {
 			}
 		}
 		return null;
+	}
+
+	void expireSessionCookie(Context context) {
+		/// https://stackoverflow.com/questions/2834180/how-to-remove-cookies-using-cookiemanager-for-a-specific-domain/11621738#11621738
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			CookieSyncManager.createInstance(context);
+		}
+
+		CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.setCookie(BRIDGE_URL, "connect.sid=" + this.sid + "; Domain=osmbridge.trashapp.cc; Path=/; Secure; HttpOnly; Expires=Expires=Wed, 31 Dec 2025 23:59:59 GMT");
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			cookieManager.flush();
+		} else {
+			CookieSyncManager.getInstance().sync();
+		}
 	}
 
 	public static class PendingTrashcan {

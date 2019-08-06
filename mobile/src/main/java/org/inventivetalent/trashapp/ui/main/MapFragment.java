@@ -149,6 +149,7 @@ public class MapFragment extends Fragment {
 				Location location = viewModel.mLocation.getValue();
 				if (location != null) {
 //					showLocationInOsm(location.getLatitude(), location.getLongitude());
+					//TODO: use viewport center instead
 					Intent intent = new Intent(getContext(), AddActivity.class);
 					intent.putExtra("lat", location.getLatitude());
 					intent.putExtra("lon", location.getLongitude());

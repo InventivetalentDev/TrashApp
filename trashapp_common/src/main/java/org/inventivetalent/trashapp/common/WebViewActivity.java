@@ -33,6 +33,10 @@ public class WebViewActivity extends AppCompatActivity {
 		if (intent != null) {
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
+				String title = extras.getString("title", getString(R.string.app_name));
+				setTitle(title);
+
+
 				String url = extras.getString("url", "https://trashapp.cc");
 				webSettings.setJavaScriptEnabled(true);
 
