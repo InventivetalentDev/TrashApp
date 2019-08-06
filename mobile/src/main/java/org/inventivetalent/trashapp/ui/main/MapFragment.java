@@ -23,6 +23,7 @@ import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.Converters;
 import org.inventivetalent.trashapp.osmbonuspack.RadiusMarkerClusterer;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.DelayedMapListener;
@@ -146,15 +147,12 @@ public class MapFragment extends Fragment {
 		addButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Location location = viewModel.mLocation.getValue();
-				if (location != null) {
-//					showLocationInOsm(location.getLatitude(), location.getLongitude());
-					//TODO: use viewport center instead
-					Intent intent = new Intent(getContext(), AddActivity.class);
-					intent.putExtra("lat", location.getLatitude());
-					intent.putExtra("lon", location.getLongitude());
-					startActivity(intent);
-				}
+				IGeoPoint center = mapView.getMapCenter();
+
+				Intent intent = new Intent(getContext(), AddActivity.class);
+				intent.putExtra("lat", center.getLatitude());
+				intent.putExtra("lon", center.getLongitude());
+				startActivity(intent);
 			}
 		});
 		myLocationButton = view.findViewById(R.id.myLocationButton);
@@ -442,6 +440,5 @@ public class MapFragment extends Fragment {
 		super.onLowMemory();
 		//		mapView.onLowMemory();
 	}
-
 
 }
