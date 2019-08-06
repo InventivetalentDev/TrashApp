@@ -165,6 +165,7 @@ public class AddActivity extends AppCompatActivity {
 	}
 
 	void showAddConfirmationDialog(String osmUsername) {
+		closeCurrentDialog();
 		new AlertDialog.Builder(this)
 				.setMessage(getString(R.string.add_trashcan_confirmation, osmUsername))
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
