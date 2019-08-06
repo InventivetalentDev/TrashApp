@@ -119,14 +119,15 @@ public class AddActivity extends AppCompatActivity {
 				lon = center.getLongitude();
 
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.alert_adding_trashcan).show();// TODO: might wanna change the message shown here
+
+				// Run the add-task
+				new AddTask().execute(getPendingTrashcans());
+
 				Bundle bundle = new Bundle();
 				bundle.putString("lat", String.valueOf(lat));
 				bundle.putString("lon", String.valueOf(lon));
 				bundle.putString("amenity", amenity);
 				mFirebaseAnalytics.logEvent("add_trashcan", bundle);
-
-				// Run the add-task
-				new AddTask().execute(getPendingTrashcans());
 			}
 		});
 	}
@@ -158,9 +159,12 @@ public class AddActivity extends AppCompatActivity {
 			}
 			client.storeSessionId(sharedPreferences);
 
-
 			// Start another task, this time hopefully with correct authentication
 			new AddTask().execute(getPendingTrashcans());
+
+
+			mFirebaseAnalytics.setUserProperty("osm_user", client.getOsmUsername());
+			mFirebaseAnalytics.logEvent("osm_auth_success", null);
 		}
 	}
 
@@ -274,12 +278,21 @@ public class AddActivity extends AppCompatActivity {
 		protected void onPostExecute(AddState state) {
 			super.onPostExecute(state);
 
+			Bundle bundle = new Bundle();
+			bundle.putString("lat", String.valueOf(lat));
+			bundle.putString("lon", String.valueOf(lon));
+			bundle.putString("amenity", amenity);
+
 			if (state == AddState.SUCCESS) {
 				closeCurrentDialog();
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_added).show();
+
+				mFirebaseAnalytics.logEvent("add_trashcan_success", bundle);
 			} else if (state == AddState.FAIL) {
 				closeCurrentDialog();
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_add_failed).show();
+
+				mFirebaseAnalytics.logEvent("add_trashcan_fail", bundle);
 			}
 		}
 	}
