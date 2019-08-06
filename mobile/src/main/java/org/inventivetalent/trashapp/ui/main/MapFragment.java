@@ -1,6 +1,7 @@
 package org.inventivetalent.trashapp.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -17,11 +17,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import org.inventivetalent.trashapp.AddActivity;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.Converters;
 import org.inventivetalent.trashapp.osmbonuspack.RadiusMarkerClusterer;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.DelayedMapListener;
@@ -43,7 +45,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.inventivetalent.trashapp.common.Constants.DEFAULT_SEARCH_RADIUS;
-import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
 public class MapFragment extends Fragment {
 
@@ -79,8 +80,6 @@ public class MapFragment extends Fragment {
 
 	private RadiusMarkerClusterer markerClusterer;
 
-	private OsmAndHelper osmAndHelper;
-
 	private PaymentHandler  paymentHandler;
 	private TrashcanUpdater trashcanUpdater;
 
@@ -96,12 +95,6 @@ public class MapFragment extends Fragment {
 		if (getArguments() != null) {
 		}
 
-		osmAndHelper = new OsmAndHelper(getActivity(), OSM_REQUEST_CODE, new OsmAndHelper.OnOsmandMissingListener() {
-			@Override
-			public void osmandMissing() {
-				Toast.makeText(getActivity(), "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
-			}
-		});
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
 
@@ -154,10 +147,12 @@ public class MapFragment extends Fragment {
 		addButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Location location = viewModel.mLocation.getValue();
-				if (location != null) {
-					showLocationInOsm(location.getLatitude(), location.getLongitude());
-				}
+				IGeoPoint center = mapView.getMapCenter();
+
+				Intent intent = new Intent(getContext(), AddActivity.class);
+				intent.putExtra("lat", center.getLatitude());
+				intent.putExtra("lon", center.getLongitude());
+				startActivity(intent);
 			}
 		});
 		myLocationButton = view.findViewById(R.id.myLocationButton);
@@ -444,12 +439,6 @@ public class MapFragment extends Fragment {
 	public void onLowMemory() {
 		super.onLowMemory();
 		//		mapView.onLowMemory();
-	}
-
-	void showLocationInOsm(double lat, double lon) {
-		if (osmAndHelper != null) {
-			osmAndHelper.showLocation(lat, lon);
-		}
 	}
 
 }

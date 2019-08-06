@@ -23,7 +23,7 @@ import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -621,6 +621,17 @@ public class Util {
 
 			}
 		}
+	}
+
+	public static String readLines(InputStream inputStream) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+		}
+		return builder.toString();
 	}
 
 }

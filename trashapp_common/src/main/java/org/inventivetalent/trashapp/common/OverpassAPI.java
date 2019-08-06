@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
+import static org.inventivetalent.trashapp.common.Util.readLines;
+
 public class OverpassAPI {
 
 	private static final String OVERPASS_URL = "https://www.overpass-api.de/api/interpreter";
@@ -46,15 +48,6 @@ public class OverpassAPI {
 		return gson.fromJson(rawResponse, OverpassResponse.class);
 	}
 
-	static String readLines(InputStream inputStream) throws IOException {
-		StringBuilder builder = new StringBuilder();
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				builder.append(line);
-			}
-		}
-		return builder.toString();
-	}
+
 
 }
