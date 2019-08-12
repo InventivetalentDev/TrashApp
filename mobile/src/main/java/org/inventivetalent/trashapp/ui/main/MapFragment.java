@@ -38,6 +38,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -114,6 +115,9 @@ public class MapFragment extends Fragment {
 		mapView.setTileSource(WIKIMAPS);
 		mapView.setMultiTouchControls(true);
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+		RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mapView);
+		mRotationGestureOverlay.setEnabled(true);
+		mapView.getOverlays().add(mRotationGestureOverlay);
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
 

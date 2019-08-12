@@ -27,6 +27,7 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
@@ -76,6 +77,10 @@ public class AddActivity extends AppCompatActivity {
 		mapView.setTileSource(MapFragment.WIKIMAPS);
 		mapView.setMultiTouchControls(true);
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+		RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mapView);
+		mRotationGestureOverlay.setEnabled(true);
+		mapView.getOverlays().add(mRotationGestureOverlay);
 		mapController = mapView.getController();
 		mapController.setZoom(20f);
 
