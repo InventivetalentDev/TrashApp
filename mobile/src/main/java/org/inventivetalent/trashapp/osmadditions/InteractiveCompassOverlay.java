@@ -12,8 +12,7 @@ public class InteractiveCompassOverlay extends org.osmdroid.views.overlay.compas
     }
 
     @Override
-    public boolean onSingleTapConfirmed(MotionEvent event, MapView mapView)
-    {
+    public boolean onSingleTapConfirmed(MotionEvent event, MapView mapView) {
         mapView.setMapOrientation(0);
         return super.onSingleTapConfirmed(event, mapView);
     }
