@@ -111,7 +111,7 @@ public class OsmBridgeClient {
 		try {
 			JsonObject response = request("GET", "/", null);
 			System.out.println(response);
-			userInfoJson = response.getAsJsonObject("user");
+			if (response.has("user")) { userInfoJson = response.getAsJsonObject("user"); }
 			return response != null && response.has("authenticated") && response.get("authenticated").getAsBoolean();
 		} catch (IOException e) {
 			Log.e("OsmBridgeClient", "Failed to check API for authentication", e);
