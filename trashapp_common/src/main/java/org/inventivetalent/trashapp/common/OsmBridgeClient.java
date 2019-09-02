@@ -10,6 +10,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedWriter;
@@ -111,7 +112,12 @@ public class OsmBridgeClient {
 		try {
 			JsonObject response = request("GET", "/", null);
 			System.out.println(response);
-			if (response.has("user")) { userInfoJson = response.getAsJsonObject("user"); }
+			if (response.has("user")) {
+				JsonElement userElement = response.get("user");
+				if (userElement != null && !userElement.isJsonNull()) {
+					userInfoJson = response.getAsJsonObject("user");
+				}
+			}
 			return response != null && response.has("authenticated") && response.get("authenticated").getAsBoolean();
 		} catch (IOException e) {
 			Log.e("OsmBridgeClient", "Failed to check API for authentication", e);
