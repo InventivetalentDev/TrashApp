@@ -35,6 +35,8 @@ public class Util {
 	public static String APP_VERSION_NAME = "0.0.0";
 	public static int    APP_VERSION_ID   = 0;
 
+	public static String SPLIT_SEMICOLON_OR_COMMA = "[,;]";
+
 	public static double normalizeDegree(double value) {
 		if (value >= 0.0f && value <= 180.0f) {
 			return value;

@@ -118,13 +118,19 @@ public class OverpassResponse {
 			if (tags.containsKey("amenity")) {
 				if ("waste_basket".equals(tags.get("amenity"))) {
 					if (tags.containsKey("waste")) {
-						return Collections.singletonList(tags.get("waste"));
+						String waste = tags.get("waste");
+						if (waste != null) {
+							return Arrays.asList(waste.split(Util.SPLIT_SEMICOLON_OR_COMMA));
+						}
 					}
 					return Collections.singletonList("general");
 				}
-				if("waste_disposal".equals(tags.get("amenity"))) {
+				if ("waste_disposal".equals(tags.get("amenity"))) {
 					if (tags.containsKey("waste")) {
-						return Collections.singletonList(tags.get("waste"));
+						String waste = tags.get("waste");
+						if (waste != null) {
+							return Arrays.asList(waste.split(Util.SPLIT_SEMICOLON_OR_COMMA));
+						}
 					}
 					return Collections.singletonList("waste_disposal");
 				}
@@ -158,8 +164,6 @@ public class OverpassResponse {
 			return location;
 		}
 
-
-
 		@Override
 		public double getLat() {
 			return lat;
@@ -169,7 +173,6 @@ public class OverpassResponse {
 		public double getLon() {
 			return lon;
 		}
-
 
 		@Override
 		public String toString() {

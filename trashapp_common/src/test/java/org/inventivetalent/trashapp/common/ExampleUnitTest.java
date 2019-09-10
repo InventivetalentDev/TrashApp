@@ -32,12 +32,48 @@ public class ExampleUnitTest {
 	public void convertersStringToList() {
 		String string = "lorem,ipsum,dolor,sit,amet,consectetur,adipiscing,elit";
 		List<String> list = Converters.fromString(string);
-		assertArrayEquals(new String[]{"lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit"},list.toArray(new String[0]));
+		assertArrayEquals(new String[] {
+				"lorem",
+				"ipsum",
+				"dolor",
+				"sit",
+				"amet",
+				"consectetur",
+				"adipiscing",
+				"elit" }, list.toArray(new String[0]));
 	}
 
 	@Test
 	public void issueUriTest() {
 		System.out.println(Util.createPrefilledIssueUri(null));
+	}
+
+	@Test
+	public void splitterTestSemicolon() {
+		String test = "trash;cigarettes";
+		String[] split = test.split(Util.SPLIT_SEMICOLON_OR_COMMA);
+		assertArrayEquals(new String[] {
+				"trash",
+				"cigarettes" }, split);
+	}
+
+	@Test
+	public void splitterTestComma() {
+		String test = "trash,cigarettes";
+		String[] split = test.split(Util.SPLIT_SEMICOLON_OR_COMMA);
+		assertArrayEquals(new String[] {
+				"trash",
+				"cigarettes" }, split);
+	}
+
+	@Test
+	public void splitterTestCommaAndSemicolon() {
+		String test = "trash,cigarettes;paper";
+		String[] split = test.split(Util.SPLIT_SEMICOLON_OR_COMMA);
+		assertArrayEquals(new String[] {
+				"trash",
+				"cigarettes",
+				"paper" }, split);
 	}
 
 }
