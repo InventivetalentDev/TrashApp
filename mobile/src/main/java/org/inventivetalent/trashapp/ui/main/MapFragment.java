@@ -10,24 +10,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
 import org.inventivetalent.trashapp.AddActivity;
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.LatLon;
-import org.inventivetalent.trashapp.common.PaymentHandler;
-import org.inventivetalent.trashapp.common.TrashType;
-import org.inventivetalent.trashapp.common.TrashcanUpdater;
-import org.inventivetalent.trashapp.common.Util;
+import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.Converters;
 import org.inventivetalent.trashapp.osmadditions.InteractiveCompassOverlay;
 import org.inventivetalent.trashapp.osmbonuspack.RadiusMarkerClusterer;
@@ -44,6 +37,7 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
@@ -123,15 +117,20 @@ public class MapFragment extends Fragment {
 		mapView.setTileSource(WIKIMAPS);
 		mapView.setMultiTouchControls(true);
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+
 		RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mapView);
 		mRotationGestureOverlay.setEnabled(true);
 		mapView.getOverlays().add(mRotationGestureOverlay);
+
 		mapController = mapView.getController();
 		mapController.setZoom(15f);
 
 		InteractiveCompassOverlay mapCompass = new InteractiveCompassOverlay(getContext(), mapView);
 		mapCompass.enableCompass();
 		mapView.getOverlayManager().add(mapCompass);
+
+		CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
+		mapView.getOverlays().add(copyrightOverlay);
 
 		mapView.addMapListener(new DelayedMapListener(new MapListener() {
 			@Override
