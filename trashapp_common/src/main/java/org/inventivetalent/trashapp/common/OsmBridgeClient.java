@@ -257,6 +257,7 @@ public class OsmBridgeClient {
 
 		JsonArray jsonArray = new JsonArray();
 		for (PendingTrashcan trashcan : trashcans) {
+			Log.i("OsmBridgeClient", "new trashcan (" + trashcan.amenity + ") at " + trashcan.lat + " " + trashcan.lon);
 			jsonArray.add(gson.toJsonTree(trashcan));
 		}
 
