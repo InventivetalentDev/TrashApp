@@ -23,7 +23,7 @@ public class OverpassAPI {
 		HttpURLConnection connection = (HttpURLConnection) new URL(OVERPASS_URL).openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Accept-Encoding", "gzip");
-		connection.setRequestProperty("User-Agent", "TrashApp");
+		connection.setRequestProperty("User-Agent", "TrashApp/" + Util.APP_VERSION_NAME);
 		connection.setRequestProperty("Referer", "https://trashapp.cc");
 		connection.setConnectTimeout(2000);
 		connection.setReadTimeout(30000);

@@ -3,6 +3,7 @@ package org.inventivetalent.trashapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.*;
 import android.location.Location;
@@ -156,6 +157,16 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
 		//		}
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
+
+		try {
+			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			if (packageInfo != null) {
+				Util.APP_VERSION_ID = packageInfo.versionCode;
+				Util.APP_VERSION_NAME = packageInfo.versionName;
+			}
+		} catch (Throwable throwable) {
+			Log.w("TabActivity", "Failed to init app version in Util", throwable);
+		}
 
 		Util.applyTheme(this, sharedPreferences);
 

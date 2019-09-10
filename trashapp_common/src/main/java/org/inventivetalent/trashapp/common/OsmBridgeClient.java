@@ -279,7 +279,7 @@ public class OsmBridgeClient {
 
 		HttpURLConnection connection = (HttpURLConnection) new URL(BRIDGE_URL + path).openConnection();
 		connection.setRequestMethod(method);
-		connection.setRequestProperty("User-Agent", "TrashApp");
+		connection.setRequestProperty("User-Agent", "TrashApp/" + Util.APP_VERSION_NAME);
 		connection.setRequestProperty("Referer", "https://trashapp.cc");
 		if (hasSessionId()) {
 			connection.setRequestProperty("Cookie", "connect.sid=" + sid);
