@@ -582,7 +582,7 @@ public class Util {
 	//	}
 
 	public static String createPrefilledIssueUri(PackageInfo packageInfo) {
-		StringBuilder bodyBuilder = new StringBuilder("== Device Info==").append('\n');
+		StringBuilder bodyBuilder = new StringBuilder("++ Device Info ++").append('\n');
 		bodyBuilder.append("Manufacturer: ").append(Build.MANUFACTURER).append('\n');
 		bodyBuilder.append("Brand: ").append(Build.BRAND).append('\n');
 		bodyBuilder.append("Device: ").append(Build.DEVICE).append('\n');
@@ -594,7 +594,7 @@ public class Util {
 			bodyBuilder.append("App Version Code: ").append(packageInfo.versionCode).append('\n');
 		}
 		bodyBuilder.append("App Build Type: ").append(org.inventivetalent.trashapp.common.BuildConfig.BUILD_TYPE).append('\n');
-		bodyBuilder.append("==============").append('\n');
+		bodyBuilder.append("++++++++++++++").append('\n');
 		bodyBuilder.append('\n');
 		bodyBuilder.append('\n');
 		bodyBuilder.append("## What steps will reproduce the problem?").append('\n');
