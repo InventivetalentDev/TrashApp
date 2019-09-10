@@ -228,7 +228,7 @@ public class OsmBridgeClient {
 	public boolean addTrashcans(String comment, Iterable<PendingTrashcan> trashcans) {
 		JsonArray jsonArray = new JsonArray();
 		for (PendingTrashcan trashcan : trashcans) {
-			jsonArray.add(gson.toJson(trashcan));
+			jsonArray.add(gson.toJsonTree(trashcan));
 		}
 
 		try {
