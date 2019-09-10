@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -342,9 +343,13 @@ public class OsmBridgeClient {
 	}
 
 	public static class PendingTrashcan {
-		double lat;
-		double lon;
-		String amenity;
+
+		@SerializedName("lat")
+		public double lat;
+		@SerializedName("lon")
+		public double lon;
+		@SerializedName("amenity")
+		public String amenity;
 
 		public PendingTrashcan(double lat, double lon, String amenity) {
 			this.lat = lat;
