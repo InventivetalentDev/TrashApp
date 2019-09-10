@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 import static org.inventivetalent.trashapp.common.Util.readLines;
 
@@ -248,9 +249,19 @@ public class OsmBridgeClient {
 	 * @return
 	 */
 	public boolean addTrashcans(String comment, PendingTrashcan... trashcans) {
+		Log.i("OsmBridgeClient", "addTrashcans: " + Arrays.toString(trashcans));
+		if (trashcans == null || trashcans.length == 0) {
+			Log.e("OsmBridgeClient", "Tried to add empty trashcans array!");
+			return false;
+		}
+
 		JsonArray jsonArray = new JsonArray();
 		for (PendingTrashcan trashcan : trashcans) {
 			jsonArray.add(gson.toJsonTree(trashcan));
+		}
+
+		if (jsonArray.size() != trashcans.length) {
+			throw new IllegalStateException("JSON serialization of trashcans array resulted in different length! (" + jsonArray.size() + " != " + trashcans.length + ")");
 		}
 
 		try {
@@ -265,6 +276,8 @@ public class OsmBridgeClient {
 		if (!hasSessionId()) {
 			throw new IllegalStateException("Client has no session id");
 		}
+
+		Log.i("OsmBridgeClient", "addTrashcans: " + jsonArray);
 
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("comment", comment);
@@ -361,6 +374,27 @@ public class OsmBridgeClient {
 			this.lat = lat;
 			this.lon = lon;
 			this.amenity = "waste_basket";// default
+		}
+
+		@Override
+		public String toString() {
+			return "PendingTrashcan{" +
+					"lat=" + lat +
+					", lon=" + lon +
+					", amenity='" + amenity + '\'' +
+					'}';
+		}
+
+		public double getLat() {
+			return lat;
+		}
+
+		public double getLon() {
+			return lon;
+		}
+
+		public String getAmenity() {
+			return amenity;
 		}
 	}
 
