@@ -30,6 +30,9 @@ public class ExampleInstrumentedTest {
 	@Test
 	public void osmBridgeJsonTest() {
 		OsmBridgeClient.PendingTrashcan pendingTrashcan = new OsmBridgeClient.PendingTrashcan(20, 30, "idk");
+		assertEquals(20, pendingTrashcan.lat, 0.01);
+		assertEquals(30, pendingTrashcan.lon, 0.01);
+		assertEquals("idk", pendingTrashcan.amenity);
 
 		JsonElement json = new Gson().toJsonTree(pendingTrashcan);
 		assertTrue(json.isJsonObject());
