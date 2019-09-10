@@ -1,13 +1,15 @@
 package org.inventivetalent.trashapp.common;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.inventivetalent.trashapp.common.db.Converters;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -74,6 +76,20 @@ public class ExampleUnitTest {
 				"trash",
 				"cigarettes",
 				"paper" }, split);
+	}
+
+	@Test
+	public void osmBridgeJsonTest() {
+		OsmBridgeClient.PendingTrashcan pendingTrashcan = new OsmBridgeClient.PendingTrashcan(20, 30, "idk");
+		assertEquals(20, pendingTrashcan.lat, 0.01);
+		assertEquals(30, pendingTrashcan.lon, 0.01);
+		assertEquals("idk", pendingTrashcan.amenity);
+
+		JsonElement json = new Gson().toJsonTree(pendingTrashcan);
+		assertTrue(json.isJsonObject());
+		assertTrue(((JsonObject) json).has("lat"));
+		assertTrue(((JsonObject) json).has("lon"));
+		assertTrue(((JsonObject) json).has("amenity"));
 	}
 
 }
