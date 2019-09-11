@@ -9,6 +9,7 @@
     <string name="playstore_graphic_phone_01">Sieh direkt den nächsten Mülleimer</string>
     <string name="playstore_graphic_phone_02">Erkunde deine Umgebung</string>
     <string name="playstore_graphic_phone_03">Passe die Ergebnisse an</string>
+    <string name="playstore_graphic_feature">Finde nahe Mülleimer\nHalte die Umwelt sauber</string>
     <string name="action_settings">Einstellungen</string>
     <string name="tab_text_compass">Kompass</string>
     <string name="tab_text_map">Karte</string>
@@ -26,6 +27,7 @@
     <string name="settings_debug_title">Entwicklermodus</string>
     <string name="settings_osm_info">Mülleimer mit OsmAnd hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
+    <string name="settings_dark_theme_title">Dunkles Theme</string>
     <string name="about_osm_description">Karten und Umgebungsdaten von OpenStreetMap</string>
     <string name="about_wikimaps_description">Kartenmaterial von wikimedia maps</string>
     <string name="buy_dev_coffee">Spendiere dem Entwickler einen Kaffee!</string>
@@ -126,4 +128,14 @@
     <string name="searching">Suche...</string>
     <string name="settings_moving_search">Suchareal mit Karte bewegen</string>
     <string name="found_bug">Fehler gefunden?</string>
+    <string name="description_add_trashcan">Mülleimer hinzufügen</string>
+    <string name="add_trashcan_osmand"><b>Benutze OsmAnd für mehr Optionen</b></string>
+    <string name="alert_open_osmand">Starte OsmAnd...</string>
+    <string name="alert_adding_trashcan">Füge Mülleimer der OpenStreetMap hinzu...</string>
+    <string name="osm_auth_failed">Fehler beim Authentifizieren mit OpenStreetMap...</string>
+    <string name="trashcan_added">Neuen Mülleimer hinzugefügt! Danke für deinen Beitrag!</string>
+    <string name="trashcan_add_failed">Mülleimer konnte nicht hinzugefügt werden</string>
+    <string name="add_trashcan_confirmation">Bitte bestätigen Sie das Hinzufügen dieses Mülleimers. Poste als <b>%s</b> auf der OpenStreetMap</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="osm_auth_title">OpenStreetMap Authentifizierung</string>
 </resources>
