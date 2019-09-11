@@ -32,6 +32,22 @@ Deja de contaminar la naturaleza
     <string name="settings_osm_info">Agregue nuevos contenedores de basura con OsmAnd</string>
     <string name="settings_remove_ads">Quitar Anuncios</string>
     <string name="settings_premium_title">Premium</string>
+    <string name="settings_dark_theme_title">Tema Oscuro</string>
+    <string name="about_version">Versión %s</string>
+    <string name="about_osm_description">Datos de mapa y ubicación de OpenStreetMap</string>
+    <string name="about_osm_link">https://openstreetmap.org</string>
+    <string name="about_wikimaps_description">Mosaicos de mapas de wikimedia maps</string>
+    <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
+    <string name="buy_dev_coffee">Comprale un café al desarrollador!</string>
+    <string name="about_dev_description">Desarrollado por inventivetalent</string>
+    <string name="about_dev_link">https://inventivetalent.org</string>
+    <string name="description_trashcan">Contenedor de basura</string>
+    <string name="description_map_my_location">Mostrar mi Ubicación</string>
+    <string name="settings_themes_title">Tema</string>
+    <string name="settings_clear_cache_title">Borrar caché de contenedores</string>
+    <string name="dialog_clear_cache_title">¿Limpiar Cache?</string>
+    <string name="dialog_clear_cache_message">¿Deseas borrar todos los contenedores de basura en el caché?</string>
+    <string name="settings_filter_general">Residuos Generales</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <!-- /Generated Strings -->
 </resources>
