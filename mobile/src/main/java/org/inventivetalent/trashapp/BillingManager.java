@@ -3,11 +3,14 @@ package org.inventivetalent.trashapp;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
+
 import com.android.billingclient.api.*;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.SkuType;
 import com.android.billingclient.api.Purchase.PurchasesResult;
+
 import org.inventivetalent.trashapp.common.Security;
 
 import java.io.IOException;
@@ -160,6 +163,10 @@ public class BillingManager implements PurchasesUpdatedListener {
 				// Query the purchase async
 				SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
 				params.setSkusList(skuList).setType(itemType);
+				if (mBillingClient == null) {
+					Log.w("BillingManager", "BillingClient is null!");
+					return;
+				}
 				mBillingClient.querySkuDetailsAsync(params.build(),
 						new SkuDetailsResponseListener() {
 							@Override
