@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WebViewActivity extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class WebViewActivity extends AppCompatActivity {
 		});
 		webView.addJavascriptInterface(this, "TrashApp");
 		WebSettings webSettings = webView.getSettings();
-		webSettings.setUserAgentString("TrashApp");
+		webSettings.setUserAgentString("TrashApp/" + Util.APP_VERSION_NAME);
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -35,7 +36,6 @@ public class WebViewActivity extends AppCompatActivity {
 			if (extras != null) {
 				String title = extras.getString("title", getString(R.string.app_name));
 				setTitle(title);
-
 
 				String url = extras.getString("url", "https://trashapp.cc");
 				webSettings.setJavaScriptEnabled(true);
