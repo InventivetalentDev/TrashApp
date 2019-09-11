@@ -13,3 +13,4 @@ gradle.properties
 .externalNativeBuild
 /gradle/wrapper
 */google-services.json
+crowdin.properties
