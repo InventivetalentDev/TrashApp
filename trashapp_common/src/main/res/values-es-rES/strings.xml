@@ -4,11 +4,11 @@
     <!-- Default Strings (en_US) -->
     <string name="app_name">BasuraApp</string>
     <!-- Playstore Stuff -->
-    <string name="playstore_description_short">Encuentra contenedores de basura cercanos y deja de tirar basura al medio ambiente!</string>
-    <string name="playstore_description_full">Esta aplicación localiza contenedores de basura públicos cerca de ti, para que puedas usarlos en lugar de contaminar la naturaleza!</string>
+    <string name="playstore_description_short">¡Encuentra contenedores de basura cercanos y deja de tirar basura al medio ambiente!</string>
+    <string name="playstore_description_full">¡Esta aplicación localiza contenedores de basura públicos cerca de ti, para que puedas usarlos en lugar de contaminar la naturaleza!</string>
     <string name="playstore_graphic_phone_01">Instantáneamente ver el contenedor de basura más cerca</string>
-    <string name="playstore_graphic_phone_02">Explora tu entorno</string>
-    <string name="playstore_graphic_phone_03">Personalizar resultados</string>
+    <string name="playstore_graphic_phone_02">Explora tu Entorno</string>
+    <string name="playstore_graphic_phone_03">Personalizar Resultados</string>
     <string name="playstore_graphic_feature">Encuentra botes de contenedores cercanos\n
 Deja de contaminar la naturaleza
     </string>
@@ -38,7 +38,7 @@ Deja de contaminar la naturaleza
     <string name="about_osm_link">https://openstreetmap.org</string>
     <string name="about_wikimaps_description">Mosaicos de mapas de wikimedia maps</string>
     <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
-    <string name="buy_dev_coffee">Comprale un café al desarrollador!</string>
+    <string name="buy_dev_coffee">¡Comprale un café al desarrollador!</string>
     <string name="about_dev_description">Desarrollado por inventivetalent</string>
     <string name="about_dev_link">https://inventivetalent.org</string>
     <string name="description_trashcan">Contenedor de basura</string>
@@ -48,6 +48,41 @@ Deja de contaminar la naturaleza
     <string name="dialog_clear_cache_title">¿Limpiar Cache?</string>
     <string name="dialog_clear_cache_message">¿Deseas borrar todos los contenedores de basura en el caché?</string>
     <string name="settings_filter_general">Residuos Generales</string>
+    <string name="settings_filter_bins">Contenedores dentro de refugios, etc.</string>
+    <string name="settings_filter_waste_disposal">Deposito de Residuos</string>
+    <string name="settings_filters_header">Filtros</string>
+    <string name="settings_filters_misc_header">Residuos</string>
+    <string name="settings_filters_recycling_header">Reciclaje</string>
+    <string name="settings_select_all">Seleccionar Todo</string>
+    <string name="settings_select_none">Deseleccionar Todos</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
+    <string name="settings_filter_recycling_aerosol_cans">Latas de Aerosol</string>
+    <string name="settings_filter_recycling_animal_waste">Residuos de Animal</string>
+    <string name="settings_filter_recycling_aluminium">Aluminio</string>
+    <string name="settings_filter_recycling_bags">Bolsas</string>
+    <string name="settings_filter_recycling_batteries">Baterías</string>
+    <string name="settings_filter_recycling_belts">Cinturones</string>
+    <string name="settings_filter_recycling_beverage_cartons">Cartones de Bebidas</string>
+    <string name="settings_filter_recycling_bicycles">Bicicletas</string>
+    <string name="settings_filter_recycling_books">Libros</string>
+    <string name="settings_filter_recycling_cans">Latas</string>
+    <string name="settings_filter_recycling_car_batteries">Baterias de Coche</string>
+    <string name="settings_filter_recycling_cardboard">Cartulina</string>
+    <string name="settings_filter_recycling_cartons">Cartones</string>
+    <string name="settings_filter_recycling_cds">Cds</string>
+    <string name="settings_filter_recycling_chipboard">Cartón de Madera</string>
+    <string name="settings_filter_recycling_christmas_trees">Arboles de Navidad</string>
+    <string name="settings_filter_recycling_clothes">Ropa</string>
+    <string name="settings_filter_recycling_coffee_capsules">Cápsulas de Café</string>
+    <string name="settings_filter_recycling_computers">Ordenadores</string>
+    <string name="settings_filter_recycling_cooking_oil">Aceite de Cocina</string>
+    <string name="settings_filter_recycling_cork">Corcho</string>
+    <string name="settings_filter_recycling_drugs">Fármacos</string>
+    <string name="settings_filter_recycling_electrical_items">Artículos Eléctricos</string>
+    <string name="settings_filter_recycling_engine_oil">Aceite de Motor</string>
+    <string name="settings_filter_recycling_fluorescent_tubes">Tubos Fluorescentes</string>
+    <string name="settings_filter_recycling_foil">Papel de Aluminio</string>
+    <string name="settings_filter_recycling_furniture">Muebles</string>
+    <string name="settings_filter_recycling_gas_bottles">Botellas de Gas</string>
     <!-- /Generated Strings -->
 </resources>
