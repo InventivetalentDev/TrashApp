@@ -48,7 +48,6 @@
     <string name="dialog_clear_cache_title">Gyorsítótár ürítése?</string>
     <string name="dialog_clear_cache_message">Törölni akarod az összes gyorsítótárazott kukát?</string>
     <string name="settings_filter_general">Általános hulladék</string>
-    <string name="settings_filter_bins">Bins inside shelters etc.</string>
     <string name="settings_filter_waste_disposal">Hulladékkezelés</string>
     <string name="settings_filters_header">Szűrők</string>
     <string name="settings_filters_misc_header">Szemét</string>
@@ -89,7 +88,6 @@
     <string name="settings_filter_recycling_green_waste">Zöldhulladék</string>
     <string name="settings_filter_recycling_garden_waste">Kerti hulladék</string>
     <string name="settings_filter_recycling_hazardous_waste">Veszélyes hulladék</string>
-    <string name="settings_filter_recycling_hardcore">Hardcore</string>
     <string name="settings_filter_recycling_low_energy_bulbs">Alacsony fogyasztású izzók</string>
     <string name="settings_filter_recycling_magazines">Magazin</string>
     <string name="settings_filter_recycling_metal">Fém</string>
