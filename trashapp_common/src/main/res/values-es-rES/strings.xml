@@ -84,5 +84,23 @@ Deja de contaminar la naturaleza
     <string name="settings_filter_recycling_foil">Papel de Aluminio</string>
     <string name="settings_filter_recycling_furniture">Muebles</string>
     <string name="settings_filter_recycling_gas_bottles">Botellas de Gas</string>
+    <string name="settings_filter_recycling_glass">Vidrio</string>
+    <string name="settings_filter_recycling_glass_bottles">Botellas de Vidrio</string>
+    <string name="settings_filter_recycling_green_waste">Residuos Orgánicos</string>
+    <string name="settings_filter_recycling_garden_waste">Residuos de Jardín</string>
+    <string name="settings_filter_recycling_hazardous_waste">Residuos Peligrosos</string>
+    <string name="settings_filter_recycling_hardcore">Extremo</string>
+    <string name="settings_filter_recycling_low_energy_bulbs">Bombillas de Bajo Consumo</string>
+    <string name="settings_filter_recycling_magazines">Revistas</string>
+    <string name="settings_filter_recycling_metal">Metal</string>
+    <string name="settings_filter_recycling_mobile_phones">Teléfonos Móviles</string>
+    <string name="settings_filter_recycling_newspaper">Periódicos</string>
+    <string name="settings_filter_recycling_organic">Orgánico</string>
+    <string name="settings_filter_recycling_paint">Pintura</string>
+    <string name="settings_filter_recycling_pallets">Paletas</string>
+    <string name="settings_filter_recycling_paper">Papel</string>
+    <string name="settings_filter_recycling_paper_packaging">Embalajes de Papel</string>
+    <string name="settings_filter_recycling_pens">Bolígrafos</string>
+    <string name="settings_filter_recycling_PET">PET</string>
     <!-- /Generated Strings -->
 </resources>
