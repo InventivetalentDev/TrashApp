@@ -125,4 +125,34 @@ Deja de contaminar la naturaleza
     <string name="settings_filter_recycling_wood">Madera</string>
     <!-- /Generated Strings -->
     <string name="settings_filter_recycling_shoes">Zapatos</string>
+    <string name="warn_empty_filter">¡Los filtros están vacíos! Buscando todo.</string>
+    <string name="trashcan">Contenedor de basura</string>
+    <string name="recycling">Reciclaje</string>
+    <string name="trashcan_info">Para basura variada</string>
+    <string name="recycling_info">Solo para residuos reciclables</string>
+    <string name="settings_filter_waste_trash">Basura</string>
+    <string name="settings_filters_general_header">Filtros generales</string>
+    <string name="settings_filter_waste_oil">Aceite</string>
+    <string name="settings_filter_waste_drugs">Fármacos</string>
+    <string name="settings_filter_waste_organic">Orgánico</string>
+    <string name="settings_filter_waste_plastic">Plástico</string>
+    <string name="settings_filter_waste_rubble">Escombros</string>
+    <string name="settings_filter_waste_dog_excrement">Excremento de Perro</string>
+    <string name="settings_filter_waste_cigarettes">Cigarrillos</string>
+    <string name="searching">Buscando…</string>
+    <string name="settings_moving_search">Mover área de búsqueda con el mapa</string>
+    <string name="found_bug">¿Has encontrado un error?</string>
+    <string name="description_add_trashcan">Añadir Contenedor de Basura</string>
+    <string name="add_trashcan_info">Arrastra el mapa y coloca la aguja donde deseas agregar un nuevo contenedor de basura</string>
+    <string name="add_trashcan_osmand"><b>Use OsmAnd para más opciones</b>    </string>
+    <string name="alert_open_osmand">Iniciando OsmAnd…</string>
+    <string name="alert_adding_trashcan">Añadiendo Contenedor a OpenStreetMap…</string>
+    <string name="osm_auth_failed">Error al autenticarle con OpenStreetMap</string>
+    <string name="trashcan_added">¡Nuevo Contenedor añadido! ¡Gracias por tu contribución!</string>
+    <string name="comment">Comentar</string>
+    <string name="default_osm_comment">Se agregó un contenedor de basura</string>
+    <string name="trashcan_add_failed">Error al añadir contenedor de basura</string>
+    <string name="add_trashcan_confirmation">Por favor, confirma la adición de este contenedor. Publicando como <b>%s</b> en OpenStreetMap</string>
+    <string name="confirm">Confirmar</string>
+    <string name="osm_auth_title">Autenticación de OpenStreetMap</string>
 </resources>
