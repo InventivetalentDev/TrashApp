@@ -118,6 +118,8 @@ public class Util {
 		} catch (ClassCastException ignored) {
 			try {
 				i = Integer.parseInt(preferences.getString(key, String.valueOf(def)));
+			} catch (NumberFormatException e) {
+				Log.w("TrashAppUtil", "Failed to parse int from preferences", e);
 			} catch (ClassCastException ignored1) {
 			}
 		}
@@ -131,6 +133,8 @@ public class Util {
 		} catch (ClassCastException ignored) {
 			try {
 				f = Float.parseFloat(preferences.getString(key, String.valueOf(def)));
+			} catch (NumberFormatException e) {
+				Log.w("TrashAppUtil", "Failed to parse float from preferences", e);
 			} catch (ClassCastException ignored1) {
 			}
 		}
