@@ -121,8 +121,8 @@ public class CompassFragment extends Fragment {
 		trashCanView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				searchProgress.setVisibility(View.VISIBLE);
 				pointerView.setVisibility(View.INVISIBLE);
+				searchProgress.setVisibility(View.VISIBLE);
 				statusTextView.setText(R.string.searching_cans);
 				distanceTextView.setText(R.string.shrug);
 
