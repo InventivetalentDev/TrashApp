@@ -503,6 +503,8 @@ public class Util {
 				readable = context.getString(R.string.settings_filter_waste_disposal);
 
 				// waste
+			} else if ("trash".equals(key)) {
+				readable = context.getString(R.string.settings_filter_waste_trash);
 			} else if ("oil".equals(key)) {
 				readable = context.getString(R.string.settings_filter_waste_oil);
 			} else if ("drugs".equals(key)) {
