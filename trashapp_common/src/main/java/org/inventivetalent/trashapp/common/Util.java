@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
@@ -169,6 +171,7 @@ public class Util {
 	public static void applyTheme(Context context, SharedPreferences preferences) {
 		String themeKey = preferences.getString("app_theme", "");
 		if (themeKey == null) { themeKey = ""; }
+
 		int rId;
 		switch (themeKey) {
 			//TODO
@@ -184,6 +187,8 @@ public class Util {
 				break;
 		}
 		context.setTheme(rId);
+
+		FirebaseAnalytics.getInstance(context).setUserProperty("app_theme", themeKey);
 	}
 
 	public static void insertTrashcanResult(final AppDatabase database, List<? extends LatLon> sanitizedElements) {
