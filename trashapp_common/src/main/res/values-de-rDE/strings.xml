@@ -9,9 +9,6 @@
     <string name="playstore_graphic_phone_01">Sieh direkt den nächsten Mülleimer</string>
     <string name="playstore_graphic_phone_02">Erkunde deine Umgebung</string>
     <string name="playstore_graphic_phone_03">Passe die Ergebnisse an</string>
-    <string name="playstore_graphic_feature">Find nearby Trashcans\n
-        Stop polluting nature
-    </string>
     <string name="action_settings">Einstellungen</string>
     <string name="tab_text_compass">Kompass</string>
     <string name="tab_text_map">Karte</string>
@@ -19,9 +16,7 @@
     <string name="description_map_edit">Fügt einen neuen Mülleimer hinzu</string>
     <string name="description_settings">Einstellungen der Anwendung</string>
     <string name="err_no_trashcans">Es konnten keine Mülleimer in deiner Nähe gefunden werden :(</string>
-    <string name="distance_format">%dm</string>
     <string name="title_activity_settings">Einstellungen</string>
-    <string name="settings_info_header">Info</string>
     <string name="settings_about_title">Über</string>
     <string name="settings_search_header">Suche</string>
     <string name="settings_search_radius_title">Suchradius (m)</string>
@@ -31,16 +26,10 @@
     <string name="settings_debug_title">Entwicklermodus</string>
     <string name="settings_osm_info">Mülleimer mit OsmAnd hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
-    <string name="settings_premium_title">Premium</string>
-    <string name="settings_dark_theme_title">Dark Theme</string>
-    <string name="about_version">Version %s</string>
     <string name="about_osm_description">Karten und Umgebungsdaten von OpenStreetMap</string>
-    <string name="about_osm_link">https://openstreetmap.org</string>
     <string name="about_wikimaps_description">Kartenmaterial von wikimedia maps</string>
-    <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
     <string name="buy_dev_coffee">Spendiere dem Entwickler einen Kaffee!</string>
     <string name="about_dev_description">Entwickelt durch inventivetalent</string>
-    <string name="about_dev_link">https://inventivetalent.org</string>
     <string name="description_trashcan">Mülleimer</string>
     <string name="description_map_my_location">Standort anzeigen</string>
     <string name="settings_themes_title">Darstellung</string>
@@ -58,7 +47,6 @@
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <string name="settings_filter_recycling_aerosol_cans">Spraydosen</string>
     <string name="settings_filter_recycling_animal_waste">Tierische Abfälle</string>
-    <string name="settings_filter_recycling_aluminium">Aluminium</string>
     <string name="settings_filter_recycling_bags">Müllsäcke</string>
     <string name="settings_filter_recycling_batteries">Batterien</string>
     <string name="settings_filter_recycling_belts">Gürtel</string>
@@ -89,7 +77,6 @@
     <string name="settings_filter_recycling_green_waste">Biomüll</string>
     <string name="settings_filter_recycling_garden_waste">Gartenabfälle</string>
     <string name="settings_filter_recycling_hazardous_waste">Giftmüll</string>
-    <string name="settings_filter_recycling_hardcore">Hardcore</string>
     <string name="settings_filter_recycling_low_energy_bulbs">Energiesparlampen</string>
     <string name="settings_filter_recycling_magazines">Magazine</string>
     <string name="settings_filter_recycling_metal">Metall</string>
@@ -101,13 +88,11 @@
     <string name="settings_filter_recycling_paper">Papier</string>
     <string name="settings_filter_recycling_paper_packaging">Papierverpackungen</string>
     <string name="settings_filter_recycling_pens">Stifte</string>
-    <string name="settings_filter_recycling_PET">PET</string>
     <string name="settings_filter_recycling_plasterboard">Gipskarton</string>
     <string name="settings_filter_recycling_plastic">Plastik</string>
     <string name="settings_filter_recycling_plastic_bags">Plastiktüten</string>
     <string name="settings_filter_recycling_plastic_bottles">Plastikflaschen</string>
     <string name="settings_filter_recycling_plastic_packaging">Plastikverpackungen</string>
-    <string name="settings_filter_recycling_polyester">Polyester</string>
     <string name="settings_filter_recycling_polystyrene_foam">Schaumpolystyren</string>
     <string name="settings_filter_recycling_printer_cartridges">Druckerpatronen</string>
     <string name="settings_filter_recycling_printer_toner_cartridges">Druckertoner</string>
@@ -127,7 +112,6 @@
     <string name="settings_filter_recycling_shoes">Schuhe</string>
     <string name="warn_empty_filter">Keine Filter gewählt! Suche nach allem.</string>
     <string name="trashcan">Mülleimer</string>
-    <string name="recycling">Recycling</string>
     <string name="trashcan_info">Für gemischten Müll</string>
     <string name="recycling_info">Nur für recyclebaren Müll</string>
     <string name="settings_filter_waste_trash">Müll</string>
@@ -142,18 +126,4 @@
     <string name="searching">Suche...</string>
     <string name="settings_moving_search">Suchareal mit Karte bewegen</string>
     <string name="found_bug">Fehler gefunden?</string>
-    <string name="description_add_trashcan">Add Trashcan</string>
-    <string name="add_trashcan_info">Drag the map to position the needle where you would like to add a new trashcan</string>
-    <string name="add_trashcan_osmand">        <b>Use OsmAnd for more options</b>
-    </string>
-    <string name="alert_open_osmand">Launching OsmAnd…</string>
-    <string name="alert_adding_trashcan">Adding Trashcan to OpenStreetMap…</string>
-    <string name="osm_auth_failed">Failed to authenticated you with OpenStreetMap</string>
-    <string name="trashcan_added">New Trashcan added! Thanks for your contribution!</string>
-    <string name="comment">Comment</string>
-    <string name="default_osm_comment">Added a trashcan</string>
-    <string name="trashcan_add_failed">Failed to add trashcan</string>
-    <string name="add_trashcan_confirmation">Please confirm adding this trashcan. Posting as <b>%s</b> on OpenStreetMap</string>
-    <string name="confirm">Confirm</string>
-    <string name="osm_auth_title">OpenStreetMap Authentication</string>
 </resources>
