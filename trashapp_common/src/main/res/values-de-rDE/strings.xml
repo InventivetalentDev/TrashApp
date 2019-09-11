@@ -126,4 +126,8 @@
     <string name="searching">Suche...</string>
     <string name="settings_moving_search">Suchareal mit Karte bewegen</string>
     <string name="found_bug">Fehler gefunden?</string>
+    <string name="trashcan_add_failed">Mülleimer konnte nicht hinzugefügt werden</string>
+    <string name="add_trashcan_confirmation">Bitte bestätigen Sie das Hinzufügen dieses Mülleimers. Poste als <b>%s</b> auf der OpenStreetMap</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="osm_auth_title">OpenStreetMap Authentifizierung</string>
 </resources>
