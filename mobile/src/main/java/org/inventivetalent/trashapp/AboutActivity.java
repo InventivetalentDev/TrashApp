@@ -9,8 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.common.Util;
 
 public class AboutActivity extends AppCompatActivity {
@@ -18,6 +22,8 @@ public class AboutActivity extends AppCompatActivity {
 	private TextView versionTextView;
 	private TextView versionCodeTextView;
 	private Button   button;
+
+	private FirebaseAnalytics mFirebaseAnalytics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,8 @@ public class AboutActivity extends AppCompatActivity {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 		try {
 			PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -52,8 +60,11 @@ public class AboutActivity extends AppCompatActivity {
 				//				} else {
 				//					Toast.makeText(AboutActivity.this, "Product not ready!", Toast.LENGTH_SHORT).show();
 				//				}
+
 				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.patreon.com/inventivetalent"));
 				startActivity(browserIntent);
+
+				mFirebaseAnalytics.logEvent("about_patreon_click", null);
 			}
 		});
 	}
