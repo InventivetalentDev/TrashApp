@@ -12,11 +12,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.*;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.TwoStatePreference;
+
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.PaymentHandler;
 import org.inventivetalent.trashapp.common.PaymentReadyListener;
@@ -24,16 +34,20 @@ import org.inventivetalent.trashapp.common.Util;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
+	private FirebaseAnalytics mFirebaseAnalytics;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		Util.applyTheme(this);
 
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
 		setContentView(R.layout.settings_activity);
 		getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.settings, new SettingsFragment())
+				.replace(R.id.settings, new SettingsFragment(mFirebaseAnalytics))
 				.commit();
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -47,6 +61,15 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 	}
 
 	public static class SettingsFragment extends PreferenceFragmentCompat {
+
+		private FirebaseAnalytics mFirebaseAnalytics;
+
+		public SettingsFragment() {
+		}
+
+		public SettingsFragment(FirebaseAnalytics firebaseAnalytics) {
+			mFirebaseAnalytics = firebaseAnalytics;
+		}
 
 		@Override
 		public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -184,6 +207,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
 					Log.i("SettingsActivity", "hasThemes: " + hasThemes);
 					Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
+
+					if (mFirebaseAnalytics != null) {
+						mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
+						mFirebaseAnalytics.setUserProperty("sku_remove_ads", String.valueOf(hasAdsRemoved));
+					}
 
 					if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
 					if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
