@@ -147,6 +147,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 	};
 
+	public TabActivity() {
+		instance = this;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -241,6 +245,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		super.onResume();
 
 		Log.i("TabActivity", "onResume");
+		instance = this;
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		if (mSensorManager == null) {
