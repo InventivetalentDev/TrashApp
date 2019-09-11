@@ -182,8 +182,8 @@ public class CompassFragment extends Fragment {
 		Location lastKnownLocation = viewModel.mLocation.getValue();
 
 		if (closestTrashCan == null || lastKnownLocation == null) {
-			searchProgress.setVisibility(View.VISIBLE);
 			pointerView.setVisibility(View.INVISIBLE);
+			searchProgress.setVisibility(View.VISIBLE);
 			statusTextView.setText(R.string.searching_cans);
 			distanceTextView.setText(R.string.shrug);
 			return;
