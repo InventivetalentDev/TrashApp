@@ -9,6 +9,29 @@
     <string name="playstore_graphic_phone_01">Instantáneamente ver el contenedor de basura más cerca</string>
     <string name="playstore_graphic_phone_02">Explora tu entorno</string>
     <string name="playstore_graphic_phone_03">Personalizar resultados</string>
+    <string name="playstore_graphic_feature">Encuentra botes de contenedores cercanos\n
+Deja de contaminar la naturaleza
+    </string>
+    <string name="action_settings">Ajustes</string>
+    <string name="tab_text_compass">Brújula</string>
+    <string name="tab_text_map">Mapa</string>
+    <string name="searching_cans">Buscando por contenedores de basura cerca de ti…</string>
+    <string name="description_map_edit">Agregar un nuevo contenedor de basura</string>
+    <string name="description_settings">Ajustes de Aplicacion</string>
+    <string name="err_no_trashcans">No se encontraron contenedores de basura cerca de usted :(</string>
+    <string name="distance_format">%dm</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="settings_info_header">Información</string>
+    <string name="settings_about_title">Acerca de</string>
+    <string name="settings_search_header">Buscar</string>
+    <string name="settings_search_radius_title">Radio de búsqueda (m)</string>
+    <string name="settings_search_radius_max_title">Radio máximo de búsqueda (m)</string>
+    <string name="settings_advanced_header">Avanzado</string>
+    <string name="settings_cache_title">Datos de caché</string>
+    <string name="settings_debug_title">Habilitar Debug</string>
+    <string name="settings_osm_info">Agregue nuevos contenedores de basura con OsmAnd</string>
+    <string name="settings_remove_ads">Quitar Anuncios</string>
+    <string name="settings_premium_title">Premium</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <!-- /Generated Strings -->
 </resources>
