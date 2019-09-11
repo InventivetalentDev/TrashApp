@@ -4,6 +4,11 @@
     <!-- Default Strings (en_US) -->
     <string name="app_name">BasuraApp</string>
     <!-- Playstore Stuff -->
+    <string name="playstore_description_short">Encuentra contenedores de basura cercanos y deja de tirar basura al medio ambiente!</string>
+    <string name="playstore_description_full">Esta aplicación localiza contenedores de basura públicos cerca de ti, para que puedas usarlos en lugar de contaminar la naturaleza!</string>
+    <string name="playstore_graphic_phone_01">Instantáneamente ver el contenedor de basura más cerca</string>
+    <string name="playstore_graphic_phone_02">Explora tu entorno</string>
+    <string name="playstore_graphic_phone_03">Personalizar resultados</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <!-- /Generated Strings -->
 </resources>
