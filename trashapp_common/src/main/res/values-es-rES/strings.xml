@@ -102,5 +102,27 @@ Deja de contaminar la naturaleza
     <string name="settings_filter_recycling_paper_packaging">Embalajes de Papel</string>
     <string name="settings_filter_recycling_pens">Bolígrafos</string>
     <string name="settings_filter_recycling_PET">PET</string>
+    <string name="settings_filter_recycling_plasterboard">Cartón de Yeso</string>
+    <string name="settings_filter_recycling_plastic">Plástico</string>
+    <string name="settings_filter_recycling_plastic_bags">Bolsas de Plástico</string>
+    <string name="settings_filter_recycling_plastic_bottles">Botellas de Plástico</string>
+    <string name="settings_filter_recycling_plastic_packaging">Envoltura de Plástico</string>
+    <string name="settings_filter_recycling_polyester">Poliéster</string>
+    <string name="settings_filter_recycling_polystyrene_foam">Espuma de Poliestireno</string>
+    <string name="settings_filter_recycling_printer_cartridges">Cartuchos de Impresora</string>
+    <string name="settings_filter_recycling_printer_toner_cartridges">Cartuchos de Tóner de Impresora</string>
+    <string name="settings_filter_recycling_printer_inkjet_cartridges">Cartuchos de Inyección de Tinta de Impresora</string>
+    <string name="settings_filter_recycling_rubble">Escombros</string>
+    <string name="settings_filter_recycling_scrap_metal">Chatarra de Metal</string>
+    <string name="settings_filter_recycling_sheet_metal">Hoja de Metal</string>
+    <string name="settings_filter_recycling_small_appliances">Pequeños Accesorios</string>
+    <string name="settings_filter_recycling_small_electrical_appliances">Pequeños Electrodomésticos</string>
+    <string name="settings_filter_recycling_styrofoam">Espuma de Poliestireno</string>
+    <string name="settings_filter_recycling_tyres">Llantas</string>
+    <string name="settings_filter_recycling_tv_monitor">Monitor de Televisión</string>
+    <string name="settings_filter_recycling_waste">Residuos</string>
+    <string name="settings_filter_recycling_white_goods">Electrodomésticos</string>
+    <string name="settings_filter_recycling_wood">Madera</string>
     <!-- /Generated Strings -->
+    <string name="settings_filter_recycling_shoes">Zapatos</string>
 </resources>
