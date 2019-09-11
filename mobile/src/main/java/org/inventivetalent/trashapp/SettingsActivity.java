@@ -198,25 +198,29 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 			if (themePreference != null) { themePreference.setEnabled(false); }
 
 			final PaymentHandler paymentHandler = TabActivity.instance;
-			paymentHandler.waitForManager(new PaymentReadyListener() {
-				@Override
-				public void ready() {
-					boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-					boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
-					boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS);
-					Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
-					Log.i("SettingsActivity", "hasThemes: " + hasThemes);
-					Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
+			if (paymentHandler != null) {
+				paymentHandler.waitForManager(new PaymentReadyListener() {
+					@Override
+					public void ready() {
+						boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
+						boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
+						boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS);
+						Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
+						Log.i("SettingsActivity", "hasThemes: " + hasThemes);
+						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
-					if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
-					if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
+						if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
+						if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
 
-					if (mFirebaseAnalytics != null) {
-						mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
-						mFirebaseAnalytics.setUserProperty("sku_remove_ads", String.valueOf(hasAdsRemoved));
+						if (mFirebaseAnalytics != null) {
+							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
+							mFirebaseAnalytics.setUserProperty("sku_remove_ads", String.valueOf(hasAdsRemoved));
+						}
 					}
-				}
-			});
+				});
+			} else {
+				Log.w("SettingsActivity", "PaymentHandler (TabActivity instance) is null!");
+			}
 
 		}
 
