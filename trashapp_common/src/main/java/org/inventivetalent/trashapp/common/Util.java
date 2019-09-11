@@ -1,23 +1,27 @@
 package org.inventivetalent.trashapp.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
+
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -25,7 +29,11 @@ import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -623,6 +631,15 @@ public class Util {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return "https://github.com/InventivetalentDev/TrashApp/issues/new";
+		}
+	}
+
+	/// https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
+	public static void openPlayStoreForPackage(Context context,String pckg) {
+		try {
+			context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pckg)));
+		} catch (android.content.ActivityNotFoundException anfe) {
+			context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + pckg)));
 		}
 	}
 

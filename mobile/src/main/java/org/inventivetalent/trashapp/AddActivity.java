@@ -67,6 +67,7 @@ public class AddActivity extends AppCompatActivity {
 			@Override
 			public void osmandMissing() {
 				Toast.makeText(AddActivity.this, "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
+				Util.openPlayStoreForPackage(AddActivity.this,"net.osmand");
 			}
 		});
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
