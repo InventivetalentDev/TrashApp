@@ -170,6 +170,21 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				});
 			}
 
+			final Preference unlockThemesPreference = findPreference("dummy_unlock_themes");
+			if (unlockThemesPreference != null) {
+				unlockThemesPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference preference) {
+						if (TabActivity.SKU_INFO_THEMES != null) {
+							TabActivity.SKU_INFO_THEMES.launchBilling();
+						} else {
+							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
+						}
+						return true;
+					}
+				});
+			}
+
 			final ListPreference themePreference = findPreference("app_theme");
 			if (themePreference != null) {
 				themePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -211,6 +226,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
 						if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
 						if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
+
+						if (unlockThemesPreference != null) { unlockThemesPreference.setVisible(!hasThemes && !hasPremium); }
 
 						if (mFirebaseAnalytics != null) {
 							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));

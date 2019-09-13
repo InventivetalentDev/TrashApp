@@ -162,4 +162,5 @@
     <string name="add_trashcan_confirmation">Please confirm adding this trashcan. Posting as <b>%s</b> on OpenStreetMap</string>
     <string name="confirm">Confirm</string>
     <string name="osm_auth_title">OpenStreetMap Authentication</string>
+    <string name="unlock_themes">Get more Themes!</string>
 </resources>

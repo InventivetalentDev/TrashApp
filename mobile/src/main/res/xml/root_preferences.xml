@@ -52,6 +52,9 @@
                 android:enabled="true"
                 android:key="app_theme"/>
 
+        <Preference android:title="@string/unlock_themes"
+                android:key="dummy_unlock_themes"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
