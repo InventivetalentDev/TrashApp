@@ -7,20 +7,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.common.OsmAndHelper;
 import org.inventivetalent.trashapp.common.OsmBridgeClient;
 import org.inventivetalent.trashapp.common.Util;
+import org.inventivetalent.trashapp.common.db.Converters;
 import org.inventivetalent.trashapp.ui.main.MapFragment;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -28,6 +34,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.inventivetalent.trashapp.common.Constants.OSM_REQUEST_CODE;
 
@@ -37,6 +46,9 @@ public class AddActivity extends AppCompatActivity {
 	private FloatingActionButton addDoneButton;
 	private EditText             commentEditText;
 	private IMapController       mapController;
+
+	private Button btnType;
+	private Button btnSubType;
 
 	private OsmAndHelper      osmAndHelper;
 	private FirebaseAnalytics mFirebaseAnalytics;
@@ -50,6 +62,14 @@ public class AddActivity extends AppCompatActivity {
 	double lat;
 	double lon;
 	String amenity = "waste_basket";
+
+	private int    selectedTypeIndex = 0;
+	private String selectedTypeName  = "General";
+	private String selectedTypeKey   = "general";
+
+	private boolean[]    selectedSubtypeBools = null;
+	private List<String> selectedSubtypeKeys  = new ArrayList<>();
+	private List<String> selectedSubtypeNames = new ArrayList<>();
 
 	OsmBridgeClient client;
 
@@ -67,7 +87,7 @@ public class AddActivity extends AppCompatActivity {
 			@Override
 			public void osmandMissing() {
 				Toast.makeText(AddActivity.this, "Please download OsmAnd to edit Trashcan locations", Toast.LENGTH_LONG).show();
-				Util.openPlayStoreForPackage(AddActivity.this,"net.osmand");
+				Util.openPlayStoreForPackage(AddActivity.this, "net.osmand");
 			}
 		});
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -114,6 +134,23 @@ public class AddActivity extends AppCompatActivity {
 
 		commentEditText = findViewById(R.id.commentEditText);
 
+		btnType = findViewById(R.id.btnType);
+		btnType.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showTypePicker();
+			}
+		});
+		btnSubType = findViewById(R.id.btnSubType);
+		btnSubType.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showSubTypePicker();
+			}
+		});
+
+		selectedSubtypeBools = new boolean[Util.getStringArrayResLength(this, R.array.trash_subtype_recycling_values)];
+
 		addDoneButton = findViewById(R.id.addDoneButton);
 		addDoneButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -136,6 +173,110 @@ public class AddActivity extends AppCompatActivity {
 				mFirebaseAnalytics.logEvent("add_trashcan", bundle);
 			}
 		});
+	}
+
+	void showTypePicker() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.pick_type)
+				.setItems(R.array.trash_type_entries, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (which != selectedTypeIndex) {
+							selectedSubtypeNames.clear();
+							selectedSubtypeKeys.clear();
+
+							btnSubType.setText(R.string.none);
+							selectedSubtypeBools = new boolean[selectedSubtypeBools.length];
+						}
+
+						selectedTypeIndex = which;
+
+						Log.i("AddActivity", "Selected type #" + which);
+
+						selectedTypeKey = Util.getArrayResString(AddActivity.this, R.array.trash_type_values, which);
+						selectedTypeName = Util.getArrayResString(AddActivity.this, R.array.trash_type_entries, which);
+
+						Log.i("AddActivity", selectedTypeKey + " = " + selectedTypeName);
+
+						btnType.setText(selectedTypeName);
+
+						btnSubType.setEnabled(!"general".equals(selectedTypeKey));
+					}
+				}).show();
+	}
+
+	void showSubTypePicker() {
+		final List<Integer> tempSelectedSubtypeIndexes = new ArrayList<>();
+		final List<String> tempSelectedSubtypeKeys = new ArrayList<>(selectedSubtypeKeys);
+		final List<String> tempSelectedSubtypeNames = new ArrayList<>(selectedSubtypeNames);
+
+		@ArrayRes
+		int valueSrc = -1;
+		@ArrayRes
+		int entrySrc = -1;
+
+		if ("waste".equals(selectedTypeKey)) {
+			valueSrc = R.array.trash_subtype_waste_values;
+			entrySrc = R.array.trash_subtype_waste_entries;
+		} else if ("recycling".equals(selectedTypeKey)) {
+			valueSrc = R.array.trash_subtype_recycling_values;
+			entrySrc = R.array.trash_subtype_recycling_entries;
+		} else {
+			Log.w("AddActivity", "SubTypePicker opened with 'general' or other main type! Panic!");
+			return;
+		}
+
+		@ArrayRes
+		final int finalValueSrc = valueSrc;
+		@ArrayRes
+		final int finalEntrySrc = entrySrc;
+
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.pick_type)
+				.setMultiChoiceItems(entrySrc, selectedSubtypeBools, new DialogInterface.OnMultiChoiceClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						selectedSubtypeBools[which] = isChecked;
+
+						////TODO: depend source on selected main type
+						String typeKey = Util.getArrayResString(AddActivity.this, finalValueSrc, which);
+						String typeName = Util.getArrayResString(AddActivity.this, finalEntrySrc, which);
+
+						if (isChecked) {
+							tempSelectedSubtypeIndexes.add(which);
+							tempSelectedSubtypeKeys.add(typeKey);
+							tempSelectedSubtypeNames.add(typeName);
+						} else if (tempSelectedSubtypeIndexes.contains(which) || selectedSubtypeKeys.contains(typeKey)) {
+							tempSelectedSubtypeIndexes.remove(Integer.valueOf(which));
+							tempSelectedSubtypeKeys.remove(typeKey);
+							tempSelectedSubtypeNames.remove(typeName);
+						}
+					}
+				})
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Log.i("AddActivity", tempSelectedSubtypeKeys.toString());
+
+						selectedSubtypeKeys.clear();
+						selectedSubtypeKeys.addAll(tempSelectedSubtypeKeys);
+
+						selectedSubtypeNames.clear();
+						selectedSubtypeNames.addAll(tempSelectedSubtypeNames);
+
+						if (selectedSubtypeNames.isEmpty()) {
+							btnSubType.setText(R.string.none);
+						} else {
+							btnSubType.setText(Converters.fromList(selectedSubtypeNames));
+						}
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+					}
+				})
+				.show();
 	}
 
 	OsmBridgeClient.PendingTrashcan[] getPendingTrashcans() {
@@ -167,7 +308,6 @@ public class AddActivity extends AppCompatActivity {
 
 			// Start another task, this time hopefully with correct authentication
 			new AddTask().execute(getPendingTrashcans());
-
 
 			mFirebaseAnalytics.setUserProperty("osm_user", client.getOsmUsername());
 			mFirebaseAnalytics.logEvent("osm_auth_success", null);

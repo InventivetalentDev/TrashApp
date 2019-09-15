@@ -1,6 +1,8 @@
 package org.inventivetalent.trashapp.common.helper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 // Helper to generate preferences for recycling types
 // https://wiki.openstreetmap.org/wiki/Tag:amenity%3Drecycling
@@ -14,6 +16,8 @@ public class FilterGenerator {
 	static final String FORMAT_CODE       = "if (preferences.getBoolean(\"filter_recycling_%s\", true)) {\n"
 			+ "\ttypes.add(\"%s\");\n"
 			+ "}";
+	static final String FORMAT_ARRAY_ENTRY = "<item>@string/settings_filter_recycling_%s</item>";
+	static final String FORMAT_ARRAY_VALUE = "<item>%s</item>";
 
 	// 06.06.19
 	static String input = "\n"
@@ -92,6 +96,10 @@ public class FilterGenerator {
 		StringBuilder preferences = new StringBuilder();
 		StringBuilder strings = new StringBuilder();
 		StringBuilder code = new StringBuilder();
+		StringBuilder arrayEntries = new StringBuilder();
+		StringBuilder arrayValues = new StringBuilder();
+
+		List<String> recyclingList = new ArrayList<>();
 
 		String[] lines = input.split("\n");
 		for (String line : lines) {
@@ -109,6 +117,13 @@ public class FilterGenerator {
 
 				code.append(String.format(FORMAT_CODE, type, type));
 				code.append('\n');
+
+				arrayEntries.append(String.format(FORMAT_ARRAY_ENTRY, type));
+				arrayEntries.append('\n');
+				arrayValues.append(String.format(FORMAT_ARRAY_VALUE, type));
+				arrayValues.append('\n');
+
+				recyclingList.add(type);
 			}
 		}
 
@@ -122,9 +137,25 @@ public class FilterGenerator {
 		System.out.println("<!-- /Generated Strings -->");
 		System.out.println("\n\n");
 
+		System.out.println("<!-- Generated Array Entries @ " + new Date().toString() + " -->");
+		System.out.println(arrayEntries);
+		System.out.println("<!-- /Generated Array Entries -->");
+		System.out.println("\n");
+		System.out.println("<!-- Generated Array Values @ " + new Date().toString() + " -->");
+		System.out.println(arrayValues);
+		System.out.println("<!-- /Generated Array Values -->");
+		System.out.println("\n\n");
+
 		System.out.println("/* Generated Code @ " + new Date().toString() + " */");
 		System.out.println(code);
 		System.out.println("/* /Generated Code */");
+		System.out.println("\n\n");
+
+		System.out.println("/* Generated Java Array @ " + new Date().toString() + " */");
+		System.out.println("public static final String[] FILTER_RECYCLING = new String[] {\n"
+				+ "\"" + String.join("\",\n\"", recyclingList) + "\"\n"
+				+ "};");
+		System.out.println("/* /Generated Java Array */");
 		System.out.println("\n\n");
 	}
 

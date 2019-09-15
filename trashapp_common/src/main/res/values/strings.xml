@@ -163,4 +163,11 @@
     <string name="confirm">Confirm</string>
     <string name="osm_auth_title">OpenStreetMap Authentication</string>
     <string name="unlock_themes">Get more Themes!</string>
+    <string name="pick_type">Pick Trash Type</string>
+    <string name="theme_grass">Grass</string>
+    <string name="theme_dark_grass">Dark Grass</string>
+    <string name="theme_classic">Classic</string>
+    <string name="general">General</string>
+    <string name="waste">Waste</string>
+    <string name="none">None</string>
 </resources>

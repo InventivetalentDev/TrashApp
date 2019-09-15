@@ -1,14 +1,190 @@
 <resources>
-    <!-- Reply Preference -->
     <string-array name="theme_entries">
-        <item>Grass</item>
-        <item>Dark Grass</item>
-        <item>Classic</item>
+        <item>@string/theme_grass</item>
+        <item>@string/theme_dark_grass</item>
+        <item>@string/theme_classic</item>
     </string-array>
-
     <string-array name="theme_values">
         <item>grass</item>
         <item>dark_grass</item>
         <item>classic</item>
     </string-array>
+
+
+    <string-array name="trash_type_entries">
+        <item>@string/general</item>
+        <item>@string/waste</item>
+        <item>@string/recycling</item>
+    </string-array>
+    <string-array name="trash_type_values">
+        <item>general</item>
+        <item>waste</item>
+        <item>recycling</item>
+    </string-array>
+
+    <string-array name="trash_subtype_waste_entries">
+        <item>@string/settings_filter_waste_trash</item>
+        <item>@string/settings_filter_waste_oil</item>
+        <item>@string/settings_filter_waste_drugs</item>
+        <item>@string/settings_filter_waste_organic</item>
+        <item>@string/settings_filter_waste_plastic</item>
+        <item>@string/settings_filter_waste_rubble</item>
+        <item>@string/settings_filter_waste_dog_excrement</item>
+        <item>@string/settings_filter_waste_cigarettes</item>
+    </string-array>
+    <string-array name="trash_subtype_waste_values">
+        <item>trash</item>
+        <item>oil</item>
+        <item>drugs</item>
+        <item>organic</item>
+        <item>plastic</item>
+        <item>rubble</item>
+        <item>dog_excrement</item>
+        <item>cigarettes</item>
+    </string-array>
+
+    <string-array name="trash_subtype_recycling_entries">
+        <!-- Generated Array Entries @ Sun Sep 15 20:31:11 CEST 2019 -->
+        <item>@string/settings_filter_recycling_aerosol_cans</item>
+        <item>@string/settings_filter_recycling_animal_waste</item>
+        <item>@string/settings_filter_recycling_aluminium</item>
+        <item>@string/settings_filter_recycling_bags</item>
+        <item>@string/settings_filter_recycling_batteries</item>
+        <item>@string/settings_filter_recycling_belts</item>
+        <item>@string/settings_filter_recycling_beverage_cartons</item>
+        <item>@string/settings_filter_recycling_bicycles</item>
+        <item>@string/settings_filter_recycling_books</item>
+        <item>@string/settings_filter_recycling_cans</item>
+        <item>@string/settings_filter_recycling_car_batteries</item>
+        <item>@string/settings_filter_recycling_cardboard</item>
+        <item>@string/settings_filter_recycling_cartons</item>
+        <item>@string/settings_filter_recycling_cds</item>
+        <item>@string/settings_filter_recycling_chipboard</item>
+        <item>@string/settings_filter_recycling_christmas_trees</item>
+        <item>@string/settings_filter_recycling_clothes</item>
+        <item>@string/settings_filter_recycling_coffee_capsules</item>
+        <item>@string/settings_filter_recycling_computers</item>
+        <item>@string/settings_filter_recycling_cooking_oil</item>
+        <item>@string/settings_filter_recycling_cork</item>
+        <item>@string/settings_filter_recycling_drugs</item>
+        <item>@string/settings_filter_recycling_electrical_items</item>
+        <item>@string/settings_filter_recycling_engine_oil</item>
+        <item>@string/settings_filter_recycling_fluorescent_tubes</item>
+        <item>@string/settings_filter_recycling_foil</item>
+        <item>@string/settings_filter_recycling_furniture</item>
+        <item>@string/settings_filter_recycling_gas_bottles</item>
+        <item>@string/settings_filter_recycling_glass</item>
+        <item>@string/settings_filter_recycling_glass_bottles</item>
+        <item>@string/settings_filter_recycling_green_waste</item>
+        <item>@string/settings_filter_recycling_garden_waste</item>
+        <item>@string/settings_filter_recycling_hazardous_waste</item>
+        <item>@string/settings_filter_recycling_hardcore</item>
+        <item>@string/settings_filter_recycling_low_energy_bulbs</item>
+        <item>@string/settings_filter_recycling_magazines</item>
+        <item>@string/settings_filter_recycling_metal</item>
+        <item>@string/settings_filter_recycling_mobile_phones</item>
+        <item>@string/settings_filter_recycling_newspaper</item>
+        <item>@string/settings_filter_recycling_organic</item>
+        <item>@string/settings_filter_recycling_paint</item>
+        <item>@string/settings_filter_recycling_pallets</item>
+        <item>@string/settings_filter_recycling_paper</item>
+        <item>@string/settings_filter_recycling_paper_packaging</item>
+        <item>@string/settings_filter_recycling_pens</item>
+        <item>@string/settings_filter_recycling_PET</item>
+        <item>@string/settings_filter_recycling_plasterboard</item>
+        <item>@string/settings_filter_recycling_plastic</item>
+        <item>@string/settings_filter_recycling_plastic_bags</item>
+        <item>@string/settings_filter_recycling_plastic_bottles</item>
+        <item>@string/settings_filter_recycling_plastic_packaging</item>
+        <item>@string/settings_filter_recycling_polyester</item>
+        <item>@string/settings_filter_recycling_polystyrene_foam</item>
+        <item>@string/settings_filter_recycling_printer_cartridges</item>
+        <item>@string/settings_filter_recycling_printer_toner_cartridges</item>
+        <item>@string/settings_filter_recycling_printer_inkjet_cartridges</item>
+        <item>@string/settings_filter_recycling_rubble</item>
+        <item>@string/settings_filter_recycling_scrap_metal</item>
+        <item>@string/settings_filter_recycling_sheet_metal</item>
+        <item>@string/settings_filter_recycling_small_appliances</item>
+        <item>@string/settings_filter_recycling_small_electrical_appliances</item>
+        <item>@string/settings_filter_recycling_styrofoam</item>
+        <item>@string/settings_filter_recycling_tyres</item>
+        <item>@string/settings_filter_recycling_tv_monitor</item>
+        <item>@string/settings_filter_recycling_waste</item>
+        <item>@string/settings_filter_recycling_white_goods</item>
+        <item>@string/settings_filter_recycling_wood</item>
+        <!-- /Generated Array Entries -->
+    </string-array>
+    <string-array name="trash_subtype_recycling_values">
+        <!-- Generated Array Values @ Sun Sep 15 20:31:11 CEST 2019 -->
+        <item>aerosol_cans</item>
+        <item>animal_waste</item>
+        <item>aluminium</item>
+        <item>bags</item>
+        <item>batteries</item>
+        <item>belts</item>
+        <item>beverage_cartons</item>
+        <item>bicycles</item>
+        <item>books</item>
+        <item>cans</item>
+        <item>car_batteries</item>
+        <item>cardboard</item>
+        <item>cartons</item>
+        <item>cds</item>
+        <item>chipboard</item>
+        <item>christmas_trees</item>
+        <item>clothes</item>
+        <item>coffee_capsules</item>
+        <item>computers</item>
+        <item>cooking_oil</item>
+        <item>cork</item>
+        <item>drugs</item>
+        <item>electrical_items</item>
+        <item>engine_oil</item>
+        <item>fluorescent_tubes</item>
+        <item>foil</item>
+        <item>furniture</item>
+        <item>gas_bottles</item>
+        <item>glass</item>
+        <item>glass_bottles</item>
+        <item>green_waste</item>
+        <item>garden_waste</item>
+        <item>hazardous_waste</item>
+        <item>hardcore</item>
+        <item>low_energy_bulbs</item>
+        <item>magazines</item>
+        <item>metal</item>
+        <item>mobile_phones</item>
+        <item>newspaper</item>
+        <item>organic</item>
+        <item>paint</item>
+        <item>pallets</item>
+        <item>paper</item>
+        <item>paper_packaging</item>
+        <item>pens</item>
+        <item>PET</item>
+        <item>plasterboard</item>
+        <item>plastic</item>
+        <item>plastic_bags</item>
+        <item>plastic_bottles</item>
+        <item>plastic_packaging</item>
+        <item>polyester</item>
+        <item>polystyrene_foam</item>
+        <item>printer_cartridges</item>
+        <item>printer_toner_cartridges</item>
+        <item>printer_inkjet_cartridges</item>
+        <item>rubble</item>
+        <item>scrap_metal</item>
+        <item>sheet_metal</item>
+        <item>small_appliances</item>
+        <item>small_electrical_appliances</item>
+        <item>styrofoam</item>
+        <item>tyres</item>
+        <item>tv_monitor</item>
+        <item>waste</item>
+        <item>white_goods</item>
+        <item>wood</item>
+
+        <!-- /Generated Array Values -->
+    </string-array>
+
 </resources>
