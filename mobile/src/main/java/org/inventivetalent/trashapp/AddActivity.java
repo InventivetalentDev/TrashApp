@@ -130,8 +130,6 @@ public class AddActivity extends AppCompatActivity {
 			}
 		});
 
-		//TODO: add a select to change the type of the added trashcan
-
 		commentEditText = findViewById(R.id.commentEditText);
 
 		btnType = findViewById(R.id.btnType);
@@ -238,7 +236,6 @@ public class AddActivity extends AppCompatActivity {
 					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 						selectedSubtypeBools[which] = isChecked;
 
-						////TODO: depend source on selected main type
 						String typeKey = Util.getArrayResString(AddActivity.this, finalValueSrc, which);
 						String typeName = Util.getArrayResString(AddActivity.this, finalEntrySrc, which);
 
@@ -281,7 +278,9 @@ public class AddActivity extends AppCompatActivity {
 
 	OsmBridgeClient.PendingTrashcan[] getPendingTrashcans() {
 		// TODO: support multiple
-		return new OsmBridgeClient.PendingTrashcan[] { new OsmBridgeClient.PendingTrashcan(this.lat, this.lon) };
+		return new OsmBridgeClient.PendingTrashcan[] {
+				new OsmBridgeClient.PendingTrashcan(this.lat, this.lon)
+		};
 	}
 
 	void showLocationInOsm(double lat, double lon) {
