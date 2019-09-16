@@ -278,8 +278,24 @@ public class AddActivity extends AppCompatActivity {
 
 	OsmBridgeClient.PendingTrashcan[] getPendingTrashcans() {
 		// TODO: support multiple
+
+		String amenity = "waste_basket";
+		String waste = null;
+		String recycling = null;
+		if ("waste".equals(selectedTypeKey)) {
+			waste = Converters.fromList(selectedSubtypeKeys);
+		}
+		if ("recycling".equals(selectedTypeKey)) {
+			amenity = "recycling";
+			recycling = Converters.fromList(selectedSubtypeKeys);
+		}
+
+		Log.i("AddActivity", "amenity: " + amenity);
+		Log.i("AddActivity", "waste: " + waste);
+		Log.i("AddActivity", "recycling: " + recycling);
+
 		return new OsmBridgeClient.PendingTrashcan[] {
-				new OsmBridgeClient.PendingTrashcan(this.lat, this.lon)
+				new OsmBridgeClient.PendingTrashcan(this.lat, this.lon, amenity, waste, recycling)
 		};
 	}
 
@@ -348,6 +364,11 @@ public class AddActivity extends AppCompatActivity {
 		outState.putDouble("lon", lon);
 		outState.putString("amenity", amenity);
 
+		outState.putInt("selectedTypeIndex", selectedTypeIndex);
+		outState.putString("selectedTypeKey", selectedTypeKey);
+		outState.putBooleanArray("selectedSubtypeBools", selectedSubtypeBools);
+		outState.putStringArrayList("selectedSubtypeKeys", (ArrayList<String>) selectedSubtypeKeys);
+
 		super.onSaveInstanceState(outState);
 	}
 
@@ -358,6 +379,13 @@ public class AddActivity extends AppCompatActivity {
 		lat = savedInstanceState.getDouble("lat");
 		lon = savedInstanceState.getDouble("lon");
 		amenity = savedInstanceState.getString("amenity");
+
+		selectedTypeIndex = savedInstanceState.getInt("selectedTypeIndex");
+		selectedTypeKey = savedInstanceState.getString("selectedTypeKey");
+		selectedSubtypeBools = savedInstanceState.getBooleanArray("selectedSubtypeBools");
+		selectedSubtypeKeys.clear();
+		ArrayList<String> tempSelectedSubtypeKeys = savedInstanceState.getStringArrayList("selectedSubtypeKeys");
+		if (tempSelectedSubtypeKeys != null) { selectedSubtypeKeys.addAll(tempSelectedSubtypeKeys); }
 	}
 
 	void closeCurrentDialog() {
