@@ -53,7 +53,7 @@ public class MapFragment extends Fragment {
 
 	public static final OnlineTileSourceBase WIKIMAPS = new XYTileSource("WikimediaMaps",
 			0, 19, 256, ".png", new String[] {
-			"https://maps.wikimedia.org/osm-intl/" }, "© OpenStreetMap contributors",
+			"https://www.openstreetmap.org/copyright" }, "© OpenStreetMap contributors",
 			new TileSourcePolicy(2,
 					TileSourcePolicy.FLAG_NO_BULK
 							| TileSourcePolicy.FLAG_NO_PREVENTIVE
