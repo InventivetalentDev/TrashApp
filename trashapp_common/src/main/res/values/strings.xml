@@ -163,4 +163,5 @@
     <string name="confirm">Confirm</string>
     <string name="osm_auth_title">OpenStreetMap Authentication</string>
     <string name="unlock_themes">Get more Themes!</string>
+    <string name="settings_night_mode">Night mode</string>
 </resources>

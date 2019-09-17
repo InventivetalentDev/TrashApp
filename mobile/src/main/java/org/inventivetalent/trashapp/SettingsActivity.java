@@ -3,6 +3,7 @@ package org.inventivetalent.trashapp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,16 +21,17 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreference;
 import androidx.preference.TwoStatePreference;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
 import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.PaymentHandler;
 import org.inventivetalent.trashapp.common.PaymentReadyListener;
 import org.inventivetalent.trashapp.common.Util;
+import org.inventivetalent.trashapp.ui.main.MapFragment;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
@@ -170,6 +171,20 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				});
 			}
 
+			final SwitchPreference nightModePreference = findPreference("night_mode");
+			if (nightModePreference != null) {
+				nightModePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+					@Override
+					public boolean onPreferenceChange(Preference preference, Object newValue) {
+						boolean nightMode = Boolean.valueOf( String.valueOf(newValue) );
+						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(TabActivity.instance);
+						sharedPreferences.edit().putBoolean("night_mode", nightMode).apply();
+						MapFragment.instance.setNightMode(nightMode);
+						return true;
+					}
+				});
+			}
+
 			final Preference unlockThemesPreference = findPreference("dummy_unlock_themes");
 			if (unlockThemesPreference != null) {
 				unlockThemesPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -228,6 +243,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
 
 						if (unlockThemesPreference != null) { unlockThemesPreference.setVisible(!hasThemes && !hasPremium); }
+						if (nightModePreference != null) { nightModePreference.setEnabled(hasThemes || hasPremium); }
 
 						if (mFirebaseAnalytics != null) {
 							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
