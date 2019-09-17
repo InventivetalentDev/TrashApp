@@ -155,4 +155,5 @@ Deja de contaminar la naturaleza
     <string name="add_trashcan_confirmation">Por favor, confirma la adición de este contenedor. Publicando como <b>%s</b> en OpenStreetMap</string>
     <string name="confirm">Confirmar</string>
     <string name="osm_auth_title">Autenticación de OpenStreetMap</string>
+    <string name="unlock_themes">¡Obtener más temas!</string>
 </resources>
