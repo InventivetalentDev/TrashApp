@@ -16,6 +16,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
@@ -46,6 +47,87 @@ public class Util {
 	public static int    APP_VERSION_ID   = 0;
 
 	public static String SPLIT_SEMICOLON_OR_COMMA = "[,;]";
+
+	public static       String[] FILTER_WASTE     = new String[] {
+			"oil",
+			"drugs",
+			"organic",
+			"plastic",
+			"rubble",
+			"dog_excrement",
+			"cigarettes"
+	};
+	/* Generated Array @ Sun Sep 15 18:19:55 CEST 2019 */
+	public static final String[] FILTER_RECYCLING = new String[] {
+			"aerosol_cans",
+			"animal_waste",
+			"aluminium",
+			"bags",
+			"batteries",
+			"belts",
+			"beverage_cartons",
+			"bicycles",
+			"books",
+			"cans",
+			"car_batteries",
+			"cardboard",
+			"cartons",
+			"cds",
+			"chipboard",
+			"christmas_trees",
+			"clothes",
+			"coffee_capsules",
+			"computers",
+			"cooking_oil",
+			"cork",
+			"drugs",
+			"electrical_items",
+			"engine_oil",
+			"fluorescent_tubes",
+			"foil",
+			"furniture",
+			"gas_bottles",
+			"glass",
+			"glass_bottles",
+			"green_waste",
+			"garden_waste",
+			"hazardous_waste",
+			"hardcore",
+			"low_energy_bulbs",
+			"magazines",
+			"metal",
+			"mobile_phones",
+			"newspaper",
+			"organic",
+			"paint",
+			"pallets",
+			"paper",
+			"paper_packaging",
+			"pens",
+			"PET",
+			"plasterboard",
+			"plastic",
+			"plastic_bags",
+			"plastic_bottles",
+			"plastic_packaging",
+			"polyester",
+			"polystyrene_foam",
+			"printer_cartridges",
+			"printer_toner_cartridges",
+			"printer_inkjet_cartridges",
+			"rubble",
+			"scrap_metal",
+			"sheet_metal",
+			"small_appliances",
+			"small_electrical_appliances",
+			"styrofoam",
+			"tyres",
+			"tv_monitor",
+			"waste",
+			"white_goods",
+			"wood"
+	};
+	/* /Generated Array */
 
 	public static double normalizeDegree(double value) {
 		if (value >= 0.0f && value <= 180.0f) {
@@ -588,6 +670,15 @@ public class Util {
 		return filtered;
 	}
 
+
+	public static int getStringArrayResLength(Context context, @ArrayRes int resId) {
+		return context.getResources().getStringArray(resId).length;
+	}
+
+	public static String getArrayResString(Context context, @ArrayRes int resId, int index) {
+		return context.getResources().getStringArray(resId)[index];
+	}
+
 	//	public static <T extends TrashType> List<T> filterResponse(List<T> response, List<String> types) {
 	//		List<T> filtered = new ArrayList<>();
 	//
@@ -635,7 +726,7 @@ public class Util {
 	}
 
 	/// https://stackoverflow.com/questions/11753000/how-to-open-the-google-play-store-directly-from-my-android-application
-	public static void openPlayStoreForPackage(Context context,String pckg) {
+	public static void openPlayStoreForPackage(Context context, String pckg) {
 		try {
 			context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pckg)));
 		} catch (android.content.ActivityNotFoundException anfe) {

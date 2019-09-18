@@ -364,6 +364,18 @@ public class OsmBridgeClient {
 		public double lon;
 		@SerializedName("amenity")
 		public String amenity;
+		@SerializedName("waste")
+		public String waste;
+		@SerializedName("recycling")
+		public String recycling;
+
+		public PendingTrashcan(double lat, double lon, String amenity, String waste, String recycling) {
+			this.lat = lat;
+			this.lon = lon;
+			this.amenity = amenity;
+			this.waste = waste;
+			this.recycling = recycling;
+		}
 
 		public PendingTrashcan(double lat, double lon, String amenity) {
 			this.lat = lat;
@@ -383,6 +395,8 @@ public class OsmBridgeClient {
 					"lat=" + lat +
 					", lon=" + lon +
 					", amenity='" + amenity + '\'' +
+					", waste='" + waste + '\'' +
+					", recycling='" + recycling + '\'' +
 					'}';
 		}
 
