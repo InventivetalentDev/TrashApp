@@ -3,6 +3,7 @@ package org.inventivetalent.trashapp.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -40,6 +41,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.Arrays;
@@ -53,13 +55,15 @@ public class MapFragment extends Fragment {
 
 	public static final OnlineTileSourceBase WIKIMAPS = new XYTileSource("WikimediaMaps",
 			0, 19, 256, ".png", new String[] {
-			"https://maps.wikimedia.org/osm-intl/" }, "© OpenStreetMap contributors",
+			"https://www.openstreetmap.org/copyright" }, "© OpenStreetMap contributors",
 			new TileSourcePolicy(2,
 					TileSourcePolicy.FLAG_NO_BULK
 							| TileSourcePolicy.FLAG_NO_PREVENTIVE
 							| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
 							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
 			));
+
+	public static MapFragment instance;
 
 	private FirebaseAnalytics mFirebaseAnalytics;
 	private boolean           debug;
@@ -74,6 +78,7 @@ public class MapFragment extends Fragment {
 	//	private Marker    lastMarker;
 
 	private boolean zoomedToSelf = false;
+	private boolean nightMode = false;
 
 	private Marker      selfMarker;
 	private Marker      searchCenterMarker;
@@ -90,6 +95,7 @@ public class MapFragment extends Fragment {
 
 	public MapFragment() {
 		// Required empty public constructor
+		instance = this;
 	}
 
 	@Override
@@ -100,7 +106,7 @@ public class MapFragment extends Fragment {
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		debug = Util.getBoolean(sharedPreferences, "enable_debug", false);
-
+		nightMode = Util.getBoolean(sharedPreferences, "night_mode", false);
 		mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
 	}
 
@@ -263,6 +269,9 @@ public class MapFragment extends Fragment {
 				polyline.setWidth(5f);
 				polyline.setInfoWindow(null);
 				mapView.getOverlays().add(polyline);
+
+				// Apply night_mode preference (only once!)
+				setNightMode(nightMode);
 			}
 
 			//				MarkerOptions markerOptions = new MarkerOptions()
@@ -407,6 +416,18 @@ public class MapFragment extends Fragment {
 	//		moveMap(lastKnownLocation);
 	//		setMarkers(closestTrashCan);
 	//	}
+
+	public void setNightMode(boolean state) {
+		if (state)	{
+			mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
+			selfMarker.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+			polyline.setColor(Color.WHITE);
+		} else {
+			mapView.getOverlayManager().getTilesOverlay().setColorFilter(null);
+			selfMarker.getIcon().setColorFilter(null);
+			polyline.setColor(Color.BLACK);
+		}
+	}
 
 	@Override
 	public void onAttach(Context context) {

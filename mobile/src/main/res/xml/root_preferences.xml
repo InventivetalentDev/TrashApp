@@ -52,6 +52,10 @@
                 android:enabled="true"
                 android:key="app_theme"/>
 
+        <SwitchPreference android:title="@string/settings_night_mode"
+            android:defaultValue="false"
+            android:key="night_mode"/>
+
         <Preference android:title="@string/unlock_themes"
                 android:key="dummy_unlock_themes"/>
 
