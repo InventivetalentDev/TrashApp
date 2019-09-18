@@ -178,7 +178,7 @@ public class Util {
 
 	public static void applyTheme(Context context, SharedPreferences preferences) {
 		String themeKey = preferences.getString("app_theme", "");
-		if (themeKey == null) { themeKey = ""; }
+		if (themeKey == null) { themeKey = "default"; }
 
 		int rId;
 		switch (themeKey) {
