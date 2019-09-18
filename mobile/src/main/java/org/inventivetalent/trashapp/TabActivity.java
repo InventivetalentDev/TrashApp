@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +21,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
+
 import com.android.billingclient.api.*;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.location.*;
 import com.google.android.material.tabs.TabLayout;
 import com.kobakei.ratethisapp.RateThisApp;
+
 import org.inventivetalent.trashapp.common.*;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.Migrations;
@@ -64,6 +67,8 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static LatLon       closestTrashCan;
 
 	private BillingManager            billingManager;
+	private boolean                   billingManagerInAppReady;
+	private boolean                   billingManagerSubsReady;
 	private boolean                   billingManagerReady;
 	private Set<String>               purchasedSkus         = new HashSet<>();
 	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
@@ -72,6 +77,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	protected static SkuInfo SKU_INFO_PREMIUM;
 	protected static SkuInfo SKU_INFO_THEMES;
 	protected static SkuInfo SKU_INFO_REMOVE_ADS;
+	protected static SkuInfo SKU_INFO_AD_FREE;
 
 	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
@@ -491,7 +497,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, Arrays.asList(BillingConstants.IN_APP_SKUS), new SkuDetailsResponseListener() {
 			@Override
 			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-				Log.i("TrashApp", "onSkuDetailsResponse");
+				Log.i("TrashApp", "onSkuDetailsResponse (inapp)");
 				Log.i("TrashApp", "result: " + billingResult);
 				Log.i("TrashApp", "list(" + (skuDetailsList != null ? skuDetailsList.size() : 0) + "): " + skuDetailsList);
 
@@ -513,11 +519,42 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 						}
 					}
 
-					billingManagerReady = true;
-					for (PaymentReadyListener listener : paymentReadyListeners) {
-						listener.ready();
+					billingManagerInAppReady = true;
+					if (billingManagerReady = (billingManagerInAppReady && billingManagerSubsReady)) {
+						for (PaymentReadyListener listener : paymentReadyListeners) {
+							listener.ready();
+						}
+						paymentReadyListeners.clear();
 					}
-					paymentReadyListeners.clear();
+				}
+			}
+		});
+		billingManager.querySkuDetailsAsync(BillingClient.SkuType.SUBS, Arrays.asList(BillingConstants.SUBS_SKUS), new SkuDetailsResponseListener() {
+			@Override
+			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
+				Log.i("TrashApp", "onSkuDetailsResponse (subs)");
+				Log.i("TrashApp", "result: " + billingResult);
+				Log.i("TrashApp", "list(" + (skuDetailsList != null ? skuDetailsList.size() : 0) + "): " + skuDetailsList);
+
+				if (skuDetailsList != null && skuDetailsList.size() > 0) {
+					for (SkuDetails details : skuDetailsList) {
+						switch (details.getSku()) {
+							case BillingConstants.SKU_AD_FREE:
+								SKU_INFO_AD_FREE = new SkuInfo(details, TabActivity.this);
+								break;
+							default:
+								Log.w("TabActivity", "Unhandled SkuDetails: " + details.getSku());
+								break;
+						}
+					}
+
+					billingManagerSubsReady = true;
+					if (billingManagerReady = (billingManagerInAppReady && billingManagerSubsReady)) {
+						for (PaymentReadyListener listener : paymentReadyListeners) {
+							listener.ready();
+						}
+						paymentReadyListeners.clear();
+					}
 				}
 			}
 		});
