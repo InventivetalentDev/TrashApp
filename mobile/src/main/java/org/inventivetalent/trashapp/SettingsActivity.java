@@ -234,11 +234,27 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						Log.i("SettingsActivity", "hasThemes: " + hasThemes);
 						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
-						if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved ); }
-						if (themePreference != null) { themePreference.setEnabled(hasThemes); }
+						if (adsPreference != null) {
+							adsPreference.setEnabled(!hasAdsRemoved );
 
-						if (unlockThemesPreference != null) { unlockThemesPreference.setVisible(!hasThemes ); }
-						if (nightModePreference != null) { nightModePreference.setEnabled(hasThemes); }
+						}
+						if (themePreference != null) {
+							themePreference.setEnabled(hasThemes);
+							if (!hasThemes) {
+								themePreference.setOnPreferenceChangeListener(null);
+								themePreference.setValue("");
+							}
+						}
+
+						if (unlockThemesPreference != null) {
+							unlockThemesPreference.setVisible(!hasThemes );
+						}
+						if (nightModePreference != null) {
+							nightModePreference.setEnabled(hasThemes);
+							if (!hasThemes) {
+								nightModePreference.setChecked(false);
+							}
+						}
 
 						if (mFirebaseAnalytics != null) {
 							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasThemes));
