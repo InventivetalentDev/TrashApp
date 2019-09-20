@@ -38,6 +38,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kobakei.ratethisapp.RateThisApp;
 
 import org.inventivetalent.trashapp.common.BillingConstants;
@@ -79,6 +80,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 
 	protected static TabActivity instance;
 
+	private FirebaseAnalytics mFirebaseAnalytics;
 	private SharedPreferences sharedPreferences;
 	private boolean           debug;
 
@@ -200,6 +202,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		instance = this;
 
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 		//		for (Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
 		//			System.out.println(entry.getKey() + ": " + entry.getValue() + " (" + entry.getValue().getClass() + ")");
 		//		}
@@ -520,6 +523,10 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		if (billingManager != null) {
 			billingManager.initiatePurchaseFlow(skuDetails);
 		}
+
+		Bundle bundle = new Bundle();
+		bundle.putString("sku", skuDetails.getSku());
+		mFirebaseAnalytics.logEvent("billing_launch", bundle);
 	}
 
 	@Override
