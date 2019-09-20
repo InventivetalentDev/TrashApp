@@ -10,4 +10,6 @@ public interface PaymentHandler {
 
 	void waitForManager(PaymentReadyListener listener);
 
+	void waitForPurchase(String sku, PaymentReadyListener callable);
+
 }

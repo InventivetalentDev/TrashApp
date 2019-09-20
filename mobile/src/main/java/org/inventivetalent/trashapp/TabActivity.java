@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.hardware.*;
+import android.hardware.GeomagneticField;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,20 +25,54 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
-import com.android.billingclient.api.*;
+
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.location.*;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.tabs.TabLayout;
 import com.kobakei.ratethisapp.RateThisApp;
-import org.inventivetalent.trashapp.common.*;
+
+import org.inventivetalent.trashapp.common.BillingConstants;
+import org.inventivetalent.trashapp.common.Constants;
+import org.inventivetalent.trashapp.common.DbTrashcanQueryTask;
+import org.inventivetalent.trashapp.common.LatLon;
+import org.inventivetalent.trashapp.common.OverpassBoundingBox;
+import org.inventivetalent.trashapp.common.PaymentHandler;
+import org.inventivetalent.trashapp.common.PaymentReadyListener;
+import org.inventivetalent.trashapp.common.RotationBuffer;
+import org.inventivetalent.trashapp.common.SkuInfo;
+import org.inventivetalent.trashapp.common.TrashCanFinderTask;
+import org.inventivetalent.trashapp.common.TrashCanResultHandler;
+import org.inventivetalent.trashapp.common.TrashcanQuery;
+import org.inventivetalent.trashapp.common.TrashcanUpdater;
+import org.inventivetalent.trashapp.common.Util;
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.Migrations;
 import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static org.inventivetalent.trashapp.common.Constants.*;
+import static org.inventivetalent.trashapp.common.Constants.DEFAULT_SEARCH_RADIUS;
+import static org.inventivetalent.trashapp.common.Constants.MAX_SEARCH_RADIUS;
+import static org.inventivetalent.trashapp.common.Constants.ONE_METER_DEG;
+import static org.inventivetalent.trashapp.common.Constants.REQUEST_LOCATION_PERMS_CODE;
+import static org.inventivetalent.trashapp.common.Constants.SEARCH_STEP;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
 public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler, BillingManager.BillingUpdatesListener {
@@ -63,10 +102,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
 	public static LatLon       closestTrashCan;
 
-	private BillingManager            billingManager;
-	private boolean                   billingManagerReady;
-	private Set<String>               purchasedSkus         = new HashSet<>();
-	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
+	private BillingManager                    billingManager;
+	private boolean                           billingManagerReady;
+	private Set<String>                       purchasedSkus         = new HashSet<>();
+	private Set<PaymentReadyListener>         paymentReadyListeners = new HashSet<>();
+	private Map<String, PaymentReadyListener> purchaseListeners     = new HashMap<>();
 
 	@Deprecated
 	protected static SkuInfo SKU_INFO_PREMIUM;
@@ -535,6 +575,11 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	@Override
+	public void waitForPurchase(String sku, PaymentReadyListener callable) {
+		purchaseListeners.put(sku, callable);
+	}
+
+	@Override
 	public void onConsumeFinished(String token, BillingResult billingResult) {
 		Log.i("TrashApp", "onConsumeFinished");
 		Log.i("TrashApp", "token: " + token);
@@ -547,8 +592,14 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "purchases(" + purchases.size() + "): " + purchases);
 
 		for (Purchase purchase : purchases) {
-			Log.i("TrashApp", purchase.getSku() + ": " + purchase.getPurchaseState());
-			purchasedSkus.add(purchase.getSku());
+			String sku = purchase.getSku();
+			Log.i("TrashApp", sku + ": " + purchase.getPurchaseState());
+			purchasedSkus.add(sku);
+
+			PaymentReadyListener listener = purchaseListeners.remove(sku);
+			if (listener != null) {
+				listener.ready();
+			}
 		}
 	}
 

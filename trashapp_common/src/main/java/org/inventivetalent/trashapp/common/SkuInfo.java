@@ -24,4 +24,10 @@ public class SkuInfo {
 		getPaymentHandler().launchBilling(getSkuDetails());
 	}
 
+	public void launchBilling(PaymentReadyListener listener) {
+		SkuDetails skuDetails = getSkuDetails();
+		getPaymentHandler().waitForPurchase(skuDetails.getSku(), listener);
+		getPaymentHandler().launchBilling(skuDetails);
+	}
+
 }

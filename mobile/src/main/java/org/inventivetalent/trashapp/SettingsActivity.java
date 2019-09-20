@@ -110,7 +110,12 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						if (TabActivity.SKU_INFO_REMOVE_ADS != null) {
-							TabActivity.SKU_INFO_REMOVE_ADS.launchBilling();
+							TabActivity.SKU_INFO_REMOVE_ADS.launchBilling(new PaymentReadyListener() {
+								@Override
+								public void ready() {
+									getActivity().recreate();
+								}
+							});
 						} else {
 							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 						}
@@ -191,7 +196,12 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						if (TabActivity.SKU_INFO_THEMES != null) {
-							TabActivity.SKU_INFO_THEMES.launchBilling();
+							TabActivity.SKU_INFO_THEMES.launchBilling(new PaymentReadyListener() {
+								@Override
+								public void ready() {
+									getActivity().recreate();
+								}
+							});
 						} else {
 							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
 						}
