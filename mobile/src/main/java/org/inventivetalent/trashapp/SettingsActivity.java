@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +26,10 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 import androidx.preference.TwoStatePreference;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.PaymentHandler;
 import org.inventivetalent.trashapp.common.PaymentReadyListener;
@@ -181,7 +184,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				nightModePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 					@Override
 					public boolean onPreferenceChange(Preference preference, Object newValue) {
-						boolean nightMode = Boolean.valueOf( String.valueOf(newValue) );
+						boolean nightMode = Boolean.valueOf(String.valueOf(newValue));
 						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(TabActivity.instance);
 						sharedPreferences.edit().putBoolean("night_mode", nightMode).apply();
 						MapFragment.instance.setNightMode(nightMode);
@@ -235,7 +238,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
 						if (adsPreference != null) {
-							adsPreference.setEnabled(!hasAdsRemoved );
+							adsPreference.setEnabled(!hasAdsRemoved);
 
 						}
 						if (themePreference != null) {
@@ -247,7 +250,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						}
 
 						if (unlockThemesPreference != null) {
-							unlockThemesPreference.setVisible(!hasThemes );
+							unlockThemesPreference.setVisible(!hasThemes);
 						}
 						if (nightModePreference != null) {
 							nightModePreference.setEnabled(hasThemes);
