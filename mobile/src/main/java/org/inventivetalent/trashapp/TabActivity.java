@@ -112,8 +112,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
 	private Map<String, PaymentReadyListener> purchaseListeners     = new HashMap<>();
 
-	@Deprecated
-	protected static SkuInfo SKU_INFO_PREMIUM;
 	protected static SkuInfo SKU_INFO_THEMES;
 	protected static SkuInfo SKU_INFO_REMOVE_ADS;
 	protected static SkuInfo SKU_INFO_AD_FREE;
@@ -550,9 +548,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 				if (skuDetailsList != null && skuDetailsList.size() > 0) {
 					for (SkuDetails details : skuDetailsList) {
 						switch (details.getSku()) {
-							case BillingConstants.SKU_PREMIUM:
-								SKU_INFO_PREMIUM = new SkuInfo(details, TabActivity.this);
-								break;
 							case BillingConstants.SKU_THEMES:
 								SKU_INFO_THEMES = new SkuInfo(details, TabActivity.this);
 								break;

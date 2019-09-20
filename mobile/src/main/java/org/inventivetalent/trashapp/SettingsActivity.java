@@ -229,21 +229,19 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				paymentHandler.waitForManager(new PaymentReadyListener() {
 					@Override
 					public void ready() {
-						boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
 						boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
 						boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
-						Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
 						Log.i("SettingsActivity", "hasThemes: " + hasThemes);
 						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
-						if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved && !hasPremium); }
-						if (themePreference != null) { themePreference.setEnabled(hasThemes || hasPremium); }
+						if (adsPreference != null) { adsPreference.setEnabled(!hasAdsRemoved ); }
+						if (themePreference != null) { themePreference.setEnabled(hasThemes); }
 
-						if (unlockThemesPreference != null) { unlockThemesPreference.setVisible(!hasThemes && !hasPremium); }
-						if (nightModePreference != null) { nightModePreference.setEnabled(hasThemes || hasPremium); }
+						if (unlockThemesPreference != null) { unlockThemesPreference.setVisible(!hasThemes ); }
+						if (nightModePreference != null) { nightModePreference.setEnabled(hasThemes); }
 
 						if (mFirebaseAnalytics != null) {
-							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
+							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasThemes));
 							mFirebaseAnalytics.setUserProperty("sku_ad_free", String.valueOf(hasAdsRemoved));
 						}
 					}
