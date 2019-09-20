@@ -121,6 +121,7 @@ public class MapFragment extends Fragment {
 
 		mapView = view.findViewById(R.id.map);
 		mapView.setTileSource(WIKIMAPS);
+		Configuration.getInstance().setUserAgentValue("TrashApp<mail@trashapp.cc>/" + Util.APP_VERSION_NAME);
 		mapView.setMultiTouchControls(true);
 		mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
 
