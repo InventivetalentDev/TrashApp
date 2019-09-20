@@ -489,6 +489,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "onBillingClientSetupFinished");
 
 		Log.i("TrashApp", "Querying Sku Details...");
+		purchasedSkus.clear();
 		billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, Arrays.asList(BillingConstants.IN_APP_SKUS), new SkuDetailsResponseListener() {
 			@Override
 			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
