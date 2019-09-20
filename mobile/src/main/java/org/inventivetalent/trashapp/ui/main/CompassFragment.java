@@ -16,15 +16,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
@@ -135,7 +138,9 @@ public class CompassFragment extends Fragment {
 		paymentHandler.waitForManager(new PaymentReadyListener() {
 			@Override
 			public void ready() {
+				boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
 				boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
+				Log.i("SettingsActivity", "hasThemes: " + hasThemes);
 				Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
 				if (hasAdsRemoved) {
@@ -146,6 +151,11 @@ public class CompassFragment extends Fragment {
 					//						adView2.setVisibility(View.VISIBLE);
 					adView1.loadAd(new AdRequest.Builder().build());
 					//						adView2.loadAd(new AdRequest.Builder().build());
+				}
+
+				if (!hasThemes) {
+					sharedPreferences.edit().putString("app_theme", "").putBoolean("night_mode", false).apply();
+					mFirebaseAnalytics.logEvent("forced_reset_theme_to_default", null);
 				}
 			}
 		});
