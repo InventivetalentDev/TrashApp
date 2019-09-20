@@ -273,7 +273,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 		if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
 			Log.w(TAG, "areSubscriptionsSupported() got an error response: " + billingResult.getResponseCode());
 		}
-		return billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK;
+		return billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK;
 	}
 
 	/**
