@@ -195,6 +195,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		billingManager = new BillingManager(this, this);
+		purchasedSkus.clear();
 
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
