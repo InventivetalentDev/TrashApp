@@ -10,8 +10,6 @@
         <Preference
                 android:title="@string/settings_about_title" android:key="dummy_about"/>
         <Preference
-                android:title="@string/settings_remove_ads" android:key="dummy_remove_ads"/>
-        <Preference
                 android:title="@string/settings_osm_info" android:key="dummy_osm_info"/>
 
 
@@ -44,6 +42,9 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/settings_premium_title">
+
+        <Preference
+                android:title="@string/settings_remove_ads" android:key="dummy_remove_ads"/>
 
         <ListPreference
                 android:title="@string/settings_themes_title"
