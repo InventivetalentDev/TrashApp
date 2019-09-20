@@ -212,19 +212,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
 			final ListPreference themePreference = findPreference("app_theme");
 			if (themePreference != null) {
-				themePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference preference) {
-						if (!themePreference.isEnabled()) {
-							if (TabActivity.SKU_INFO_THEMES != null) {
-								TabActivity.SKU_INFO_THEMES.launchBilling();
-							} else {
-								Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
-							}
-						}
-						return true;
-					}
-				});
 				themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 					@Override
 					public boolean onPreferenceChange(Preference preference, Object newValue) {
