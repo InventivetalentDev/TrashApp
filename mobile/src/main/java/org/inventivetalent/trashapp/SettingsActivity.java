@@ -257,7 +257,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
 						if (mFirebaseAnalytics != null) {
 							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasPremium));
-							mFirebaseAnalytics.setUserProperty("sku_remove_ads", String.valueOf(hasAdsRemoved));
+							mFirebaseAnalytics.setUserProperty("sku_ad_free", String.valueOf(hasAdsRemoved));
 						}
 					}
 				});
