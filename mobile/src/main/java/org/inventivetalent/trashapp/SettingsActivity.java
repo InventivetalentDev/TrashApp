@@ -109,8 +109,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				adsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						if (TabActivity.SKU_INFO_REMOVE_ADS != null) {
-							TabActivity.SKU_INFO_REMOVE_ADS.launchBilling(new PaymentReadyListener() {
+						if (TabActivity.SKU_INFO_AD_FREE != null) {
+							TabActivity.SKU_INFO_AD_FREE.launchBilling(new PaymentReadyListener() {
 								@Override
 								public void ready() {
 									getActivity().recreate();
@@ -244,7 +244,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					public void ready() {
 						boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
 						boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
-						boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS);
+						boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
 						Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
 						Log.i("SettingsActivity", "hasThemes: " + hasThemes);
 						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);

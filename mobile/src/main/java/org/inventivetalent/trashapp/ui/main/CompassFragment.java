@@ -136,7 +136,7 @@ public class CompassFragment extends Fragment {
 			@Override
 			public void ready() {
 				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-				boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS);
+				boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
 				Log.i("SettingsActivity", "hasPremium (deprecated): " + hasPremium);
 				Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
 
