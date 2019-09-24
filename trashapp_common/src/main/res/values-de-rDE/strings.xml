@@ -18,6 +18,7 @@
     <string name="description_settings">Einstellungen der Anwendung</string>
     <string name="err_no_trashcans">Es konnten keine Mülleimer in deiner Nähe gefunden werden :(</string>
     <string name="title_activity_settings">Einstellungen</string>
+    <string name="settings_info_header">Info</string>
     <string name="settings_about_title">Über</string>
     <string name="settings_search_header">Suche</string>
     <string name="settings_search_radius_title">Suchradius (m)</string>
@@ -27,7 +28,9 @@
     <string name="settings_debug_title">Entwicklermodus</string>
     <string name="settings_osm_info">Mülleimer mit OsmAnd hinzufügen</string>
     <string name="settings_remove_ads">Werbung entfernen</string>
+    <string name="settings_premium_title">Premium</string>
     <string name="settings_dark_theme_title">Dunkles Theme</string>
+    <string name="about_version">Version %s</string>
     <string name="about_osm_description">Karten und Umgebungsdaten von OpenStreetMap</string>
     <string name="about_wikimaps_description">Kartenmaterial von wikimedia maps</string>
     <string name="buy_dev_coffee">Spendiere dem Entwickler einen Kaffee!</string>
@@ -49,6 +52,7 @@
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <string name="settings_filter_recycling_aerosol_cans">Spraydosen</string>
     <string name="settings_filter_recycling_animal_waste">Tierische Abfälle</string>
+    <string name="settings_filter_recycling_aluminium">Aluminium</string>
     <string name="settings_filter_recycling_bags">Müllsäcke</string>
     <string name="settings_filter_recycling_batteries">Batterien</string>
     <string name="settings_filter_recycling_belts">Gürtel</string>
@@ -95,6 +99,7 @@
     <string name="settings_filter_recycling_plastic_bags">Plastiktüten</string>
     <string name="settings_filter_recycling_plastic_bottles">Plastikflaschen</string>
     <string name="settings_filter_recycling_plastic_packaging">Plastikverpackungen</string>
+    <string name="settings_filter_recycling_polyester">Polyester</string>
     <string name="settings_filter_recycling_polystyrene_foam">Schaumpolystyren</string>
     <string name="settings_filter_recycling_printer_cartridges">Druckerpatronen</string>
     <string name="settings_filter_recycling_printer_toner_cartridges">Druckertoner</string>
@@ -114,6 +119,7 @@
     <string name="settings_filter_recycling_shoes">Schuhe</string>
     <string name="warn_empty_filter">Keine Filter gewählt! Suche nach allem.</string>
     <string name="trashcan">Mülleimer</string>
+    <string name="recycling">Recyclebar</string>
     <string name="trashcan_info">Für gemischten Müll</string>
     <string name="recycling_info">Nur für recyclebaren Müll</string>
     <string name="settings_filter_waste_trash">Müll</string>
@@ -134,6 +140,8 @@
     <string name="alert_adding_trashcan">Füge Mülleimer der OpenStreetMap hinzu...</string>
     <string name="osm_auth_failed">Fehler beim Authentifizieren mit OpenStreetMap...</string>
     <string name="trashcan_added">Neuen Mülleimer hinzugefügt! Danke für deinen Beitrag!</string>
+    <string name="comment">Kommentar</string>
+    <string name="default_osm_comment">Mülleimer hinzugefügt</string>
     <string name="trashcan_add_failed">Mülleimer konnte nicht hinzugefügt werden</string>
     <string name="add_trashcan_confirmation">Bitte bestätigen Sie das Hinzufügen dieses Mülleimers. Poste als <b>%s</b> auf der OpenStreetMap</string>
     <string name="confirm">Bestätigen</string>
@@ -142,5 +150,6 @@
     <string name="pick_type">Wähle Art des Abfalls</string>
     <string name="general">Allgemein</string>
     <string name="waste">Müll</string>
+    <string name="none">Keine</string>
     <string name="settings_night_mode">Nachtmodus</string>
 </resources>
