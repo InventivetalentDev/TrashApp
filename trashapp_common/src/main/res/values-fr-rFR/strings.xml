@@ -36,6 +36,7 @@
     <string name="about_version">Version %s</string>
     <string name="about_osm_description">Carte et coordonnées de OpenStreetMap</string>
     <string name="about_osm_link">https://openstreetmap.org</string>
+    <string name="about_wikimaps_description">Cartes quadrillées des cartes Wikimédia</string>
     <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
     <string name="buy_dev_coffee">Achetez un café au développeur !</string>
     <string name="about_dev_description">Développé par inventivetalent</string>
@@ -43,6 +44,9 @@
     <string name="description_trashcan">Poubelle</string>
     <string name="description_map_my_location">Afficher mon emplacement</string>
     <string name="settings_themes_title">Thème</string>
+    <string name="settings_clear_cache_title">Effacer le cache des poubelles</string>
+    <string name="dialog_clear_cache_title">Effacer le cache ?</string>
+    <string name="dialog_clear_cache_message">Voulez-vous effacer toutes les poubelles mises en cache ?</string>
     <string name="settings_filter_general">Déchets généraux</string>
     <string name="settings_filter_bins">Poubelles à l\'intérieur des abris, etc.</string>
     <string name="settings_filter_waste_disposal">Traitement des déchets</string>
@@ -134,11 +138,17 @@
     <string name="settings_filter_waste_cigarettes">Cigarettes</string>
     <string name="searching">Recherche en cours…</string>
     <string name="found_bug">Vous avez trouvé un bug ?</string>
+    <string name="description_add_trashcan">Ajouter une poubelle</string>
+    <string name="trashcan_added">Nouvelle poubelle ajoutée! Merci pour votre contribution!</string>
+    <string name="comment">Commentaire</string>
+    <string name="default_osm_comment">Poubelle ajoutée</string>
     <string name="trashcan_add_failed">Échec de l\'ajout de cette poubelle</string>
     <string name="add_trashcan_confirmation">Veuillez confirmer l\'ajout de cette poubelle. Ajout en <b>%s</b> sur OpenStreetMap</string>
     <string name="confirm">Confirmer</string>
+    <string name="osm_auth_title">Authentification OpenStreetMap</string>
     <string name="unlock_themes">Obtenir plus de thèmes !</string>
     <string name="pick_type">Choisissez le type de poubelle</string>
+    <string name="theme_grass">Herbe</string>
     <string name="general">Général</string>
     <string name="waste">Déchets</string>
     <string name="none">Aucun</string>
