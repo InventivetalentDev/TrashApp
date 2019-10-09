@@ -37,11 +37,16 @@
     <string name="description_trashcan">Poubelle</string>
     <string name="description_map_my_location">Afficher mon emplacement</string>
     <string name="settings_themes_title">Thème</string>
+    <string name="settings_filter_bins">Poubelles à l\'intérieur des abris, etc.</string>
+    <string name="settings_filter_waste_disposal">Traitement des déchets</string>
     <string name="settings_filters_header">Filtres</string>
+    <string name="settings_filters_misc_header">Ordures</string>
     <string name="settings_filters_recycling_header">Recyclage</string>
     <string name="settings_select_all">Tout sélectionner</string>
     <string name="settings_select_none">Annuler la sélection</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
+    <string name="settings_filter_recycling_aerosol_cans">Bombes aérosol</string>
+    <string name="settings_filter_recycling_animal_waste">Déchets animaliers</string>
     <string name="settings_filter_recycling_aluminium">Aluminium</string>
     <string name="settings_filter_recycling_bags">Sacs</string>
     <string name="settings_filter_recycling_batteries">Piles</string>
