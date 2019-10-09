@@ -109,6 +109,8 @@
     <string name="settings_filter_recycling_polyester">Polyester</string>
     <string name="settings_filter_recycling_polystyrene_foam">Mousse en polystyrène</string>
     <string name="settings_filter_recycling_printer_cartridges">Cartouches d\'imprimante</string>
+    <string name="settings_filter_recycling_printer_toner_cartridges">Cartouches Toner pour imprimantes</string>
+    <string name="settings_filter_recycling_printer_inkjet_cartridges">Cartouches Inkjet pour imprimantes</string>
     <string name="settings_filter_recycling_rubble">Gravats</string>
     <string name="settings_filter_recycling_scrap_metal">Ferraille</string>
     <string name="settings_filter_recycling_sheet_metal">Tôle</string>
@@ -137,8 +139,14 @@
     <string name="settings_filter_waste_dog_excrement">Excréments de chien</string>
     <string name="settings_filter_waste_cigarettes">Cigarettes</string>
     <string name="searching">Recherche en cours…</string>
+    <string name="settings_moving_search">Déplacer la zone de recherche avec la carte</string>
     <string name="found_bug">Vous avez trouvé un bug ?</string>
     <string name="description_add_trashcan">Ajouter une poubelle</string>
+    <string name="add_trashcan_osmand">        <b>Utilisez OsmAnd pour plus d\'options</b>
+    </string>
+    <string name="alert_open_osmand">Lancement d\'OsmAnd…</string>
+    <string name="alert_adding_trashcan">Ajout d\'une poubelle à OpenStreetMap…</string>
+    <string name="osm_auth_failed">Échec de l\'authentification à OpenStreetMap</string>
     <string name="trashcan_added">Nouvelle poubelle ajoutée! Merci pour votre contribution!</string>
     <string name="comment">Commentaire</string>
     <string name="default_osm_comment">Poubelle ajoutée</string>
@@ -149,6 +157,7 @@
     <string name="unlock_themes">Obtenir plus de thèmes !</string>
     <string name="pick_type">Choisissez le type de poubelle</string>
     <string name="theme_grass">Herbe</string>
+    <string name="theme_dark_grass">Herbe foncée</string>
     <string name="general">Général</string>
     <string name="waste">Déchets</string>
     <string name="none">Aucun</string>
