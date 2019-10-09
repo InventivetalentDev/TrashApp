@@ -6,16 +6,16 @@
     <!-- Playstore Stuff -->
     <string name="playstore_description_short">Keresd meg a legközelebbi kukát, ahelyett, hogy a környezetet szennyeznéd!</string>
     <string name="playstore_description_full">Ez az alkalmazás megmutatja a nyílvános kukákat a közeledben, így használhatod azokat ahelyett, hogy szennyeznéd a környezetet!</string>
-    <string name="playstore_graphic_phone_01">Azonnal megláthatod a Legközelebbi kukát!</string>
+    <string name="playstore_graphic_phone_01">Azonnal megláthatod a Legközelebbi kukát</string>
     <string name="playstore_graphic_phone_02">Környezeted felfedezése</string>
     <string name="playstore_graphic_phone_03">Eredmények módosítása</string>
-    <string name="playstore_graphic_feature">\"Közeli kukák megtalalálása
+    <string name="playstore_graphic_feature">\"Közeli kukák megtalalálása\n
 
-    Hagyd abba a természet szennyezését!\"</string>
+ Hagyd abba a természet szennyezését!\"    </string>
     <string name="action_settings">Beállítások</string>
     <string name="tab_text_compass">Iránytű</string>
     <string name="tab_text_map">Térkép</string>
-    <string name="searching_cans">Közeli kuka keresése</string>
+    <string name="searching_cans">Közeli kuka keresése…</string>
     <string name="description_map_edit">Új kuka hozzáadása</string>
     <string name="description_settings">App beállításai</string>
     <string name="err_no_trashcans">Nem található a közeledben kuka :(</string>
@@ -25,7 +25,7 @@
     <string name="settings_about_title">Alkalmazásról</string>
     <string name="settings_search_header">Keresés</string>
     <string name="settings_search_radius_title">Keresési távolság (m)</string>
-    <string name="settings_search_radius_max_title">Maximális keresési távolság</string>
+    <string name="settings_search_radius_max_title">Maximális keresési távolság (m)</string>
     <string name="settings_advanced_header">Haladó</string>
     <string name="settings_cache_title">Gyorsítótár-adatok</string>
     <string name="settings_debug_title">Hibakeresési mód engedélyezése</string>
@@ -34,15 +34,15 @@
     <string name="settings_premium_title">Prémium</string>
     <string name="settings_dark_theme_title">Sötét téma</string>
     <string name="about_version">%s verzió</string>
-    <string name="about_osm_description">Térkép és helyadatok az OpenStreetMap-ról származnak:</string>
+    <string name="about_osm_description">Térkép és helyadatok az OpenStreetMap-ról származnak</string>
     <string name="about_osm_link">https://openstreetmap.org</string>
-    <string name="about_wikimaps_description">Térképrészletek a wikimedia térképekről származnak:</string>
+    <string name="about_wikimaps_description">Térképrészletek a wikimedia térképekről származnak</string>
     <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
     <string name="buy_dev_coffee">Hívd meg a fejlesztőt egy kávéra!</string>
     <string name="about_dev_description">Fejlesztette inventivetalent</string>
     <string name="about_dev_link">https://inventivetalent.org</string>
     <string name="description_trashcan">Kuka</string>
-    <string name="description_map_my_location">Mutast a helyzetem</string>
+    <string name="description_map_my_location">Mutasd a helyzetem</string>
     <string name="settings_themes_title">Téma</string>
     <string name="settings_clear_cache_title">Gyorsítótár-adatok törlése</string>
     <string name="dialog_clear_cache_title">Gyorsítótár ürítése?</string>
@@ -137,21 +137,21 @@
     <string name="settings_filter_waste_rubble">Kőtörmelék</string>
     <string name="settings_filter_waste_dog_excrement">Kutya ürülék</string>
     <string name="settings_filter_waste_cigarettes">Cigaretta</string>
-    <string name="searching">Keresés...</string>
+    <string name="searching">Keresés…</string>
     <string name="settings_moving_search">Mozgassa a keresési területet a Térkép segítségével</string>
     <string name="found_bug">Hibát találtál?</string>
     <string name="description_add_trashcan">Kuka hozzáadása</string>
-    <string name="add_trashcan_info">Mozgasd a térképet abba az irányba, amerre a kuka áll, hogy hozzáadd az új kukát az alkalmazáshoz.</string>
-    <string name="add_trashcan_osmand">        &lt;b&gt;Használd az OsmAnd alkalmazást a további lehetőségekhez&lt;/b&gt;</string>
-    <string name="alert_open_osmand">OsmAnd megnyitása...</string>
-    <string name="alert_adding_trashcan">Kuka hozzáadása az OpenStreetMap-hoz...</string>
+    <string name="add_trashcan_info">Mozgasd a térképet abba az irányba, amerre a kuka áll, hogy hozzáadd az új kukát az alkalmazáshoz</string>
+    <string name="add_trashcan_osmand"><b>Használd az OsmAnd alkalmazást a további lehetőségekhez</b>    </string>
+    <string name="alert_open_osmand">OsmAnd megnyitása…</string>
+    <string name="alert_adding_trashcan">Kuka hozzáadása az OpenStreetMap-hoz…</string>
     <string name="osm_auth_failed">Nem sikerült hitelesíteni Téged az OpenStreetMap-el</string>
     <string name="trashcan_added">Új kuka hozzáadva! Köszönjük az együttműködést!</string>
     <string name="comment">Megjegyzés</string>
     <string name="default_osm_comment">Kuka hozzáadva</string>
     <string name="trashcan_add_failed">A kuka hozzáadása sikertelen</string>
     <string name="add_trashcan_confirmation">\"Kérlek hagyd jóvá a kuka hozzáadását. Hozzászólás, mint
-&lt;b&gt;%s&lt;/b&gt; az OpenStreetMap-en\"</string>
+<b>%s</b> az OpenStreetMap-en\"</string>
     <string name="confirm">Jóváhagy</string>
     <string name="osm_auth_title">OpenStreetMap Hitelesítő</string>
 </resources>
