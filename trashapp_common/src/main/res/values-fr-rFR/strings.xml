@@ -56,13 +56,18 @@
     <string name="settings_filter_recycling_clothes">Vêtements</string>
     <string name="settings_filter_recycling_coffee_capsules">Capsules de café</string>
     <string name="settings_filter_recycling_computers">Ordinateurs</string>
+    <string name="settings_filter_recycling_cooking_oil">Huile de friture</string>
     <string name="settings_filter_recycling_cork">Liège</string>
+    <string name="settings_filter_recycling_engine_oil">Huile de moteur</string>
     <string name="settings_filter_recycling_foil">Feuilles d\'aluminium</string>
+    <string name="settings_filter_recycling_furniture">Meubles</string>
     <string name="settings_filter_recycling_gas_bottles">Bouteilles de gaz</string>
     <string name="settings_filter_recycling_glass">Verre</string>
     <string name="settings_filter_recycling_glass_bottles">Bouteilles en verre</string>
     <string name="settings_filter_recycling_metal">Métal</string>
     <string name="settings_filter_recycling_mobile_phones">Téléphones</string>
+    <string name="settings_filter_recycling_paper">Papier</string>
+    <string name="settings_filter_recycling_pens">Stylos</string>
     <string name="settings_filter_recycling_PET">Plastique PET</string>
     <string name="settings_filter_recycling_plastic">Plastique</string>
     <string name="settings_filter_recycling_plastic_bags">Sacs en plastique</string>
@@ -70,17 +75,27 @@
     <string name="settings_filter_recycling_polyester">Polyester</string>
     <string name="settings_filter_recycling_polystyrene_foam">Mousse en polystyrène</string>
     <string name="settings_filter_recycling_printer_cartridges">Cartouches d\'imprimante</string>
+    <string name="settings_filter_recycling_rubble">Gravats</string>
     <string name="settings_filter_recycling_sheet_metal">Tôle</string>
     <string name="settings_filter_recycling_styrofoam">Polystyrène</string>
     <string name="settings_filter_recycling_tyres">Pneus</string>
+    <string name="settings_filter_recycling_tv_monitor">Écrans de télévision</string>
+    <string name="settings_filter_recycling_white_goods">Électroménager</string>
     <string name="settings_filter_recycling_wood">Bois</string>
     <!-- /Generated Strings -->
     <string name="settings_filter_recycling_shoes">Chaussures</string>
+    <string name="warn_empty_filter">Aucun filtre défini ! Recherche concernant tous les types.</string>
+    <string name="settings_filter_waste_trash">Poubelle</string>
+    <string name="settings_filters_general_header">Filtres généraux</string>
+    <string name="settings_filter_waste_oil">Huile</string>
+    <string name="settings_filter_waste_organic">Organique</string>
     <string name="settings_filter_waste_plastic">Plastique</string>
     <string name="settings_filter_waste_rubble">Gravats</string>
+    <string name="settings_filter_waste_dog_excrement">Excréments de chien</string>
     <string name="settings_filter_waste_cigarettes">Cigarettes</string>
     <string name="searching">Recherche en cours…</string>
     <string name="found_bug">Vous avez trouvé un bug ?</string>
+    <string name="confirm">Confirmer</string>
     <string name="unlock_themes">Obtenir plus de thèmes !</string>
     <string name="pick_type">Choisissez le type de poubelle</string>
 </resources>
