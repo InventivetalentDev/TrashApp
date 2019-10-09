@@ -61,9 +61,14 @@
     <string name="settings_filter_recycling_glass_bottles">Bouteilles en verre</string>
     <string name="settings_filter_recycling_metal">Métal</string>
     <string name="settings_filter_recycling_mobile_phones">Téléphones</string>
+    <string name="settings_filter_recycling_styrofoam">Polystyrène</string>
+    <string name="settings_filter_recycling_tyres">Pneus</string>
     <string name="settings_filter_recycling_wood">Bois</string>
     <!-- /Generated Strings -->
     <string name="settings_filter_recycling_shoes">Chaussures</string>
+    <string name="settings_filter_waste_cigarettes">Cigarettes</string>
     <string name="searching">Recherche en cours…</string>
     <string name="found_bug">Vous avez trouvé un bug ?</string>
+    <string name="unlock_themes">Obtenir plus de thèmes !</string>
+    <string name="pick_type">Choisissez le type de poubelle</string>
 </resources>
