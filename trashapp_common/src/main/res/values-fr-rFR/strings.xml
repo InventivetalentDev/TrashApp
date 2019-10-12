@@ -89,6 +89,7 @@
     <string name="settings_filter_recycling_green_waste">Déchets biodégradables</string>
     <string name="settings_filter_recycling_garden_waste">Déchets de jardin</string>
     <string name="settings_filter_recycling_hazardous_waste">Déchets toxiques</string>
+    <string name="settings_filter_recycling_hardcore">Gros gravats</string>
     <string name="settings_filter_recycling_low_energy_bulbs">Lampes basse consommation</string>
     <string name="settings_filter_recycling_magazines">Magazines</string>
     <string name="settings_filter_recycling_metal">Métal</string>
@@ -142,6 +143,7 @@
     <string name="settings_moving_search">Déplacer la zone de recherche avec la carte</string>
     <string name="found_bug">Vous avez trouvé un bug ?</string>
     <string name="description_add_trashcan">Ajouter une poubelle</string>
+    <string name="add_trashcan_info">Déplacez la carte pour définir l\'endroit où vous souhaitez ajouter une nouvelle poubelle</string>
     <string name="add_trashcan_osmand">        <b>Utilisez OsmAnd pour plus d\'options</b>
     </string>
     <string name="alert_open_osmand">Lancement d\'OsmAnd…</string>
