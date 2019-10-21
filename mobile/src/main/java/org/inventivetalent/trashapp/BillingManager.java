@@ -240,7 +240,9 @@ public class BillingManager implements PurchasesUpdatedListener {
 					return;
 				}
 				try {
-					if ((jsonObject.has("success") && jsonObject.getBoolean("success")) && (jsonObject.has("isValidPurchase") && jsonObject.getBoolean("isValidPurchase"))) {
+					if ((jsonObject.has("success") && jsonObject.getBoolean("success")) &&
+							(jsonObject.has("isValidPurchase") && jsonObject.getBoolean("isValidPurchase")) &&
+							(jsonObject.has("acknowledgedOrConsumed") && jsonObject.getBoolean("acknowledgedOrConsumed"))) {
 						Log.d(TAG, "Got a verified purchase: " + jsonObject);
 
 						mPurchases.add(purchase);
