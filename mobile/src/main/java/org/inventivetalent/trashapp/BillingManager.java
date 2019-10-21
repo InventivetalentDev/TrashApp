@@ -1,23 +1,47 @@
 package org.inventivetalent.trashapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.android.billingclient.api.*;
+import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.SkuType;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchasesResult;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.Security;
+import org.inventivetalent.trashapp.common.Util;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.inventivetalent.trashapp.common.Util.readLines;
 
 public class BillingManager implements PurchasesUpdatedListener {
 
@@ -37,7 +61,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 
 	private final Activity mActivity;
 
-	private final List<Purchase> mPurchases = new ArrayList<>();
+	protected final List<Purchase> mPurchases = new ArrayList<>();
 
 	private Set<String> mTokensToBeConsumed;
 
@@ -232,15 +256,39 @@ public class BillingManager implements PurchasesUpdatedListener {
 	 *
 	 * @param purchase Purchase to be handled
 	 */
-	private void handlePurchase(Purchase purchase) {
+	@SuppressLint("StaticFieldLeak")
+	private void handlePurchase(final Purchase purchase) {
 		if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
 			Log.i(TAG, "Got a purchase: " + purchase + "; but signature is bad. Skipping...");
 			return;
 		}
+		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
+			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
+			return;
+		}
 
-		Log.d(TAG, "Got a verified purchase: " + purchase);
+		Log.i(TAG, "Verifying purchase of " + purchase.getSku() + " (Order " + purchase.getOrderId() + ") with backend...");
 
-		mPurchases.add(purchase);
+		new PurchaseValidationTask() {
+			@Override
+			protected void onPostExecute(JSONObject jsonObject) {
+				if (jsonObject == null) {
+					Log.w(TAG, "Got null json object");
+					return;
+				}
+				try {
+					if ((jsonObject.has("success") && jsonObject.getBoolean("success")) && (jsonObject.has("isValidPurchase") && jsonObject.getBoolean("isValidPurchase"))) {
+						Log.d(TAG, "Got a verified purchase: " + jsonObject);
+
+						mPurchases.add(purchase);
+					} else {
+						Log.w(TAG, "Purchase does not appear to be valid");
+					}
+				} catch (JSONException e) {
+					Log.e(TAG, "Got invalid json response", e);
+				}
+			}
+		}.execute(purchase);
 	}
 
 	/**
@@ -364,4 +412,51 @@ public class BillingManager implements PurchasesUpdatedListener {
 			return false;
 		}
 	}
+
+	static class PurchaseValidationTask extends AsyncTask<Purchase, Void, JSONObject> {
+
+		private Gson gson = new Gson();
+
+		@Override
+		protected JSONObject doInBackground(Purchase... purchases) {
+			Purchase purchase = purchases[0];
+
+			try {
+				HttpURLConnection connection = (HttpURLConnection) new URL("https://billingserver.trashapp.cc/verifyInAppPurchase/" + BillingConstants.getTypeForSku(purchase.getSku()) + "/" + purchase.getSku()).openConnection();
+				connection.setRequestMethod("POST");
+				connection.setRequestProperty("User-Agent", "TrashApp/" + Util.APP_VERSION_NAME);
+				connection.setRequestProperty("Referer", "https://trashapp.cc");
+				connection.setConnectTimeout(2000);
+				connection.setReadTimeout(5000);
+				connection.setDoInput(true);
+				connection.setDoOutput(true);
+
+				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("purchase", purchase.getOriginalJson());
+				jsonObject.addProperty("signature", purchase.getSignature());
+
+				String dataString = jsonObject.toString();
+				connection.setRequestProperty("Content-Type", "application/json");
+				try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()))) {
+					writer.write(dataString);
+				}
+
+				int responseCode = connection.getResponseCode();
+				if (responseCode < 200 || responseCode > 240) {
+					Log.e(TAG, "Purchase verification failed, Got non 200 response code (" + responseCode + ")");
+					Log.e(TAG, readLines(connection.getErrorStream()));
+				}
+
+				String rawResponse = readLines(connection.getInputStream());
+				Log.i(TAG, rawResponse);
+
+				return gson.fromJson(rawResponse, JSONObject.class);
+			} catch (IOException e) {
+				Log.e(TAG, "Failed to verify purchase with backend", e);
+			}
+
+			return null;
+		}
+	}
+
 }
