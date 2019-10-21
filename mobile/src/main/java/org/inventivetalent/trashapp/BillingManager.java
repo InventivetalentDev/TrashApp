@@ -14,8 +14,6 @@ import com.android.billingclient.api.BillingClient.SkuType;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ConsumeParams;
-import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchasesResult;
 import com.android.billingclient.api.PurchasesUpdatedListener;
@@ -37,7 +35,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -203,40 +200,6 @@ public class BillingManager implements PurchasesUpdatedListener {
 		};
 
 		executeServiceRequest(queryRequest);
-	}
-
-	public void consumeAsync(final String purchaseToken) {
-		// If we've already scheduled to consume this token - no action is needed (this could happen
-		// if you received the token when querying purchases inside onReceive() and later from
-		// onActivityResult()
-		if (mTokensToBeConsumed == null) {
-			mTokensToBeConsumed = new HashSet<>();
-		} else if (mTokensToBeConsumed.contains(purchaseToken)) {
-			Log.i(TAG, "Token was already scheduled to be consumed - skipping...");
-			return;
-		}
-		mTokensToBeConsumed.add(purchaseToken);
-
-		// Generating Consume Response listener
-		final ConsumeResponseListener onConsumeListener = new ConsumeResponseListener() {
-			@Override
-			public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-				// If billing service was disconnected, we try to reconnect 1 time
-				// (feel free to introduce your retry policy here).
-				mBillingUpdatesListener.onConsumeFinished(purchaseToken, billingResult);
-			}
-		};
-
-		// Creating a runnable from the request to use it inside our connection retry policy below
-		Runnable consumeRequest = new Runnable() {
-			@Override
-			public void run() {
-				// Consume the purchase async
-				mBillingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchaseToken).build(), onConsumeListener);
-			}
-		};
-
-		executeServiceRequest(consumeRequest);
 	}
 
 	/**

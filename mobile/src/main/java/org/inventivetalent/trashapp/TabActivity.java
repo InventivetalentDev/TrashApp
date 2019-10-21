@@ -104,12 +104,12 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
 	public static LatLon       closestTrashCan;
 
-	private BillingManager            billingManager;
-	private boolean                   billingManagerInAppReady;
-	private boolean                   billingManagerSubsReady;
-	private boolean                   billingManagerReady;
-	private Set<String>               purchasedSkus         = new HashSet<>();
-	private Set<PaymentReadyListener> paymentReadyListeners = new HashSet<>();
+	private BillingManager                    billingManager;
+	private boolean                           billingManagerInAppReady;
+	private boolean                           billingManagerSubsReady;
+	private boolean                           billingManagerReady;
+	private Set<String>                       purchasedSkus         = new HashSet<>();
+	private Set<PaymentReadyListener>         paymentReadyListeners = new HashSet<>();
 	private Map<String, PaymentReadyListener> purchaseListeners     = new HashMap<>();
 
 	protected static SkuInfo SKU_INFO_THEMES;
@@ -630,11 +630,13 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		for (Purchase purchase : purchases) {
 			String sku = purchase.getSku();
 			Log.i("TrashApp", sku + ": " + purchase.getPurchaseState());
-			purchasedSkus.add(sku);
+			if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+				purchasedSkus.add(sku);
 
-			PaymentReadyListener listener = purchaseListeners.remove(sku);
-			if (listener != null) {
-				listener.ready();
+				PaymentReadyListener listener = purchaseListeners.remove(sku);
+				if (listener != null) {
+					listener.ready();
+				}
 			}
 		}
 	}
