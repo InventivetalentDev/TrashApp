@@ -1,8 +1,11 @@
 package org.inventivetalent.trashapp.common;
 
+import android.annotation.TargetApi;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import org.inventivetalent.trashapp.common.db.Converters;
 import org.junit.Test;
 
@@ -90,6 +93,16 @@ public class ExampleUnitTest {
 		assertTrue(((JsonObject) json).has("lat"));
 		assertTrue(((JsonObject) json).has("lon"));
 		assertTrue(((JsonObject) json).has("amenity"));
+	}
+
+	@Test
+	@TargetApi(26)
+	public void xorTest() {
+		String e = "AkUYD08AUg9FMkg9VAQD";
+		String d = Util.xorDecryptJava(e,Util.XOR_TEST_KEY);
+		System.out.println(d);
+
+		assertEquals("Keyboard Kitten", d);
 	}
 
 }

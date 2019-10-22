@@ -73,7 +73,11 @@ public class BillingManager implements PurchasesUpdatedListener {
 	 * want to make it easy for an attacker to replace the public key with one
 	 * of their own and then fake messages from the server.
 	 */
-	private static final String BASE_64_ENCODED_PUBLIC_KEY = BuildConfig.PlayApiKey;
+	private static String BASE_64_ENCODED_PUBLIC_KEY;
+
+	static {
+		BASE_64_ENCODED_PUBLIC_KEY = Util.xorDecrypt(BuildConfig.PlayApiKey);
+	}
 
 	@Override
 	public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
