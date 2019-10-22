@@ -1,23 +1,42 @@
 package org.inventivetalent.trashapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.android.billingclient.api.*;
+import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.SkuType;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchasesResult;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.Security;
+import org.inventivetalent.trashapp.common.Util;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.inventivetalent.trashapp.common.Util.readLines;
 
 public class BillingManager implements PurchasesUpdatedListener {
 
@@ -37,7 +56,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 
 	private final Activity mActivity;
 
-	private final List<Purchase> mPurchases = new ArrayList<>();
+	protected final List<Purchase> mPurchases = new ArrayList<>();
 
 	private Set<String> mTokensToBeConsumed;
 
@@ -54,7 +73,11 @@ public class BillingManager implements PurchasesUpdatedListener {
 	 * want to make it easy for an attacker to replace the public key with one
 	 * of their own and then fake messages from the server.
 	 */
-	private static final String BASE_64_ENCODED_PUBLIC_KEY = BuildConfig.PlayApiKey;
+	private static String BASE_64_ENCODED_PUBLIC_KEY;
+
+	static {
+		BASE_64_ENCODED_PUBLIC_KEY = Util.xorDecrypt(BuildConfig.PlayApiKey);
+	}
 
 	@Override
 	public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> purchases) {
@@ -181,40 +204,6 @@ public class BillingManager implements PurchasesUpdatedListener {
 		executeServiceRequest(queryRequest);
 	}
 
-	public void consumeAsync(final String purchaseToken) {
-		// If we've already scheduled to consume this token - no action is needed (this could happen
-		// if you received the token when querying purchases inside onReceive() and later from
-		// onActivityResult()
-		if (mTokensToBeConsumed == null) {
-			mTokensToBeConsumed = new HashSet<>();
-		} else if (mTokensToBeConsumed.contains(purchaseToken)) {
-			Log.i(TAG, "Token was already scheduled to be consumed - skipping...");
-			return;
-		}
-		mTokensToBeConsumed.add(purchaseToken);
-
-		// Generating Consume Response listener
-		final ConsumeResponseListener onConsumeListener = new ConsumeResponseListener() {
-			@Override
-			public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-				// If billing service was disconnected, we try to reconnect 1 time
-				// (feel free to introduce your retry policy here).
-				mBillingUpdatesListener.onConsumeFinished(purchaseToken, billingResult);
-			}
-		};
-
-		// Creating a runnable from the request to use it inside our connection retry policy below
-		Runnable consumeRequest = new Runnable() {
-			@Override
-			public void run() {
-				// Consume the purchase async
-				mBillingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchaseToken).build(), onConsumeListener);
-			}
-		};
-
-		executeServiceRequest(consumeRequest);
-	}
-
 	/**
 	 * Returns the value Billing client response code or BILLING_MANAGER_NOT_INITIALIZED if the
 	 * clien connection response was not received yet.
@@ -232,15 +221,39 @@ public class BillingManager implements PurchasesUpdatedListener {
 	 *
 	 * @param purchase Purchase to be handled
 	 */
-	private void handlePurchase(Purchase purchase) {
+	@SuppressLint("StaticFieldLeak")
+	private void handlePurchase(final Purchase purchase) {
+		Log.i(TAG, "handlePurchase: " + purchase.getOriginalJson());
 		if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
 			Log.i(TAG, "Got a purchase: " + purchase + "; but signature is bad. Skipping...");
 			return;
 		}
-
-		Log.d(TAG, "Got a verified purchase: " + purchase);
+		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
+			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
+			return;
+		}
 
 		mPurchases.add(purchase);
+
+		Log.i(TAG, "Verifying purchase of " + purchase.getSku() + " (Order " + purchase.getOrderId() + ") with backend...");
+
+		new PurchaseValidationTask() {
+			@Override
+			protected void onPostExecute(JsonObject jsonObject) {
+				if (jsonObject == null) {
+					Log.w(TAG, "Got null json object");
+					return;
+				}
+				if ((jsonObject.has("success") && jsonObject.get("success").getAsBoolean()) &&
+						(jsonObject.has("isValidPurchase") && jsonObject.get("isValidPurchase").getAsBoolean()) &&
+						(jsonObject.has("acknowledgedOrConsumed") && jsonObject.get("acknowledgedOrConsumed").getAsBoolean())) {
+					Log.d(TAG, "Got a verified purchase: " + jsonObject);
+				} else {
+					Log.w(TAG, "Purchase does not appear to be valid");
+					Log.w(TAG, jsonObject.toString());
+				}
+			}
+		}.execute(purchase);
 	}
 
 	/**
@@ -364,4 +377,52 @@ public class BillingManager implements PurchasesUpdatedListener {
 			return false;
 		}
 	}
+
+	static class PurchaseValidationTask extends AsyncTask<Purchase, Void, JsonObject> {
+
+		private Gson gson = new Gson();
+
+		@Override
+		protected JsonObject doInBackground(Purchase... purchases) {
+			Purchase purchase = purchases[0];
+
+			try {
+				HttpURLConnection connection = (HttpURLConnection) new URL("https://billingserver.trashapp.cc/verifyInAppPurchase/" + BillingConstants.getTypeForSku(purchase.getSku()) + "/" + purchase.getSku()).openConnection();
+				connection.setRequestMethod("POST");
+				connection.setRequestProperty("User-Agent", "TrashApp/" + Util.APP_VERSION_NAME);
+				connection.setRequestProperty("Referer", "https://trashapp.cc");
+				connection.setConnectTimeout(2000);
+				connection.setReadTimeout(5000);
+				connection.setDoInput(true);
+				connection.setDoOutput(true);
+
+				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("purchase", purchase.getOriginalJson());
+				jsonObject.addProperty("signature", purchase.getSignature());
+
+				String dataString = jsonObject.toString();
+				connection.setRequestProperty("Content-Type", "application/json");
+				try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()))) {
+					writer.write(dataString);
+				}
+
+				int responseCode = connection.getResponseCode();
+				String rawResponse;
+				if (responseCode < 200 || responseCode > 240) {
+					Log.e(TAG, "Purchase verification failed, Got non 200 response code (" + responseCode + ")");
+					rawResponse = readLines(connection.getErrorStream());
+					Log.e(TAG, rawResponse);
+				} else {
+					rawResponse = readLines(connection.getInputStream());
+					Log.i(TAG, rawResponse);
+				}
+				return gson.fromJson(rawResponse, JsonObject.class);
+			} catch (IOException e) {
+				Log.e(TAG, "Failed to verify purchase with backend", e);
+			}
+
+			return null;
+		}
+	}
+
 }

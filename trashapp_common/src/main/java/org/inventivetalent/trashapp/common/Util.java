@@ -1,5 +1,6 @@
 package org.inventivetalent.trashapp.common;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -670,6 +672,37 @@ public class Util {
 		return filtered;
 	}
 
+	//@formatter:off
+	private final static byte[] XOR_KEY = new byte[]{65,99,99,111,114,100,105,110,103,32,116,111,32,97,108,108,32,107,110,111,119,110,32,108,97,119,115,13,10,111,102,32,97,118,105,97,116,105,111,110,44,13,10,116,104,101,114,101,32,105,115,32,110,111,32,119,97,121,32,97,32,98,101,101,13,10,115,104,111,117,108,100,32,98,101,32,97,98,108,101,32,116,111,32,102,108,121,46,13,10,73,116,115,32,119,105,110,103,115,32,97,114,101,32,116,111,111,32,115,109,97,108,108,32,116,111,32,103,101,116,13,10,105,116,115,32,102,97,116,32,108,105,116,116,108,101,32,98,111,100,121,32,111,102,102,32,116,104,101,32,103,114,111,117,110,100,46,13,10};
+	protected final static byte[] XOR_TEST_KEY = new byte[] {73,32,97,109,32,97,32,107,101,121,33};
+	//@formatter:on
+
+	public static String xorDecrypt(String encrypted, byte[] key) {
+		encrypted= new String(Base64.decode(encrypted, Base64.DEFAULT));
+
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < encrypted.length(); i++) {
+			char charCode = (char) (encrypted.charAt(i) ^ (char)key[i % key.length]);
+			builder.append(charCode);
+		}
+		return builder.toString();
+	}
+
+	public static String xorDecrypt(String encrypted) {
+		return xorDecrypt(encrypted, XOR_KEY);
+	}
+
+	@TargetApi(26)
+	public static String xorDecryptJava(String encrypted, byte[] key) {
+		encrypted= new String(java.util.Base64.getDecoder().decode(encrypted));// Use Java Base64
+
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < encrypted.length(); i++) {
+			char charCode = (char) (encrypted.charAt(i) ^ (char)key[i % key.length]);
+			builder.append(charCode);
+		}
+		return builder.toString();
+	}
 
 	public static int getStringArrayResLength(Context context, @ArrayRes int resId) {
 		return context.getResources().getStringArray(resId).length;
