@@ -26,8 +26,6 @@ import com.google.gson.JsonObject;
 import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.Security;
 import org.inventivetalent.trashapp.common.Util;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -221,36 +219,35 @@ public class BillingManager implements PurchasesUpdatedListener {
 	 */
 	@SuppressLint("StaticFieldLeak")
 	private void handlePurchase(final Purchase purchase) {
+		Log.i(TAG, "handlePurchase: " + purchase.getOriginalJson());
 		if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
 			Log.i(TAG, "Got a purchase: " + purchase + "; but signature is bad. Skipping...");
 			return;
 		}
-		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
-			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
-			return;
-		}
+		//		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
+		//			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
+		//			return;
+		//		}
 
 		Log.i(TAG, "Verifying purchase of " + purchase.getSku() + " (Order " + purchase.getOrderId() + ") with backend...");
 
 		new PurchaseValidationTask() {
 			@Override
-			protected void onPostExecute(JSONObject jsonObject) {
+			protected void onPostExecute(JsonObject jsonObject) {
 				if (jsonObject == null) {
 					Log.w(TAG, "Got null json object");
 					return;
 				}
-				try {
-					if ((jsonObject.has("success") && jsonObject.getBoolean("success")) &&
-							(jsonObject.has("isValidPurchase") && jsonObject.getBoolean("isValidPurchase")) &&
-							(jsonObject.has("acknowledgedOrConsumed") && jsonObject.getBoolean("acknowledgedOrConsumed"))) {
-						Log.d(TAG, "Got a verified purchase: " + jsonObject);
+				if ((jsonObject.has("success") && jsonObject.get("success").getAsBoolean()) &&
+						(jsonObject.has("isValidPurchase") && jsonObject.get("isValidPurchase").getAsBoolean()) &&
+						(jsonObject.has("acknowledgedOrConsumed") && jsonObject.get("acknowledgedOrConsumed").getAsBoolean())) {
+					Log.d(TAG, "Got a verified purchase: " + jsonObject);
 
-						mPurchases.add(purchase);
-					} else {
-						Log.w(TAG, "Purchase does not appear to be valid");
-					}
-				} catch (JSONException e) {
-					Log.e(TAG, "Got invalid json response", e);
+					mPurchases.add(purchase);
+					mBillingUpdatesListener.onPurchasesUpdated(mPurchases);
+				} else {
+					Log.w(TAG, "Purchase does not appear to be valid");
+					Log.w(TAG, jsonObject.toString());
 				}
 			}
 		}.execute(purchase);
@@ -378,12 +375,12 @@ public class BillingManager implements PurchasesUpdatedListener {
 		}
 	}
 
-	static class PurchaseValidationTask extends AsyncTask<Purchase, Void, JSONObject> {
+	static class PurchaseValidationTask extends AsyncTask<Purchase, Void, JsonObject> {
 
 		private Gson gson = new Gson();
 
 		@Override
-		protected JSONObject doInBackground(Purchase... purchases) {
+		protected JsonObject doInBackground(Purchase... purchases) {
 			Purchase purchase = purchases[0];
 
 			try {
@@ -407,15 +404,16 @@ public class BillingManager implements PurchasesUpdatedListener {
 				}
 
 				int responseCode = connection.getResponseCode();
+				String rawResponse;
 				if (responseCode < 200 || responseCode > 240) {
 					Log.e(TAG, "Purchase verification failed, Got non 200 response code (" + responseCode + ")");
-					Log.e(TAG, readLines(connection.getErrorStream()));
+					rawResponse = readLines(connection.getErrorStream());
+					Log.e(TAG, rawResponse);
+				} else {
+					rawResponse = readLines(connection.getInputStream());
+					Log.i(TAG, rawResponse);
 				}
-
-				String rawResponse = readLines(connection.getInputStream());
-				Log.i(TAG, rawResponse);
-
-				return gson.fromJson(rawResponse, JSONObject.class);
+				return gson.fromJson(rawResponse, JsonObject.class);
 			} catch (IOException e) {
 				Log.e(TAG, "Failed to verify purchase with backend", e);
 			}
