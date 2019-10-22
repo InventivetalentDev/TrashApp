@@ -11,4 +11,5 @@ Android App that finds nearby trashcans
 
 ### Translations
 ![Crowdin](https://support.crowdin.com/assets/logos/crowdin-logo1-small-black.png  )   
-You can help translate this project here: https://crwd.in/trashapp
+ [![Crowdin](https://badges.crowdin.net/trashapp/localized.svg)](https://crowdin.com/project/trashapp)  
+You can help translate this project here: https://crwd.in/trashapp  
