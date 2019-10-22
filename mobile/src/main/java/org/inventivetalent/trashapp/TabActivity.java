@@ -630,7 +630,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		for (Purchase purchase : purchases) {
 			String sku = purchase.getSku();
 			Log.i("TrashApp", sku + ": " + purchase.getPurchaseState());
-			if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+			if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED && purchase.isAcknowledged()) {
 				purchasedSkus.add(sku);
 
 				PaymentReadyListener listener = purchaseListeners.remove(sku);

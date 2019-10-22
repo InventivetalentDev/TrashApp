@@ -224,10 +224,12 @@ public class BillingManager implements PurchasesUpdatedListener {
 			Log.i(TAG, "Got a purchase: " + purchase + "; but signature is bad. Skipping...");
 			return;
 		}
-		//		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
-		//			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
-		//			return;
-		//		}
+		if (purchase.getPurchaseState() != Purchase.PurchaseState.PURCHASED) {
+			Log.i(TAG, "Purchase " + purchase + " is not PURCHASED");
+			return;
+		}
+
+		mPurchases.add(purchase);
 
 		Log.i(TAG, "Verifying purchase of " + purchase.getSku() + " (Order " + purchase.getOrderId() + ") with backend...");
 
@@ -242,9 +244,6 @@ public class BillingManager implements PurchasesUpdatedListener {
 						(jsonObject.has("isValidPurchase") && jsonObject.get("isValidPurchase").getAsBoolean()) &&
 						(jsonObject.has("acknowledgedOrConsumed") && jsonObject.get("acknowledgedOrConsumed").getAsBoolean())) {
 					Log.d(TAG, "Got a verified purchase: " + jsonObject);
-
-					mPurchases.add(purchase);
-					mBillingUpdatesListener.onPurchasesUpdated(mPurchases);
 				} else {
 					Log.w(TAG, "Purchase does not appear to be valid");
 					Log.w(TAG, jsonObject.toString());
