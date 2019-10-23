@@ -273,6 +273,9 @@ public class Util {
 			case "dark_grass":
 				rId = R.style.DarkGrassTheme;
 				break;
+			case "pumpkin":
+				rId = R.style.PumpkinTheme;
+				break;
 			case "grass":
 			default:
 				rId = R.style.GrassTheme;
