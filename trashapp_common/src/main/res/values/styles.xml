@@ -29,6 +29,20 @@
         <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog</item><!-- no idea why this just makes it dark... -->
         <item name="dialogTheme">@style/Theme.AppCompat.Dialog</item><!-- TODO: the default dialog (e.g. clear cache confirm) still appears light -->
     </style>
+    <style name="PumpkinTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/pumpkinPrimary</item>
+        <item name="colorPrimaryDark">@color/pumpkinPrimaryDark</item>
+        <item name="colorAccent">@color/pumpkinSecondaryDark</item>
+        <item name="android:colorBackground">@color/darkBackground</item>
+        <item name="android:textColor">@color/primary_text_color_selector_dark</item>
+        <item name="colorButtonNormal">@color/darkBackgroundLight</item>
+        <item name="android:popupBackground">@color/darkBackgroundLight</item>
+        <item name="android:itemBackground">@color/darkBackgroundLight</item>
+        <item name="titleTextColor">@color/primaryTextColorDark</item>
+        <item name="actionMenuTextColor">@color/primaryTextColorDark</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog</item><!-- no idea why this just makes it dark... -->
+        <item name="dialogTheme">@style/Theme.AppCompat.Dialog</item><!-- TODO: the default dialog (e.g. clear cache confirm) still appears light -->
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
