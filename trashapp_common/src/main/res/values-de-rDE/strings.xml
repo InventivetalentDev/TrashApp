@@ -17,6 +17,7 @@
     <string name="description_map_edit">Fügt einen neuen Mülleimer hinzu</string>
     <string name="description_settings">Einstellungen der Anwendung</string>
     <string name="err_no_trashcans">Es konnten keine Mülleimer in deiner Nähe gefunden werden :(</string>
+    <string name="distance_format">%dm</string>
     <string name="title_activity_settings">Einstellungen</string>
     <string name="settings_info_header">Info</string>
     <string name="settings_about_title">Über</string>
@@ -32,9 +33,12 @@
     <string name="settings_dark_theme_title">Dunkles Theme</string>
     <string name="about_version">Version %s</string>
     <string name="about_osm_description">Karten und Umgebungsdaten von OpenStreetMap</string>
+    <string name="about_osm_link">https://openstreetmap.org</string>
     <string name="about_wikimaps_description">Kartenmaterial von wikimedia maps</string>
+    <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
     <string name="buy_dev_coffee">Spendiere dem Entwickler einen Kaffee!</string>
     <string name="about_dev_description">Entwickelt durch inventivetalent</string>
+    <string name="about_dev_link">https://inventivetalent.org</string>
     <string name="description_trashcan">Mülleimer</string>
     <string name="description_map_my_location">Standort anzeigen</string>
     <string name="settings_themes_title">Darstellung</string>
@@ -83,6 +87,7 @@
     <string name="settings_filter_recycling_green_waste">Biomüll</string>
     <string name="settings_filter_recycling_garden_waste">Gartenabfälle</string>
     <string name="settings_filter_recycling_hazardous_waste">Giftmüll</string>
+    <string name="settings_filter_recycling_hardcore">Hardcore</string>
     <string name="settings_filter_recycling_low_energy_bulbs">Energiesparlampen</string>
     <string name="settings_filter_recycling_magazines">Magazine</string>
     <string name="settings_filter_recycling_metal">Metall</string>
@@ -94,6 +99,7 @@
     <string name="settings_filter_recycling_paper">Papier</string>
     <string name="settings_filter_recycling_paper_packaging">Papierverpackungen</string>
     <string name="settings_filter_recycling_pens">Stifte</string>
+    <string name="settings_filter_recycling_PET">PET</string>
     <string name="settings_filter_recycling_plasterboard">Gipskarton</string>
     <string name="settings_filter_recycling_plastic">Plastik</string>
     <string name="settings_filter_recycling_plastic_bags">Plastiktüten</string>
@@ -135,6 +141,7 @@
     <string name="settings_moving_search">Suchareal mit Karte bewegen</string>
     <string name="found_bug">Fehler gefunden?</string>
     <string name="description_add_trashcan">Mülleimer hinzufügen</string>
+    <string name="add_trashcan_info">Ziehe die Karte um die Nadel an die Position zu verschieben an der du eine neue Mülltonne hinzufügen möchtest</string>
     <string name="add_trashcan_osmand"><b>Benutze OsmAnd für mehr Optionen</b></string>
     <string name="alert_open_osmand">Starte OsmAnd...</string>
     <string name="alert_adding_trashcan">Füge Mülleimer der OpenStreetMap hinzu...</string>
@@ -148,6 +155,9 @@
     <string name="osm_auth_title">OpenStreetMap Authentifizierung</string>
     <string name="unlock_themes">Mehr Themes erhalten!</string>
     <string name="pick_type">Wähle Art des Abfalls</string>
+    <string name="theme_grass">Gras</string>
+    <string name="theme_dark_grass">Dunkles Gras</string>
+    <string name="theme_classic">Klassisch</string>
     <string name="general">Allgemein</string>
     <string name="waste">Müll</string>
     <string name="none">Keine</string>
