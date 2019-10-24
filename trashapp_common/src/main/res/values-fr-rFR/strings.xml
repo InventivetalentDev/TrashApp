@@ -165,4 +165,14 @@
     <string name="waste">Déchets</string>
     <string name="none">Aucun</string>
     <string name="settings_night_mode">Mode nuit</string>
+    <string name="about_translators">Traducteurs</string>
+    <string name="about_crowdin_link">https://crowdin.com/project/trashapp</string>
+    <string name="about_translations">Traductions</string>
+    <string name="about_translators_german">Allemand : inventivetalent, Th3Shadowbroker, MonurMo</string>
+    <string name="about_translators_dutch">Néerlandais : Plancke</string>
+    <string name="about_translators_french">Français : Angel_0</string>
+    <string name="about_translators_hungarian">Hongrois : czdmc</string>
+    <string name="about_translators_norwegian">Norvégien : oscen00</string>
+    <string name="about_translators_spanish">Espagnol : rodrdavid</string>
+    <string name="about_translators_swedish">Suédois: victor.beck123</string>
 </resources>
