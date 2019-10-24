@@ -44,6 +44,7 @@
     <string name="settings_clear_cache_title">Çöp Kutusu Önbelleğini Temizle</string>
     <string name="dialog_clear_cache_title">Önbellek temizlensin mi?</string>
     <string name="dialog_clear_cache_message">Önbelleğe alınmış tüm çöp kutularını temizlemek istediğinizden emin misiniz?</string>
+    <string name="settings_filter_general">Genel (yaygın) Atıklar</string>
     <string name="settings_filter_bins">Sığınakların içindeki çöp kutuları vs.</string>
     <string name="settings_filters_header">Filtreler</string>
     <string name="settings_filters_misc_header">Atık</string>
@@ -54,6 +55,7 @@
     <string name="settings_filter_recycling_aerosol_cans">Deodorant vs. Kutuları</string>
     <string name="settings_filter_recycling_animal_waste">Hayvansal Atıklar</string>
     <string name="settings_filter_recycling_aluminium">Alüminyum</string>
+    <string name="settings_filter_recycling_bags">Torbalar</string>
     <string name="settings_filter_recycling_batteries">Piller</string>
     <string name="settings_filter_recycling_beverage_cartons">İçeceklerin Karton Paketleri</string>
     <string name="settings_filter_recycling_bicycles">Bisikletler</string>
@@ -63,7 +65,12 @@
     <string name="settings_filter_recycling_cardboard">Karton Kutu</string>
     <string name="settings_filter_recycling_cartons">Kartonlar</string>
     <string name="settings_filter_recycling_cds">CDler</string>
+    <string name="settings_filter_recycling_chipboard">Suntalar</string>
     <string name="settings_filter_recycling_christmas_trees">Yılbaşı Ağaçları</string>
+    <string name="settings_filter_recycling_clothes">Kıyafetler</string>
+    <string name="settings_filter_recycling_computers">Bilgisayarlar</string>
+    <string name="settings_filter_recycling_cooking_oil">Atık Yemek Yağı</string>
+    <string name="settings_filter_recycling_cork">Mantar</string>
     <string name="settings_filter_recycling_drugs">İlaçlar</string>
     <string name="settings_filter_recycling_electrical_items">Elektriksel Eşyalar</string>
     <string name="settings_filter_recycling_engine_oil">Motor Yağı</string>
@@ -93,6 +100,12 @@
     <string name="settings_filter_recycling_plastic_bottles">Plastik Şişeler</string>
     <string name="settings_filter_recycling_plastic_packaging">Plastik Paketler</string>
     <string name="settings_filter_recycling_polyester">Polyester</string>
+    <string name="settings_filter_recycling_printer_cartridges">Yazıcı Kartuşları</string>
+    <string name="settings_filter_recycling_printer_toner_cartridges">Yazıcı Toner Kartuşları</string>
+    <string name="settings_filter_recycling_printer_inkjet_cartridges">Yazıcı Inkjet Kartuşları</string>
+    <string name="settings_filter_recycling_rubble">Moloz Atıklar</string>
+    <string name="settings_filter_recycling_scrap_metal">Metal Hurdalar</string>
+    <string name="settings_filter_recycling_sheet_metal">Metal Levhalar</string>
     <!-- /Generated Strings -->
     <string name="add_trashcan_osmand">        <b>Daha fazla seçenek için OsmAnd uygulamasını kullanın</b>
     </string>
