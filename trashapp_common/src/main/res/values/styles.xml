@@ -29,6 +29,11 @@
         <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog</item><!-- no idea why this just makes it dark... -->
         <item name="dialogTheme">@style/Theme.AppCompat.Dialog</item><!-- TODO: the default dialog (e.g. clear cache confirm) still appears light -->
     </style>
+    <style name="PumpkinTheme" parent="DarkGrassTheme">
+        <item name="colorPrimary">@color/pumpkinPrimary</item>
+        <item name="colorPrimaryDark">@color/pumpkinPrimaryDark</item>
+        <item name="colorAccent">@color/pumpkinSecondaryDark</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

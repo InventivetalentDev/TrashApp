@@ -3,11 +3,13 @@
         <item>@string/theme_grass</item>
         <item>@string/theme_dark_grass</item>
         <item>@string/theme_classic</item>
+        <item>@string/theme_pumpkin</item>
     </string-array>
     <string-array name="theme_values">
         <item>grass</item>
         <item>dark_grass</item>
         <item>classic</item>
+        <item>pumpkin</item>
     </string-array>
 
 
