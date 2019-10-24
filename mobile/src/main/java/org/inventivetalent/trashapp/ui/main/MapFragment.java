@@ -85,6 +85,7 @@ public class MapFragment extends Fragment {
 	private Marker      closestCanMarker;
 	private Set<Marker> canMarkers = new HashSet<>();
 	private Polyline    polyline;
+	private CopyrightOverlay copyrightOverlay;
 
 	private RadiusMarkerClusterer markerClusterer;
 
@@ -136,7 +137,7 @@ public class MapFragment extends Fragment {
 		mapCompass.enableCompass();
 		mapView.getOverlayManager().add(mapCompass);
 
-		CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
+		copyrightOverlay = new CopyrightOverlay(getActivity());
 		mapView.getOverlays().add(copyrightOverlay);
 
 		mapView.addMapListener(new DelayedMapListener(new MapListener() {
@@ -423,10 +424,12 @@ public class MapFragment extends Fragment {
 			mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
 			selfMarker.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			polyline.setColor(Color.WHITE);
+			copyrightOverlay.setTextColor(Color.WHITE);
 		} else {
 			mapView.getOverlayManager().getTilesOverlay().setColorFilter(null);
 			selfMarker.getIcon().setColorFilter(null);
 			polyline.setColor(Color.BLACK);
+			copyrightOverlay.setTextColor(Color.BLACK);
 		}
 	}
 

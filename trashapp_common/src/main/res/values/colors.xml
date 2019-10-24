@@ -19,6 +19,11 @@
     <color name="darkBackground">#222</color>
     <color name="darkBackgroundLight">#323232</color>
 
+    <!-- pumpkin -->
+    <color name="pumpkinPrimary">#616161</color>
+    <color name="pumpkinPrimaryDark">#222</color>
+    <color name="pumpkinSecondary">#FB8C00</color>
+    <color name="pumpkinSecondaryDark">#FF6F00</color>
 
     <color name="primaryTextColor">#000</color>
     <color name="secondaryTextColor">#fff</color>
