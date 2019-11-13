@@ -461,6 +461,7 @@ public class AddActivity extends AppCompatActivity {
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_added).show();
 
 				mFirebaseAnalytics.logEvent("add_trashcan_success", bundle);
+				finish();
 			} else if (state == AddState.FAIL) {
 				closeCurrentDialog();
 				currentDialog = new AlertDialog.Builder(AddActivity.this).setMessage(R.string.trashcan_add_failed).show();
