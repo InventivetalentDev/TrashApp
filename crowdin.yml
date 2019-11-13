@@ -1,3 +1,5 @@
+preserve_hierarchy: true
+
 files:
   - source: /trashapp_common/src/main/res/values/strings.xml
     translation: /trashapp_common/src/main/res/values-%android_code%/%original_file_name%
