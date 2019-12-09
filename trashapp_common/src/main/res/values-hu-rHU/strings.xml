@@ -89,6 +89,7 @@
     <string name="settings_filter_recycling_green_waste">Zöldhulladék</string>
     <string name="settings_filter_recycling_garden_waste">Kerti hulladék</string>
     <string name="settings_filter_recycling_hazardous_waste">Veszélyes hulladék</string>
+    <string name="settings_filter_recycling_hardcore">Vakolat</string>
     <string name="settings_filter_recycling_low_energy_bulbs">Alacsony fogyasztású izzók</string>
     <string name="settings_filter_recycling_magazines">Magazin</string>
     <string name="settings_filter_recycling_metal">Fém</string>
@@ -155,4 +156,19 @@
 <b>%s</b> az OpenStreetMap-en\"</string>
     <string name="confirm">Jóváhagy</string>
     <string name="osm_auth_title">OpenStreetMap Hitelesítő</string>
+    <string name="unlock_themes">További témák beszerzése!</string>
+    <string name="pick_type">Válasszon kuka típust</string>
+    <string name="theme_grass">Fű</string>
+    <string name="theme_dark_grass">Kiszáradt fű</string>
+    <string name="theme_classic">Klasszikus</string>
+    <string name="theme_pumpkin">Tök</string>
+    <string name="general">Általános</string>
+    <string name="waste">Szemét</string>
+    <string name="none">Nincs</string>
+    <string name="settings_night_mode">Éjszakai mód</string>
+    <string name="about_translators">Fordító(k)</string>
+    <string name="about_crowdin_link">https://crowdin.com/project/trashapp</string>
+    <string name="about_translations">Fordítások</string>
+    <string name="about_translators_german">Német: inventivetalent, Th3Shadowbroker, MonurMo</string>
+    <string name="about_translators_dutch">Holland: Plancke</string>
 </resources>
