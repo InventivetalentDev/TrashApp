@@ -48,6 +48,7 @@
     <string name="dialog_clear_cache_title">Gyorsítótár ürítése?</string>
     <string name="dialog_clear_cache_message">Törölni akarod az összes gyorsítótárazott kukát?</string>
     <string name="settings_filter_general">Általános hulladék</string>
+    <string name="settings_filter_bins">Kukák tető alatt stb.</string>
     <string name="settings_filter_waste_disposal">Hulladékkezelés</string>
     <string name="settings_filters_header">Szűrők</string>
     <string name="settings_filters_misc_header">Szemét</string>
