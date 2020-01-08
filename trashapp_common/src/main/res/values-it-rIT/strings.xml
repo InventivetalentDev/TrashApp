@@ -51,6 +51,22 @@
     <string name="settings_filter_bins">Cestini al chiuso ecc...</string>
     <string name="settings_filter_waste_disposal">Smaltimento rifiuti</string>
     <string name="settings_filters_header">Filtri</string>
+    <string name="settings_filters_misc_header">Rifiuti</string>
+    <string name="settings_filters_recycling_header">Riciclo</string>
+    <string name="settings_select_all">Seleziona tutto</string>
+    <string name="settings_select_none">Deseleziona tutti</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
+    <string name="settings_filter_recycling_aerosol_cans">Bombolette spray</string>
+    <string name="settings_filter_recycling_animal_waste">Rifiuti di animali</string>
+    <string name="settings_filter_recycling_aluminium">Alluminio</string>
+    <string name="settings_filter_recycling_bags">Buste</string>
+    <string name="settings_filter_recycling_batteries">Batterie</string>
+    <string name="settings_filter_recycling_belts">Cinture</string>
+    <string name="settings_filter_recycling_beverage_cartons">Cartoni di bevande</string>
+    <string name="settings_filter_recycling_bicycles">Biciclette</string>
+    <string name="settings_filter_recycling_books">Libri</string>
+    <string name="settings_filter_recycling_cans">Lattine</string>
+    <string name="settings_filter_recycling_car_batteries">Batterie per automobili</string>
+    <string name="settings_filter_recycling_cardboard">Cartone</string>
     <!-- /Generated Strings -->
 </resources>
