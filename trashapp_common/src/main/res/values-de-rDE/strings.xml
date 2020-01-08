@@ -158,8 +158,18 @@
     <string name="theme_grass">Gras</string>
     <string name="theme_dark_grass">Dunkles Gras</string>
     <string name="theme_classic">Klassisch</string>
+    <string name="theme_pumpkin">Kürbis</string>
     <string name="general">Allgemein</string>
     <string name="waste">Müll</string>
     <string name="none">Keine</string>
     <string name="settings_night_mode">Nachtmodus</string>
+    <string name="about_translators">Übersetzer</string>
+    <string name="about_crowdin_link">https://crowdin.com/project/trashapp</string>
+    <string name="about_translations">Übersetzungen</string>
+    <string name="about_translators_german">Deutsch: inventivetalent, Th3Shadowbroker, MonurMo</string>
+    <string name="about_translators_dutch">Niederländisch: Plancke</string>
+    <string name="about_translators_french">Französisch: Angel_0</string>
+    <string name="about_translators_norwegian">Norwegisch: oscen00</string>
+    <string name="about_translators_spanish">Spanisch: Rodrdavid</string>
+    <string name="about_translators_swedish">Schwedisch: victor.beck123123</string>
 </resources>
