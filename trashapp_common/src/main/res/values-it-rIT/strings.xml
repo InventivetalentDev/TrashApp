@@ -28,6 +28,29 @@
     <string name="settings_search_radius_max_title">Raggio di ricerca massimo (in metri)</string>
     <string name="settings_advanced_header">Avanzate</string>
     <string name="settings_cache_title">Dati nella cache</string>
+    <string name="settings_debug_title">Attiva il debug</string>
+    <string name="settings_osm_info">Aggiungi nuovi cestini con OsmAnd</string>
+    <string name="settings_remove_ads">Rimuovi pubblicità</string>
+    <string name="settings_premium_title">Premium</string>
+    <string name="settings_dark_theme_title">Tema scuro</string>
+    <string name="about_version">Versione %s</string>
+    <string name="about_osm_description">Dati della mappa e localizzazione forniti da OpenStreetMap</string>
+    <string name="about_osm_link">https://openstreetmap.org</string>
+    <string name="about_wikimaps_description">Mappe fornite da Wikimedia</string>
+    <string name="about_wikimaps_link">https://maps.wikimedia.org</string>
+    <string name="buy_dev_coffee">Compra un caffè allo sviluppatore!</string>
+    <string name="about_dev_description">Sviluppato da inventivetalent</string>
+    <string name="about_dev_link">https://inventivetalent.org</string>
+    <string name="description_trashcan">Cestino</string>
+    <string name="description_map_my_location">Mostra la mia posizione</string>
+    <string name="settings_themes_title">Tema</string>
+    <string name="settings_clear_cache_title">Pulisci cache dei cestini</string>
+    <string name="dialog_clear_cache_title">Pulire memoria cache?</string>
+    <string name="dialog_clear_cache_message">Vuoi pulire tutti i dati dei cestini presenti nella cache?</string>
+    <string name="settings_filter_general">Indifferenziata</string>
+    <string name="settings_filter_bins">Cestini al chiuso ecc...</string>
+    <string name="settings_filter_waste_disposal">Smaltimento rifiuti</string>
+    <string name="settings_filters_header">Filtri</string>
     <!-- Generated Strings @ Thu Jun 06 18:48:19 CEST 2019 -->
     <!-- /Generated Strings -->
 </resources>
