@@ -41,10 +41,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/settings_premium_title">
-
-        <Preference
-                android:title="@string/settings_remove_ads" android:key="dummy_remove_ads"/>
+    <PreferenceCategory app:title="@string/settings_style_title">
 
         <ListPreference
                 android:title="@string/settings_themes_title"

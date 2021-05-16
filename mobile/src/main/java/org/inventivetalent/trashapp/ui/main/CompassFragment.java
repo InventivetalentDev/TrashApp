@@ -24,14 +24,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.inventivetalent.trashapp.R;
 import org.inventivetalent.trashapp.SettingsActivity;
 import org.inventivetalent.trashapp.TabActivity;
-import org.inventivetalent.trashapp.common.*;
+import org.inventivetalent.trashapp.common.LatLon;
+import org.inventivetalent.trashapp.common.TrashcanUpdater;
+import org.inventivetalent.trashapp.common.Util;
 
 public class CompassFragment extends Fragment {
 
@@ -57,7 +58,6 @@ public class CompassFragment extends Fragment {
 	private float lastPointerRotation;
 
 	private TrashcanUpdater trashcanUpdater;
-	private PaymentHandler  paymentHandler;
 
 	public CompassFragment() {
 		// Required empty public constructor
@@ -134,31 +134,7 @@ public class CompassFragment extends Fragment {
 		});
 
 		final AdView adView1 = view.findViewById(R.id.compassAdView);
-		//			final AdView adView2 = view.findViewById(R.id.compassAdView2);
-		paymentHandler.waitForManager(new PaymentReadyListener() {
-			@Override
-			public void ready() {
-				boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
-				boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
-				Log.i("SettingsActivity", "hasThemes: " + hasThemes);
-				Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
-
-				if (hasAdsRemoved) {
-					adView1.setVisibility(View.GONE);
-					//						adView2.setVisibility(View.GONE);
-				} else {
-					adView1.setVisibility(View.VISIBLE);
-					//						adView2.setVisibility(View.VISIBLE);
-					adView1.loadAd(new AdRequest.Builder().build());
-					//						adView2.loadAd(new AdRequest.Builder().build());
-				}
-
-				if (!hasThemes) {
-					sharedPreferences.edit().putString("app_theme", "").putBoolean("night_mode", false).apply();
-					mFirebaseAnalytics.logEvent("forced_reset_theme_to_default", null);
-				}
-			}
-		});
+		adView1.setVisibility(View.VISIBLE);
 
 		PageViewModel viewModel = ViewModelProviders.of(getActivity()).get(PageViewModel.class);
 		viewModel.mLocation.observe(this, new Observer<Location>() {
@@ -254,12 +230,6 @@ public class CompassFragment extends Fragment {
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement TrashcanUpdater");
-		}
-		if (context instanceof PaymentHandler) {
-			paymentHandler = (PaymentHandler) context;
-		} else {
-			throw new RuntimeException(context.toString()
-					+ " must implement PaymentHandler");
 		}
 	}
 

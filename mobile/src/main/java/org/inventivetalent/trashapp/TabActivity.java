@@ -26,11 +26,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -41,15 +36,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kobakei.ratethisapp.RateThisApp;
 
-import org.inventivetalent.trashapp.common.BillingConstants;
 import org.inventivetalent.trashapp.common.Constants;
 import org.inventivetalent.trashapp.common.DbTrashcanQueryTask;
 import org.inventivetalent.trashapp.common.LatLon;
 import org.inventivetalent.trashapp.common.OverpassBoundingBox;
-import org.inventivetalent.trashapp.common.PaymentHandler;
-import org.inventivetalent.trashapp.common.PaymentReadyListener;
 import org.inventivetalent.trashapp.common.RotationBuffer;
-import org.inventivetalent.trashapp.common.SkuInfo;
 import org.inventivetalent.trashapp.common.TrashCanFinderTask;
 import org.inventivetalent.trashapp.common.TrashCanResultHandler;
 import org.inventivetalent.trashapp.common.TrashcanQuery;
@@ -61,13 +52,8 @@ import org.inventivetalent.trashapp.ui.main.PageViewModel;
 import org.inventivetalent.trashapp.ui.main.SectionsPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.inventivetalent.trashapp.common.Constants.DEFAULT_SEARCH_RADIUS;
 import static org.inventivetalent.trashapp.common.Constants.MAX_SEARCH_RADIUS;
@@ -76,7 +62,7 @@ import static org.inventivetalent.trashapp.common.Constants.REQUEST_LOCATION_PER
 import static org.inventivetalent.trashapp.common.Constants.SEARCH_STEP;
 import static org.inventivetalent.trashapp.common.OverpassResponse.elementsSortedByDistanceFrom;
 
-public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater, PaymentHandler, BillingManager.BillingUpdatesListener {
+public class TabActivity extends AppCompatActivity implements TrashCanResultHandler, TrashcanUpdater {
 
 	protected static TabActivity instance;
 
@@ -103,18 +89,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	boolean initialSearchCompleted = false;
 	public static List<LatLon> nearbyTrashCans = new ArrayList<>();
 	public static LatLon       closestTrashCan;
-
-	private BillingManager                    billingManager;
-	private boolean                           billingManagerInAppReady;
-	private boolean                           billingManagerSubsReady;
-	private boolean                           billingManagerReady;
-	private Set<String>                       purchasedSkus         = new HashSet<>();
-	private Set<PaymentReadyListener>         paymentReadyListeners = new HashSet<>();
-	private Map<String, PaymentReadyListener> purchaseListeners     = new HashMap<>();
-
-	protected static SkuInfo SKU_INFO_THEMES;
-	protected static SkuInfo SKU_INFO_REMOVE_ADS;
-	protected static SkuInfo SKU_INFO_AD_FREE;
 
 	private   int         searchItaration = 0;
 	protected AppDatabase appDatabase;
@@ -238,9 +212,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Log.i("TrashApp", data != null ? data.toString() : "n/a");
 		}
 
-		billingManager = new BillingManager(this, this);
-		purchasedSkus.clear();
-
 		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
 
 		appDatabase = Room
@@ -308,11 +279,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		if (requestLocationUpdates(true)) {
 			lookForTrashCans();
 		}
-
-		if (billingManager != null
-				&& billingManager.getBillingClientResponseCode() == BillingClient.BillingResponseCode.OK) {
-			billingManager.queryPurchases();
-		}
 	}
 
 	@Override
@@ -327,9 +293,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	protected void onDestroy() {
 		instance = null;
-		if (billingManager != null) {
-			billingManager.destroy();
-		}
 		super.onDestroy();
 	}
 
@@ -512,131 +475,6 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			// just try to init the updates again
 			if (requestLocationUpdates(false)) {
 				lookForTrashCans();
-			}
-		}
-	}
-
-	@Override
-	public void launchBilling(SkuDetails skuDetails) {
-		if (billingManager != null) {
-			billingManager.initiatePurchaseFlow(skuDetails);
-		}
-
-		Bundle bundle = new Bundle();
-		bundle.putString("sku", skuDetails.getSku());
-		mFirebaseAnalytics.logEvent("billing_launch", bundle);
-	}
-
-	@Override
-	public boolean isPurchased(String sku) {
-		return purchasedSkus.contains(sku);
-	}
-
-	@Override
-	public void onBillingClientSetupFinished() {
-		Log.i("TrashApp", "onBillingClientSetupFinished");
-
-		Log.i("TrashApp", "Querying Sku Details...");
-		purchasedSkus.clear();
-		billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, Arrays.asList(BillingConstants.IN_APP_SKUS), new SkuDetailsResponseListener() {
-			@Override
-			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-				Log.i("TrashApp", "onSkuDetailsResponse (inapp)");
-				Log.i("TrashApp", "result: " + billingResult);
-				Log.i("TrashApp", "list(" + (skuDetailsList != null ? skuDetailsList.size() : 0) + "): " + skuDetailsList);
-
-				if (skuDetailsList != null && skuDetailsList.size() > 0) {
-					for (SkuDetails details : skuDetailsList) {
-						switch (details.getSku()) {
-							case BillingConstants.SKU_THEMES:
-								SKU_INFO_THEMES = new SkuInfo(details, TabActivity.this);
-								break;
-							case BillingConstants.SKU_REMOVE_ADS:
-								SKU_INFO_REMOVE_ADS = new SkuInfo(details, TabActivity.this);
-								break;
-							default:
-								Log.w("TabActivity", "Unhandled SkuDetails: " + details.getSku());
-								break;
-						}
-					}
-
-					billingManagerInAppReady = true;
-					if (billingManagerReady = (billingManagerInAppReady && billingManagerSubsReady)) {
-						for (PaymentReadyListener listener : paymentReadyListeners) {
-							listener.ready();
-						}
-						paymentReadyListeners.clear();
-					}
-				}
-			}
-		});
-		billingManager.querySkuDetailsAsync(BillingClient.SkuType.SUBS, Arrays.asList(BillingConstants.SUBS_SKUS), new SkuDetailsResponseListener() {
-			@Override
-			public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> skuDetailsList) {
-				Log.i("TrashApp", "onSkuDetailsResponse (subs)");
-				Log.i("TrashApp", "result: " + billingResult);
-				Log.i("TrashApp", "list(" + (skuDetailsList != null ? skuDetailsList.size() : 0) + "): " + skuDetailsList);
-
-				if (skuDetailsList != null && skuDetailsList.size() > 0) {
-					for (SkuDetails details : skuDetailsList) {
-						switch (details.getSku()) {
-							case BillingConstants.SKU_AD_FREE:
-								SKU_INFO_AD_FREE = new SkuInfo(details, TabActivity.this);
-								break;
-							default:
-								Log.w("TabActivity", "Unhandled SkuDetails: " + details.getSku());
-								break;
-						}
-					}
-
-					billingManagerSubsReady = true;
-					if (billingManagerReady = (billingManagerInAppReady && billingManagerSubsReady)) {
-						for (PaymentReadyListener listener : paymentReadyListeners) {
-							listener.ready();
-						}
-						paymentReadyListeners.clear();
-					}
-				}
-			}
-		});
-	}
-
-	@Override
-	public void waitForManager(PaymentReadyListener listener) {
-		if (billingManagerReady) {
-			listener.ready();
-			return;
-		}
-		paymentReadyListeners.add(listener);
-	}
-
-	@Override
-	public void waitForPurchase(String sku, PaymentReadyListener callable) {
-		purchaseListeners.put(sku, callable);
-	}
-
-	@Override
-	public void onConsumeFinished(String token, BillingResult billingResult) {
-		Log.i("TrashApp", "onConsumeFinished");
-		Log.i("TrashApp", "token: " + token);
-		Log.i("TrashApp", "result: " + billingResult);
-	}
-
-	@Override
-	public void onPurchasesUpdated(List<Purchase> purchases) {
-		Log.i("TrashApp", "onPurchasesUpdated");
-		Log.i("TrashApp", "purchases(" + purchases.size() + "): " + purchases);
-
-		for (Purchase purchase : purchases) {
-			String sku = purchase.getSku();
-			Log.i("TrashApp", sku + ": " + purchase.getPurchaseState());
-			if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED && purchase.isAcknowledged()) {
-				purchasedSkus.add(sku);
-
-				PaymentReadyListener listener = purchaseListeners.remove(sku);
-				if (listener != null) {
-					listener.ready();
-				}
 			}
 		}
 	}

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -30,9 +29,6 @@ import androidx.preference.TwoStatePreference;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import org.inventivetalent.trashapp.common.BillingConstants;
-import org.inventivetalent.trashapp.common.PaymentHandler;
-import org.inventivetalent.trashapp.common.PaymentReadyListener;
 import org.inventivetalent.trashapp.common.Util;
 import org.inventivetalent.trashapp.ui.main.MapFragment;
 
@@ -102,26 +98,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
 						openWebView("file:///android_asset/about_osm_info.html");
-						return true;
-					}
-				});
-			}
-
-			final Preference adsPreference = findPreference("dummy_remove_ads");
-			if (adsPreference != null) {
-				adsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference preference) {
-						if (TabActivity.SKU_INFO_AD_FREE != null) {
-							TabActivity.SKU_INFO_AD_FREE.launchBilling(new PaymentReadyListener() {
-								@Override
-								public void ready() {
-									getActivity().recreate();
-								}
-							});
-						} else {
-							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
-						}
 						return true;
 					}
 				});
@@ -198,16 +174,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 				unlockThemesPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						if (TabActivity.SKU_INFO_THEMES != null) {
-							TabActivity.SKU_INFO_THEMES.launchBilling(new PaymentReadyListener() {
-								@Override
-								public void ready() {
-									getActivity().recreate();
-								}
-							});
-						} else {
-							Toast.makeText(getActivity(), "Product not ready!", Toast.LENGTH_SHORT).show();
-						}
+						getActivity().recreate();
 						return true;
 					}
 				});
@@ -223,52 +190,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 					}
 				});
 			}
-
-			if (adsPreference != null) { adsPreference.setEnabled(true); }
-			if (themePreference != null) { themePreference.setEnabled(false); }
-
-			final PaymentHandler paymentHandler = TabActivity.instance;
-			if (paymentHandler != null) {
-				paymentHandler.waitForManager(new PaymentReadyListener() {
-					@Override
-					public void ready() {
-						boolean hasThemes = paymentHandler.isPurchased(BillingConstants.SKU_THEMES);
-						boolean hasAdsRemoved = paymentHandler.isPurchased(BillingConstants.SKU_REMOVE_ADS) || paymentHandler.isPurchased(BillingConstants.SKU_AD_FREE);
-						Log.i("SettingsActivity", "hasThemes: " + hasThemes);
-						Log.i("SettingsActivity", "hasAdsRemoved: " + hasAdsRemoved);
-
-						if (adsPreference != null) {
-							adsPreference.setEnabled(!hasAdsRemoved);
-
-						}
-						if (themePreference != null) {
-							themePreference.setEnabled(hasThemes);
-							if (!hasThemes) {
-								themePreference.setOnPreferenceChangeListener(null);
-								themePreference.setValue("");
-							}
-						}
-
-						if (unlockThemesPreference != null) {
-							unlockThemesPreference.setVisible(!hasThemes);
-						}
-						if (nightModePreference != null) {
-							nightModePreference.setEnabled(hasThemes);
-							if (!hasThemes) {
-								nightModePreference.setChecked(false);
-							}
-						}
-
-						if (mFirebaseAnalytics != null) {
-							mFirebaseAnalytics.setUserProperty("sku_themes", String.valueOf(hasThemes));
-							mFirebaseAnalytics.setUserProperty("sku_ad_free", String.valueOf(hasAdsRemoved));
-						}
-					}
-				});
-			} else {
-				Log.w("SettingsActivity", "PaymentHandler (TabActivity instance) is null!");
-			}
-
 		}
 
 		void showAbout() {

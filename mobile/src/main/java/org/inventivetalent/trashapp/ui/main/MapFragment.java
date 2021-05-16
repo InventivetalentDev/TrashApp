@@ -89,7 +89,6 @@ public class MapFragment extends Fragment {
 
 	private RadiusMarkerClusterer markerClusterer;
 
-	private PaymentHandler  paymentHandler;
 	private TrashcanUpdater trashcanUpdater;
 
 	private SharedPreferences sharedPreferences;
@@ -436,12 +435,6 @@ public class MapFragment extends Fragment {
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
-		if (context instanceof PaymentHandler) {
-			paymentHandler = (PaymentHandler) context;
-		} else {
-			throw new RuntimeException(context.toString()
-					+ " must implement PaymentHandler");
-		}
 		if (context instanceof TrashcanUpdater) {
 			trashcanUpdater = (TrashcanUpdater) context;
 		} else {
