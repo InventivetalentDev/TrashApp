@@ -200,22 +200,6 @@ public class MapFragment extends Fragment {
 			}
 		});
 
-		//		final AdView adView = view.findViewById(R.id.mapAdView);
-		//		paymentHandler.waitForManager(new PaymentReadyListener() {
-		//			@Override
-		//			public void ready() {
-		//				boolean hasPremium = paymentHandler.isPurchased(BillingConstants.SKU_PREMIUM);
-		//				Log.i("MapFragment", "hasPremium: " + hasPremium);
-		//
-		//				if (hasPremium) {
-		//					adView.setVisibility(View.GONE);
-		//				}else{
-		//					adView.setVisibility(View.VISIBLE);
-		//					adView.loadAd(new AdRequest.Builder().build());
-		//				}
-		//			}
-		//		});
-
 		return view;
 	}
 
