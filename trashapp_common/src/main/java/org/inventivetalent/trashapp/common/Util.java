@@ -25,8 +25,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
@@ -638,7 +638,7 @@ public class Util {
 		int id = getStringResFromKey(context, key);
 		if (id == 0) {
 			Exception exception = new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
-			Crashlytics.logException(exception);
+			FirebaseCrashlytics.getInstance().recordException(exception);
 			Log.w("Util", exception);
 			return key;
 		}

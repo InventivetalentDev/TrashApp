@@ -212,7 +212,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 			Log.i("TrashApp", data != null ? data.toString() : "n/a");
 		}
 
-		MobileAds.initialize(this, "ca-app-pub-2604356629473365~4556622372");
+		MobileAds.initialize(this);
 
 		appDatabase = Room
 				.databaseBuilder(getApplicationContext(), AppDatabase.class, "trashapp")
