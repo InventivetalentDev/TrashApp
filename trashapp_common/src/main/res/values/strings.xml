@@ -36,6 +36,7 @@
     <string name="settings_remove_ads">Remove Ads</string>
     <string name="settings_premium_title">Premium</string>
     <string name="settings_dark_theme_title">Dark Theme</string>
+    <string name="settings_style_title">Style</string>
     <string name="about_version">Version %s</string>
     <string name="about_osm_description">Map and Location data from OpenStreetMap</string>
     <string name="about_osm_link">https://openstreetmap.org</string>
