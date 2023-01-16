@@ -10,10 +10,16 @@ import java.util.regex.Pattern;
 
 public class OverpassQuery {
 
+	protected final Context context;
 	protected final String queryFormat;
 
 	public OverpassQuery(Context activity, int resourceId) {
+		context = activity;
 		queryFormat = loadRawResText(activity, resourceId);
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 	public String formatBoundingBox(OverpassBoundingBox boundingBox) {

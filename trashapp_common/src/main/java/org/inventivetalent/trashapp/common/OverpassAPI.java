@@ -1,14 +1,18 @@
 package org.inventivetalent.trashapp.common;
 
+import static org.inventivetalent.trashapp.common.Util.readLines;
+
 import android.util.Log;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
-
-import static org.inventivetalent.trashapp.common.Util.readLines;
 
 public class OverpassAPI {
 
@@ -40,6 +44,7 @@ public class OverpassAPI {
 		if (responseCode < 200 || responseCode > 240) {
 			Log.e("OverpassAPI", "Got non 200 response code");
 			Log.e("OverpassAPI", readLines(new GZIPInputStream(connection.getErrorStream())));
+			Toast.makeText(query.getContext(), "OpenStreetMap request failed - please try again later (E" + responseCode + ")", Toast.LENGTH_LONG).show();
 		}
 
 		String rawResponse = readLines(new GZIPInputStream(connection.getInputStream()));
@@ -47,7 +52,5 @@ public class OverpassAPI {
 
 		return gson.fromJson(rawResponse, OverpassResponse.class);
 	}
-
-
 
 }
