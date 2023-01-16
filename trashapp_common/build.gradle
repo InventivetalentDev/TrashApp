@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode Integer.parseInt("2" + rootProject.ext.appVersionId)
         versionName rootProject.ext.appVersionName
         vectorDrawables.useSupportLibrary = true

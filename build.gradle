@@ -4,7 +4,7 @@ buildscript {
     
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
@@ -22,7 +22,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
     }
 
@@ -30,8 +30,8 @@ allprojects {
 }
 
 ext{
-    appVersionId = "5000701"
-    appVersionName = "0.7.1"
+    appVersionId = "5000702"
+    appVersionName = "0.7.2"
 }
 
 task clean(type: Delete) {

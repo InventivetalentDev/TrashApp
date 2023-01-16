@@ -34,7 +34,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.kobakei.ratethisapp.RateThisApp;
 
 import org.inventivetalent.trashapp.common.Constants;
 import org.inventivetalent.trashapp.common.DbTrashcanQueryTask;
@@ -251,9 +250,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		// Monitor launch times and interval from installation
-		RateThisApp.onCreate(this);
+//		RateThisApp.onCreate(this);
 		// If the condition is satisfied, "Rate this app" dialog will be shown
-		RateThisApp.showRateDialogIfNeeded(this);
+//		RateThisApp.showRateDialogIfNeeded(this);
 	}
 
 	@Override
