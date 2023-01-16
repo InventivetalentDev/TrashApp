@@ -35,7 +35,8 @@
         <activity
                 android:name=".TabActivity"
                 android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:exported="true">
             <meta-data
                     android:name="default-url"
                     android:value="https://trashapp.cc/"/>
@@ -82,7 +83,10 @@
                         android:scheme="http"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AddActivity" android:parentActivityName=".TabActivity">
+        <activity
+                android:name=".AddActivity"
+                android:parentActivityName=".TabActivity"
+                android:exported="true">
             <meta-data
                     android:name="default-url"
                     android:value="https://trashapp.cc/add"/>
@@ -104,11 +108,13 @@
         </activity>
         <activity
                 android:name=".HtmlActivity"
-                android:parentActivityName=".SettingsActivity">
+                android:parentActivityName=".SettingsActivity"
+                android:exported="false">
         </activity>
         <activity
                 android:name=".AboutActivity"
-                android:parentActivityName=".SettingsActivity">
+                android:parentActivityName=".SettingsActivity"
+                android:exported="true">
             <meta-data
                     android:name="default-url"
                     android:value="https://trashapp.cc/about"/>
@@ -132,7 +138,8 @@
         <activity
                 android:name=".SettingsActivity"
                 android:label="@string/title_activity_settings"
-                android:parentActivityName=".TabActivity">
+                android:parentActivityName=".TabActivity"
+                android:exported="true">
             <meta-data
                     android:name="default-url"
                     android:value="https://trashapp.cc/settings"/>
@@ -159,7 +166,8 @@
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:exported="true">
         </activity>
     </application>
 
