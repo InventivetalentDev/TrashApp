@@ -43,18 +43,23 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 
 	@Override
 	protected List<OverpassResponse.Element> doInBackground(TrashcanQuery... queries) {
-		if (queries.length > 0) {
-			try {
-				OverpassResponse response = overpassAPI.query(this.query, queries[0].boundingBox);
-				if (response != null) {
-					return response.elements;
-				}
-			} catch (IOException e) {
-				Log.e("TrashCanFinderTask", "Overpass Query failed", e);
-				e.printStackTrace();
-			}
+		if (queries.length <= 0) {
+			Log.w("TrashCanFinderTask", "empty queries?!");
+			return null;
 		}
-		return null;
+		try {
+			OverpassResponse response = overpassAPI.query(this.query, queries[0].boundingBox);
+			if (response != null) {
+				Log.d("TrashCanFinderTask", "got " + response.elements.size() + " elements");
+				return response.elements;
+			}
+			Log.w("TrashCanFinderTask", "null response");
+			return null;
+		} catch (IOException e) {
+			Log.e("TrashCanFinderTask", "Overpass Query failed", e);
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	//	@Override
