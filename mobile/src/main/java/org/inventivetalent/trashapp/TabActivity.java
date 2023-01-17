@@ -81,6 +81,7 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	private       boolean       magneticSet;
 	public static float[]       lastKnownRotation = new float[3];
 
+	public long lastUpdateStart = 0;
 	public long lastLiveUpdateTime = 0;
 
 	public static RotationBuffer rotationBuffer = new RotationBuffer();
@@ -250,9 +251,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		}
 
 		// Monitor launch times and interval from installation
-//		RateThisApp.onCreate(this);
+		//		RateThisApp.onCreate(this);
 		// If the condition is satisfied, "Rate this app" dialog will be shown
-//		RateThisApp.showRateDialogIfNeeded(this);
+		//		RateThisApp.showRateDialogIfNeeded(this);
 	}
 
 	@Override
@@ -375,6 +376,12 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 				return;
 			}
 		}
+
+		if (lastUpdateStart != 0 && System.currentTimeMillis() - lastUpdateStart < 5000) {
+			return;
+		}
+		lastUpdateStart = System.currentTimeMillis();
+
 		Log.i("TrashApp", "Looking for trash cans");
 		Toast.makeText(this, R.string.searching, Toast.LENGTH_SHORT).show();
 
@@ -411,6 +418,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	@Override
 	public void handleTrashCanLocations(List<? extends LatLon> elements, boolean isCached) {
 		Log.i("TrashApp", "Got trashcan locations (cached: " + isCached + ")");
+		if (debug) {
+			Toast.makeText(this, "Got " + elements.size() + " locations, c: " + isCached, Toast.LENGTH_SHORT).show();
+		}
 
 		initialSearchCompleted = true;
 
@@ -426,7 +436,9 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 				// reset
 				searchItaration = 0;
 
-				if (!isCached) { Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show(); }
+				if (!isCached) {
+					Toast.makeText(this, R.string.err_no_trashcans, Toast.LENGTH_LONG).show();
+				}
 			}
 		} else if (!isCached) {
 			Util.insertTrashcanResult(appDatabase, elements);
