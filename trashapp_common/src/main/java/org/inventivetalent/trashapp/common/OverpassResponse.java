@@ -46,14 +46,18 @@ public class OverpassResponse {
 		return sorted;
 	}
 
-	public static List<Element> convertElementsToPoints(Collection<? extends LatLon> elements) {
+	public static List<Element> convertElementsToPoints(Collection<?> elements) {
 		List<Element> pointElements = new ArrayList<>();
 
 		LongSparseArray<Element> referencedNodes = new LongSparseArray<>();
 
-		for (LatLon ll : elements) {// filter nodes
+		for (Object ll : elements) {// filter nodes
+			if (ll == null) {
+				Log.w("OverpassResponse", "null element (1)");
+				continue;
+			}
 			if (!(ll instanceof Element)) {
-				Log.w("OverpassResponse", "wrong element type " + ll);
+				Log.w("OverpassResponse", "wrong element type (1) " + ll.getClass());
 				continue;
 			}
 			Element element = (Element) ll;
@@ -66,13 +70,17 @@ public class OverpassResponse {
 			} else if ("way".equals(element.type)) {
 				// handle below
 			} else {
-				Log.w("OverpassResponse", "Unhandled element type: " + element.type);
+				Log.w("OverpassResponse", "Unhandled element type (2): " + element.type);
 			}
 		}
 
-		for (LatLon ll : elements) {// handle ways
+		for (Object ll : elements) {// handle ways
+			if (ll == null) {
+				Log.w("OverpassResponse", "null element (2)");
+				continue;
+			}
 			if (!(ll instanceof Element)) {
-				Log.w("OverpassResponse", "wrong element type " + ll);
+				Log.w("OverpassResponse", "wrong element type (2) " + ll.getClass());
 				continue;
 			}
 			Element element = (Element) ll;
