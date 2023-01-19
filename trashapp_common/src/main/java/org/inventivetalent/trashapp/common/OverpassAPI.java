@@ -17,7 +17,7 @@ import java.util.zip.GZIPInputStream;
 
 public class OverpassAPI {
 
-	private static final String OVERPASS_URL = "https://www.overpass-api.de/api/interpreter";
+	private static final String OVERPASS_URL   = "https://www.overpass-api.de/api/interpreter";
 	private static final String OSM_BRIDGE_URL = "https://osmbridge.trashapp.cc/interpreter";
 
 	private Gson gson = new Gson();
@@ -26,6 +26,8 @@ public class OverpassAPI {
 	}
 
 	public OverpassResponse query(OverpassQuery query, OverpassBoundingBox boundingBox) throws IOException {
+		Log.i("OverpassAPI", "sending request to " + OSM_BRIDGE_URL);
+
 		HttpURLConnection connection = (HttpURLConnection) new URL(OSM_BRIDGE_URL).openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Accept-Encoding", "gzip");
@@ -56,7 +58,9 @@ public class OverpassAPI {
 		String rawResponse = readLines(new GZIPInputStream(connection.getInputStream()));
 		Log.i("OverpassAPI", rawResponse);
 
-		return gson.fromJson(rawResponse, OverpassResponse.class);
+		OverpassResponse response = gson.fromJson(rawResponse, OverpassResponse.class);
+		Log.i("OverpassAPI", "" + response);
+		return response;
 	}
 
 }

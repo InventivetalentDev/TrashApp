@@ -22,7 +22,7 @@
                 android:title="@string/settings_search_radius_title"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
-                android:defaultValue="5000"
+                android:defaultValue="1000"
                 android:inputType="number"
                 android:key="search_radius_start"/>
 

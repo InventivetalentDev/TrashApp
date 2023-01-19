@@ -3,6 +3,7 @@ package org.inventivetalent.trashapp.common;
 import android.location.Location;
 import android.util.Log;
 import android.util.LongSparseArray;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.*;
@@ -45,12 +46,17 @@ public class OverpassResponse {
 		return sorted;
 	}
 
-	public static List<Element> convertElementsToPoints(Collection<Element> elements) {
+	public static List<Element> convertElementsToPoints(Collection<? extends LatLon> elements) {
 		List<Element> pointElements = new ArrayList<>();
 
 		LongSparseArray<Element> referencedNodes = new LongSparseArray<>();
 
-		for (Element element : elements) {// filter nodes
+		for (LatLon ll : elements) {// filter nodes
+			if (!(ll instanceof Element)) {
+				Log.w("OverpassResponse", "wrong element type " + ll);
+				continue;
+			}
+			Element element = (Element) ll;
 			if ("node".equals(element.type)) {
 				if (element.tags.isEmpty()) {// referenced element
 					referencedNodes.put(element.id, element);
@@ -64,7 +70,12 @@ public class OverpassResponse {
 			}
 		}
 
-		for (Element element : elements) {// handle ways
+		for (LatLon ll : elements) {// handle ways
+			if (!(ll instanceof Element)) {
+				Log.w("OverpassResponse", "wrong element type " + ll);
+				continue;
+			}
+			Element element = (Element) ll;
 			if ("way".equals(element.type)) {
 				List<Element> wayNodes = new ArrayList<>();
 				for (long l : element.nodes) {
@@ -186,8 +197,8 @@ public class OverpassResponse {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) { return true; }
-			if (o == null || getClass() != o.getClass()) { return false; }
+			if (this == o) {return true;}
+			if (o == null || getClass() != o.getClass()) {return false;}
 			Element element = (Element) o;
 			return id == element.id;
 		}

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.Element> {
@@ -15,6 +16,7 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 
 	public TrashCanFinderTask(Context activity, TrashCanResultHandler handler) {
 		super(handler);
+		Log.i("TrashCanFinderTask", "new instance created");
 		this.query = new OverpassQuery(activity, R.raw.waste_basket_query);
 	}
 
@@ -51,7 +53,7 @@ public class TrashCanFinderTask extends AbstractTrashcanTask<OverpassResponse.El
 			OverpassResponse response = overpassAPI.query(this.query, queries[0].boundingBox);
 			if (response != null) {
 				Log.d("TrashCanFinderTask", "got " + response.elements.size() + " elements");
-				return response.elements;
+				return new ArrayList<>(response.elements);
 			}
 			Log.w("TrashCanFinderTask", "null response");
 			return null;

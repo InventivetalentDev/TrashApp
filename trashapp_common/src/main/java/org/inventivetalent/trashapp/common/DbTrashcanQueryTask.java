@@ -1,5 +1,7 @@
 package org.inventivetalent.trashapp.common;
 
+import android.util.Log;
+
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanEntity;
 
@@ -9,6 +11,7 @@ public class DbTrashcanQueryTask extends AbstractTrashcanTask<TrashcanEntity> {
 
 	public DbTrashcanQueryTask(TrashCanResultHandler handler) {
 		super(handler);
+		Log.i("DbTrashcanQueryTask", "new instance created");
 	}
 
 	@Override
