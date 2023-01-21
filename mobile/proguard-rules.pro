@@ -23,6 +23,8 @@
 -keepattributes InnerClasses
 -keep class org.inventivetalent.trashapp.SettingsActivity** {*;}
 -keep class org.inventivetalent.trashapp.SettingsActivity$FilterSettingsFragment**  {*;}
+-keep class org.inventivetalent.trashapp.common.OverpassResponse**  {*;}
+-keep class org.inventivetalent.trashapp.common.OverpassResponse.Element**  {*;}
 
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.preference.PreferenceFragment

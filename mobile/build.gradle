@@ -28,7 +28,7 @@ android {
         release {
             resValue('string', "admob_unit_1", AdMobUnit1)
             resValue('string', "admob_unit_2", AdMobUnit2)
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
