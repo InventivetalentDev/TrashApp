@@ -172,7 +172,7 @@
     <string name="general">General</string>
     <string name="waste">Waste</string>
     <string name="none">None</string>
-    <string name="settings_night_mode">Night mode</string>
+    <string name="settings_night_mode">Night mode (Map)</string>
     <string name="about_translators">Translators</string>
     <string name="about_crowdin_link">https://crowdin.com/project/trashapp</string>
     <string name="about_translations">Translations</string>
