@@ -27,6 +27,7 @@ android {
             ext.enableCrashlytics = false
         }
     }
+    namespace 'org.inventivetalent.trashapp.common'
 
 
 }
