@@ -50,7 +50,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     wearApp project(':wear')
     implementation "androidx.preference:preference:1.2.0"
-    implementation 'org.osmdroid:osmdroid-android:6.1.0'
+    implementation 'org.osmdroid:osmdroid-android:6.1.16'
     implementation 'com.google.android.gms:play-services-ads:21.4.0'
     implementation "androidx.room:room-runtime:2.5.0"
     annotationProcessor "androidx.room:room-compiler:2.5.0"
