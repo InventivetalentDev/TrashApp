@@ -22,8 +22,8 @@ android {
             minifyEnabled false
             splits.abi.enable = false
             splits.density.enable = false
-            resValue('string', "admob_unit_1", "ca-app-pub-3940256099942544/6300978111")
-            resValue('string', "admob_unit_2", "ca-app-pub-3940256099942544/6300978111")
+            resValue('string', "admob_unit_1", "ca-app-pub-3940256099942544/9214589741")
+            resValue('string', "admob_unit_2", "ca-app-pub-2604356629473365/1911111886")
         }
         release {
             resValue('string', "admob_unit_1", AdMobUnit1)

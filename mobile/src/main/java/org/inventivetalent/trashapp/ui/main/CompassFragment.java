@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -54,6 +55,8 @@ public class CompassFragment extends Fragment {
 
 	private ImageView pointerView;
 	private ImageView trashCanView;
+
+	private View compassAdContainer;
 
 	private float lastPointerRotation;
 
@@ -133,6 +136,8 @@ public class CompassFragment extends Fragment {
 			}
 		});
 
+
+
 		final AdView adView1 = view.findViewById(R.id.compassAdView);
 		adView1.setVisibility(View.VISIBLE);
 
@@ -156,6 +161,10 @@ public class CompassFragment extends Fragment {
 				updatePointer();
 			}
 		});
+
+		// Start loading the ad in the background.
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView1.loadAd(adRequest);
 
 		return view;
 	}
