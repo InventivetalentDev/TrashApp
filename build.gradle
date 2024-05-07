@@ -30,8 +30,8 @@ allprojects {
 }
 
 ext{
-    appVersionId = "5000711"
-    appVersionName = "0.7.11"
+    appVersionId = "5000712"
+    appVersionName = "0.7.12"
 }
 
 task clean(type: Delete) {
