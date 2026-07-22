@@ -4,11 +4,11 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId "org.inventivetalent.trashapp"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion 23
+        targetSdkVersion 34
         versionCode Integer.parseInt("4" + rootProject.ext.appVersionId)
         versionName rootProject.ext.appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,21 +39,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation project(':trashapp_common')
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
     wearApp project(':wear')
-    implementation "androidx.preference:preference:1.2.0"
+    implementation 'androidx.preference:preference:1.2.1'
     implementation 'org.osmdroid:osmdroid-android:6.1.0'
-    implementation 'com.google.android.gms:play-services-ads:21.4.0'
-    implementation "androidx.room:room-runtime:2.5.0"
-    annotationProcessor "androidx.room:room-compiler:2.5.0"
+    implementation 'com.google.android.gms:play-services-ads:25.4.0'
+    implementation 'androidx.room:room-runtime:2.8.4'
+    annotationProcessor 'androidx.room:room-compiler:2.8.4'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'

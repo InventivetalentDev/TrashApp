@@ -29,3 +29,8 @@
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.preference.PreferenceFragment
 -keep public class * extends android.preference.PreferenceActivity
+
+# play-services-ads references API 35 classes that aren't present when
+# compiling against a lower SDK; they're only used on newer devices at runtime.
+-dontwarn android.media.LoudnessCodecController
+-dontwarn android.media.LoudnessCodecController$OnLoudnessCodecUpdateListener

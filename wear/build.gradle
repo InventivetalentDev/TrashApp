@@ -4,11 +4,11 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId "org.inventivetalent.trashapp"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode Integer.parseInt("8"+rootProject.ext.appVersionId)
         versionName rootProject.ext.appVersionName
         vectorDrawables.useSupportLibrary = true

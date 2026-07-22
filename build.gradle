@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath 'com.google.gms:google-services:4.3.14'
 
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
@@ -30,8 +30,8 @@ allprojects {
 }
 
 ext{
-    appVersionId = "5000712"
-    appVersionName = "0.7.12"
+    appVersionId = "5000713"
+    appVersionName = "0.7.13"
 }
 
 task clean(type: Delete) {
