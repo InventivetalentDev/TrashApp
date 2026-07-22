@@ -42,12 +42,24 @@ public class CustomViewPager extends ViewPager {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		return swipeable && super.onTouchEvent(ev);
+		try {
+			return swipeable && super.onTouchEvent(ev);
+		} catch (IllegalArgumentException e) {
+			// ViewPager occasionally throws "pointerIndex out of range" on multi-touch
+			Log.w("CustomViewPager", "onTouchEvent failed", e);
+			return false;
+		}
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		return swipeable && super.onInterceptTouchEvent(ev);
+		try {
+			return swipeable && super.onInterceptTouchEvent(ev);
+		} catch (IllegalArgumentException e) {
+			// ViewPager occasionally throws "pointerIndex out of range" on multi-touch
+			Log.w("CustomViewPager", "onInterceptTouchEvent failed", e);
+			return false;
+		}
 	}
 
 	public boolean isSwipeable() {

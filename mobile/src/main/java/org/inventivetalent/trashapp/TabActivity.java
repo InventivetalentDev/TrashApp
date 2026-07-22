@@ -339,6 +339,19 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 		Log.i("TrashApp", "Location permissions granted!");
 		// has permission, request!
 
+		// These are normally initialized in onResume(), but onRequestPermissionsResult()
+		// can run before that, so make sure they exist before using them.
+		if (fusedLocationProviderClient == null) {
+			fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+		}
+		if (mLocationManager == null) {
+			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		}
+		if (mLocationManager == null) {
+			Log.w("TrashApp", "LocationManager unavailable");
+			return false;
+		}
+
 		fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null/*Looper*/);
 
 		//		//TODO: use google play services for location updates
@@ -491,10 +504,17 @@ public class TabActivity extends AppCompatActivity implements TrashCanResultHand
 	}
 
 	void exitApp() {
-		Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-		homeIntent.addCategory(Intent.CATEGORY_HOME);
-		homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(homeIntent);
+		try {
+			Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+			homeIntent.addCategory(Intent.CATEGORY_HOME);
+			homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(homeIntent);
+		} catch (Throwable throwable) {
+			// Some devices/windowing modes (e.g. freeform) reject launching the HOME
+			// activity from here. Just finish instead of crashing.
+			Log.w("TrashApp", "Failed to launch home intent, finishing instead", throwable);
+			finish();
+		}
 	}
 
 }

@@ -26,7 +26,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.inventivetalent.trashapp.common.db.AppDatabase;
 import org.inventivetalent.trashapp.common.db.TrashcanDao;
@@ -637,12 +636,36 @@ public class Util {
 		@StringRes
 		int id = getStringResFromKey(context, key);
 		if (id == 0) {
-			Exception exception = new Resources.NotFoundException("Resource ID for key " + key + " is 0!");
-			FirebaseCrashlytics.getInstance().recordException(exception);
-			Log.w("Util", exception);
-			return key;
+			// OSM has a huge, open-ended set of recycling:* types, so a missing string
+			// resource is expected rather than exceptional. Fall back to a readable label
+			// derived from the key instead of crashing or spamming Crashlytics.
+			Log.w("Util", "No string resource for key " + key + ", using humanized fallback");
+			return humanizeKey(key);
 		}
 		return context.getString(id);
+	}
+
+	static String humanizeKey(String key) {
+		// strip the known settings_filter_recycling_ prefix and turn snake_case into "Title Case"
+		String cleaned = key.replace("settings_filter_recycling_", "").replace('_', ' ').trim();
+		if (cleaned.isEmpty()) {
+			return key;
+		}
+		StringBuilder sb = new StringBuilder(cleaned.length());
+		boolean capitalizeNext = true;
+		for (int i = 0; i < cleaned.length(); i++) {
+			char c = cleaned.charAt(i);
+			if (c == ' ') {
+				capitalizeNext = true;
+				sb.append(c);
+			} else if (capitalizeNext) {
+				sb.append(Character.toUpperCase(c));
+				capitalizeNext = false;
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
 	}
 
 	@StringRes

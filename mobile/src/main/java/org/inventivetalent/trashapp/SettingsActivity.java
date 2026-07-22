@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -148,7 +149,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						}
 
 						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(issueUri));
-						startActivity(browserIntent);
+						try {
+							startActivity(browserIntent);
+						} catch (Throwable throwable) {
+							// No browser available, or the target refused to start (SecurityException)
+							Log.w("SettingsActivity", "Failed to open issue URL", throwable);
+							View view = getView();
+							if (view != null) {
+								Snackbar.make(view, R.string.err_no_browser, Snackbar.LENGTH_LONG).show();
+							}
+						}
 
 						return true;
 					}

@@ -21,6 +21,7 @@
     <string name="description_map_edit">Add a new trashcan</string>
     <string name="description_settings">App Settings</string>
     <string name="err_no_trashcans">Couldn\'t find any trashcans near you :(</string>
+    <string name="err_no_browser">Couldn\'t open a browser</string>
     <string name="distance_format">%dm</string>
     <string name="shrug" translatable="false">¯\\_(ツ)_/¯</string>
     <string name="title_activity_settings">Settings</string>
