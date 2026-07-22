@@ -403,16 +403,27 @@ public class MapFragment extends Fragment {
 	//	}
 
 	public void setNightMode(boolean state) {
-		if (state)	{
-			mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
-			selfMarker.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-			polyline.setColor(Color.WHITE);
-			copyrightOverlay.setTextColor(Color.WHITE);
-		} else {
-			mapView.getOverlayManager().getTilesOverlay().setColorFilter(null);
-			selfMarker.getIcon().setColorFilter(null);
-			polyline.setColor(Color.BLACK);
-			copyrightOverlay.setTextColor(Color.BLACK);
+		// remember the state, so it can be applied later to overlays that don't exist yet
+		// (selfMarker & polyline are only created once a location fix arrives)
+		nightMode = state;
+		if (mapView != null) {
+			mapView.getOverlayManager().getTilesOverlay().setColorFilter(state ? TilesOverlay.INVERT_COLORS : null);
+		}
+		if (selfMarker != null && selfMarker.getIcon() != null) {
+			if (state) {
+				selfMarker.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+			} else {
+				selfMarker.getIcon().setColorFilter(null);
+			}
+		}
+		if (polyline != null) {
+			polyline.setColor(state ? Color.WHITE : Color.BLACK);
+		}
+		if (copyrightOverlay != null) {
+			copyrightOverlay.setTextColor(state ? Color.WHITE : Color.BLACK);
+		}
+		if (mapView != null) {
+			mapView.invalidate();
 		}
 	}
 

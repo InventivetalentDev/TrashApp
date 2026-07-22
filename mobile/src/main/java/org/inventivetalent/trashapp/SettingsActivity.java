@@ -163,7 +163,9 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 						boolean nightMode = Boolean.valueOf(String.valueOf(newValue));
 						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(TabActivity.instance);
 						sharedPreferences.edit().putBoolean("night_mode", nightMode).apply();
-						MapFragment.instance.setNightMode(nightMode);
+						if (MapFragment.instance != null) {
+							MapFragment.instance.setNightMode(nightMode);
+						}
 						return true;
 					}
 				});
